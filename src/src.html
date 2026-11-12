@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>神機妙算占卜館</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=cwTeX+Q+Kai&display=swap">
+<style>
+:root{--face:#c0c0c0;--hi:#fff;--lo:#404040;--sh:#808080}
+*{box-sizing:border-box}
+html{background:#008080}
+body{margin:0;min-height:100vh;background:#008080;background-image:radial-gradient(rgba(255,255,255,.12) 1px,transparent 1.5px);background-size:22px 22px;color:#000;font-family:"標楷體","DFKai-SB","BiauKai","Kaiti TC","STKaiti","KaiTi","cwTeX Q Kai","Noto Serif TC","Noto Serif CJK TC",serif;font-size:20px;padding:6px 6px 64px;-webkit-tap-highlight-color:transparent}
+a{color:inherit}
+.win{max-width:780px;margin:8px auto;background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:1px 1px 0 #000,4px 4px 0 rgba(0,0,0,.35);padding:3px}
+.tb{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:bold;padding:3px 4px 3px 8px;display:flex;align-items:center;gap:4px;font-size:18px}
+.tb .ttl{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tbtn{width:24px;height:22px;background:var(--face);color:#000;border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);display:flex;align-items:center;justify-content:center;font:bold 13px/1 Arial,sans-serif;text-decoration:none;cursor:default}
+.menubar{padding:3px 8px;font-size:17px;display:flex;gap:16px;border-bottom:1px solid var(--sh)}
+.body{padding:8px}
+.pane{background:#fffdf2;border:2px solid;border-color:var(--sh) var(--hi) var(--hi) var(--sh);padding:12px;line-height:1.55;margin:8px 0}
+.center{text-align:center}
+.small{font-size:16px}
+.btn{font:inherit;font-size:20px;background:var(--face);color:#000;border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:inset -1px -1px var(--sh),inset 1px 1px #dfdfdf;padding:6px 16px;margin:4px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:active{border-color:var(--lo) var(--hi) var(--hi) var(--lo);box-shadow:inset 1px 1px var(--sh)}
+.btn.big{font-size:26px;font-weight:bold;padding:10px 28px}
+.btn:disabled{color:#808080;text-shadow:1px 1px #fff}
+select,input{font:inherit;font-size:18px;border:2px solid;border-color:var(--sh) var(--hi) var(--hi) var(--sh);background:#fff;padding:4px 6px;max-width:100%}
+input[type=text]{width:100%}
+label{display:inline-block;margin:4px 8px 4px 0}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;justify-content:center}
+.mq{background:#000;color:#3f3;border:2px inset #808080;overflow:hidden;white-space:nowrap;margin:8px 0;padding:2px 0;font-size:18px}
+.mq span{display:inline-block;padding-left:100%;animation:sjmq 26s linear infinite}
+@keyframes sjmq{to{transform:translateX(-100%)}}
+.blink{animation:sjbl 1s steps(2,start) infinite}
+@keyframes sjbl{to{visibility:hidden}}
+.odo{display:inline-block;background:#000;color:#f33;font:bold 18px/1 "Courier New",monospace;padding:3px 6px;letter-spacing:3px;border:2px inset #888}
+/* desktop icons */
+.icons{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.ico{cursor:pointer;display:block;text-align:center;padding:10px 2px 8px;border:2px dotted transparent;text-decoration:none;color:#000}
+.ico:hover,.ico:focus,.ico:active{border-color:#000;background:rgba(0,0,128,.12)}
+.ico .e{font-size:46px;display:block;line-height:1.25;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.3))}
+.ico .l{font-size:21px;font-weight:bold}
+/* zhuyin */
+.z{display:inline-flex;align-items:center;white-space:pre}
+.z i.p{display:inline-flex;align-items:center;font-style:normal;font-size:.46em;line-height:1;margin-left:.06em;font-family:"Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;font-weight:normal;color:#333}
+.z i.p b{display:flex;flex-direction:column;align-items:center;font-weight:normal}
+.z i.p s{text-decoration:none;display:block;line-height:1.08}
+.z i.p b.zt{margin-left:.04em;font-size:1.05em}
+.z i.p s.d{line-height:.6}
+body.nozy .z i.p{display:none}
+body:not(.nozy) .pane,body:not(.nozy) .paper{line-height:1.9}
+.nozy-cell .z i.p{display:none}
+/* WordArt */
+.wa{font-weight:900;line-height:1.15;padding:6px 0 10px;text-align:center;font-style:italic;letter-spacing:.02em;--sh2:#222;user-select:none}
+.wa .z{-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-image:var(--g);-webkit-text-stroke:1.2px var(--sh2);filter:drop-shadow(1px 1px 0 var(--sh2)) drop-shadow(2px 2px 0 var(--sh2)) drop-shadow(3px 3px 0 var(--sh2)) drop-shadow(5px 7px 4px rgba(0,0,0,.4))}
+.wa .z i.p{font-size:.25em;-webkit-text-fill-color:#fff;-webkit-text-stroke:0;font-style:normal;color:#fff;font-weight:bold}
+.wa1{--g:linear-gradient(180deg,#ff2a2a 0%,#ffb100 24%,#fff200 44%,#27d13a 64%,#1b6bff 84%,#a21cff 100%);--sh2:#3b0a52}
+.wa2{--g:linear-gradient(180deg,#fffbd0 0%,#ffd84a 38%,#a87000 52%,#ffe27a 74%,#9a6200 100%);--sh2:#4a2c00}
+.wa3{--g:linear-gradient(180deg,#f0f8ff 0%,#7fb7ff 42%,#1e3a8a 54%,#8cc4ff 100%);--sh2:#0a1740}
+.wa4{--g:linear-gradient(180deg,#fff200 0%,#ff9500 50%,#e60000 100%);--sh2:#4a0000}
+.wa5{--g:linear-gradient(180deg,#f0ffd8 0%,#7dff4d 48%,#0a8a2a 100%);--sh2:#032a0f}
+.wa6{--g:linear-gradient(180deg,#ffffff 0%,#ff9be0 48%,#d11a8b 100%);--sh2:#4a0a33}
+.wa7{--g:linear-gradient(180deg,#e8d8ff 0%,#a66bff 48%,#3a0ca3 100%);--sh2:#150338}
+.sm{font-size:clamp(26px,7vw,38px)}
+/* tables, paper */
+.tbl{width:100%;border-collapse:collapse;margin:8px 0}
+.tbl th,.tbl td{border:2px solid #8b5a2b;padding:4px 6px;text-align:center;background:#fff8e1}
+.tbl th{background:#f0d9a8;width:22%}
+.tbl.t5 th{width:auto}
+.tbl.fix{table-layout:fixed}
+.gb{border:2px solid #8b5a2b;background:#fff8e1;padding:6px 10px;margin:6px 0}
+.gh{display:flex;flex-wrap:wrap;align-items:center;gap:2px 14px;border-bottom:1px dashed #8b5a2b;margin-bottom:3px;font-size:21px}
+.paper{background:#fff6dc;border:3px double #a0522d;padding:12px;margin-top:12px;animation:sjpop .5s ease-out}
+@keyframes sjpop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.poem p{margin:4px 0;font-size:25px;letter-spacing:.08em;font-weight:bold;color:#7a1409}
+.grade{display:inline-block;font-size:26px;font-weight:bold;padding:2px 14px;border:3px solid #7a1409;color:#7a1409;background:#ffe9b0;transform:rotate(-3deg);margin:4px}
+.stars{color:#e0a000;letter-spacing:2px;font-family:Arial,sans-serif;font-size:22px}
+.stars .off{color:#bbb}
+.tag{display:inline-block;background:#000080;color:#fff;padding:0 8px;margin:2px;font-size:18px}
+.tag.r{background:#a00}
+.lbl{display:inline-block;min-width:3.4em;font-weight:bold}
+/* tube */
+.tube{width:170px;margin:6px auto;transform-origin:50% 90%}
+.tube.shake{animation:sjshake .25s linear infinite}
+@keyframes sjshake{0%{transform:rotate(-12deg) translateY(0)}25%{transform:rotate(10deg) translateY(-8px)}50%{transform:rotate(-9deg) translateY(0)}75%{transform:rotate(12deg) translateY(-8px)}100%{transform:rotate(-12deg)}}
+/* jiao */
+.beans{display:flex;justify-content:center;gap:30px;height:150px;align-items:flex-end;padding-bottom:12px}
+.bean{width:92px;height:58px;border-radius:50% 50% 46% 46%/78% 78% 28% 28%;transform:rotate(var(--r,0deg));position:relative;box-shadow:3px 5px 0 rgba(0,0,0,.3)}
+.bean.round{background:radial-gradient(circle at 35% 28%,#ff9a8a,#d4281a 55%,#7a0f08);border:2px solid #4a0905}
+.bean.flat{background:linear-gradient(180deg,#9e1c10,#c4301f);border:2px solid #4a0905;border-radius:46% 46% 46% 46%/40% 40% 40% 40%}
+.bean.flat::after{content:"";position:absolute;left:14%;right:14%;top:44%;height:3px;background:rgba(0,0,0,.35);box-shadow:0 8px 0 rgba(0,0,0,.25),0 -8px 0 rgba(0,0,0,.25)}
+.bean.toss{animation:sjtoss 1.1s ease-in-out}
+@keyframes sjtoss{0%{transform:translateY(0) rotate(0)}45%{transform:translateY(-120px) rotate(560deg)}100%{transform:translateY(0) rotate(var(--r,720deg))}}
+/* tarot */
+.cards{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.card{width:118px;height:190px;perspective:700px}
+.card .in{position:relative;width:100%;height:100%;transition:transform .9s;transform-style:preserve-3d}
+.card.flip .in{transform:rotateY(180deg)}
+.card .f,.card .b{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:3px double #e8c15a;border-radius:8px;box-shadow:3px 4px 0 rgba(0,0,0,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.card .b{background:repeating-linear-gradient(45deg,#2b1055,#2b1055 8px,#3d1a78 8px,#3d1a78 16px);color:#e8c15a;font-size:44px}
+.card .f{background:linear-gradient(180deg,#fff7dc,#f1dca0);transform:rotateY(180deg);padding:4px;line-height:1.2}
+.card .f.rev .c{transform:rotate(180deg)}
+.card .c{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;width:100%}
+.card .no{font-size:15px;font-family:"Times New Roman",serif;color:#7a1409;font-weight:bold}
+.card .sy{font-size:52px;line-height:1.15}
+.card .nm{font-size:20px;font-weight:bold}
+.card .en{font-size:12px;font-family:"Times New Roman",serif}
+.pos{font-weight:bold;color:#000080}
+/* zodiac */
+.zg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.zb{font:inherit;text-align:center;padding:6px 0;background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);cursor:pointer;color:#000}
+.zb.on{border-color:var(--lo) var(--hi) var(--hi) var(--lo);background:#ffe27a}
+.zb .sy{font-size:30px;display:block;line-height:1.2;font-family:"Segoe UI Symbol","Noto Sans Symbols","Apple Symbols",sans-serif}
+.zb .nm{font-size:16px}
+/* ziwei */
+.zw{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,auto);border:2px solid #000;background:#000;gap:1px;margin:8px 0}
+.zc{background:#fffdf2;min-height:92px;padding:2px 3px;font-size:14px;line-height:1.25;position:relative;display:flex;flex-direction:column}
+.zc .br{font-size:13px;color:#555}
+.zc .pn{font-weight:bold;color:#a00;font-size:15px}
+.zc .st{font-weight:bold;font-size:16px;color:#000080;margin-top:2px}
+.zc .st.k{color:#7a1409}
+.zc .mk{position:absolute;right:2px;top:2px;font-size:12px;background:#a00;color:#fff;padding:0 3px}
+.zc.me{background:#ffeeb0}
+.zc .mu{font-style:normal;background:#a00;color:#fff;font-size:11px;padding:0 2px;margin-left:2px}
+.zc .st small{font-size:11px;color:#666;font-weight:normal;margin-left:1px}
+.zc .ms{font-size:12px;color:#335;line-height:1.3;margin-top:2px}
+.zc .dr{font-size:11px;color:#777;margin-top:auto}
+.zmid{grid-column:2/4;grid-row:2/4;background:#fff8e1;padding:8px;font-size:15px;line-height:1.5;display:flex;flex-direction:column;justify-content:center;text-align:center}
+/* hex */
+.hx{width:150px;margin:8px auto}
+.hl{height:16px;margin:8px 0;display:flex;gap:16px;position:relative}
+.hl i{flex:1;background:#222;display:block}
+.hl.yin i:first-child{flex:1}
+.hl.yang i:nth-child(2){display:none}
+.hl.yang i:first-child{flex:1}
+.hl em{position:absolute;right:-28px;top:-6px;font:bold 20px/1 Arial;color:#c00;font-style:normal}
+.hl.gap{visibility:hidden}
+.hl.yang{gap:0}
+/* ball */
+.ball{width:200px;height:200px;margin:8px auto;border-radius:50%;background:radial-gradient(circle at 35% 28%,#8fa0ff 0%,#2b2d9c 36%,#080a3a 80%);box-shadow:inset -10px -14px 30px rgba(0,0,0,.6),4px 8px 0 rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;color:#cfe;position:relative}
+.ball.shake{animation:sjshake .22s linear infinite}
+.ball .ans{width:110px;text-align:center;font-size:22px;font-weight:bold;color:#fff;text-shadow:0 0 8px #8cf;line-height:1.25;animation:sjpop .6s ease-out}
+.base{width:120px;height:18px;background:#222;border-radius:50%;margin:-6px auto 6px}
+/* new tools */
+.stone{width:96px;height:96px;border-radius:46% 54% 48% 52%/52% 46% 54% 48%;background:radial-gradient(circle at 35% 30%,#707070,#262626 72%);color:#ffd45a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Segoe UI Historic","Noto Sans Runic","Segoe UI Symbol",serif;box-shadow:3px 5px 0 rgba(0,0,0,.4);animation:sjpop .5s ease-out}
+.stone .rn{font-size:48px;line-height:1.1}
+.stone .rl{font-size:12px;font-family:Arial,sans-serif;color:#ddd}
+.chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:8px 0}
+.chip{font:inherit;font-size:17px;background:#fff;border:2px solid #8b5a2b;padding:0 10px;cursor:pointer;color:#000}
+.chip:active{background:#ffe27a}
+/* taskbar */
+#bar{position:fixed;left:0;right:0;bottom:0;height:46px;background:var(--face);border-top:2px solid var(--hi);display:flex;align-items:center;gap:6px;padding:3px 6px;z-index:20;font-size:18px}
+#bar .btn{margin:0;padding:3px 12px;font-size:19px}
+#bar .sp{flex:1;border:2px solid;border-color:var(--sh) var(--hi) var(--hi) var(--sh);height:34px;display:flex;align-items:center;padding:0 8px;overflow:hidden;white-space:nowrap;font-size:17px}
+#clock{border:2px solid;border-color:var(--sh) var(--hi) var(--hi) var(--sh);padding:4px 8px;font-size:17px;font-family:Arial,sans-serif}
+#menu{position:fixed;left:6px;bottom:48px;width:240px;background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:3px 3px 0 rgba(0,0,0,.4);z-index:30;display:none;font-size:20px}
+#menu.on{display:block}
+#menu .side{background:linear-gradient(0deg,#000080,#1084d0);color:#fff;font-weight:bold;writing-mode:vertical-rl;transform:rotate(180deg);position:absolute;left:0;top:0;bottom:0;width:30px;text-align:center;padding:6px 0;font-size:20px}
+#menu .list{margin-left:30px}
+#menu a,#menu button{display:block;width:100%;text-align:left;padding:7px 10px;color:#000;text-decoration:none;background:none;border:0;font:inherit;cursor:pointer}
+#menu a:hover,#menu button:hover{background:#000080;color:#fff}
+#menu hr{border:0;border-top:1px solid var(--sh);border-bottom:1px solid var(--hi);margin:3px 2px}
+</style>
+</head>
+<body>
+<div id="shenji">
+<div id="app"></div>
+<div id="menu" class="nozy-cell"><div class="side">神機妙算</div><div class="list" id="menulist"></div></div>
+<div id="bar" class="nozy-cell">
+  <button class="btn" id="start"><b>✦ 開始</b></button>
+  <div class="sp" id="cur">神機妙算占卜館</div>
+  <button class="btn" id="zytog" title="注音開關">ㄅㄆㄇ 開</button>
+  <div id="clock">--:--</div>
+</div>
+</div>
+<script>
+(function(){
+/*STROKES*/
+/*DICT*/
+/*LIBS*/
+const ROOT=document.getElementById('shenji');
+const $=(s,r=ROOT)=>r.querySelector(s);
+const $$=(s,r=ROOT)=>[...r.querySelectorAll(s)];
+const app=$('#app');
+
+/* ---------- 注音 ---------- */
+const isC=c=>c>='㐀'&&c<='鿿';
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function zyHTML(z){
+  let tone='',L=z;const last=z[z.length-1];
+  if('ˊˇˋ˙'.includes(last)){tone=last;L=z.slice(0,-1)}
+  let h='<i class="p"><b class="zl">';
+  if(tone==='˙')h+='<s class="d">˙</s>';
+  for(const ch of L)h+='<s>'+ch+'</s>';
+  h+='</b>';
+  if(tone&&tone!=='˙')h+='<b class="zt">'+tone+'</b>';
+  return h+'</i>';
+}
+const zc=(c,z)=>'<span class="z">'+c+(z?zyHTML(z):'')+'</span>';
+function conv(t){
+  const cs=[...t];let out='',i=0;
+  while(i<cs.length){
+    let hit=false;
+    for(let n=4;n>=2&&!hit;n--){
+      const w=cs.slice(i,i+n).join('');
+      if(w.length===n&&WORDS[w]){for(let k=0;k<n;k++)out+=zc(cs[i+k],WORDS[w][k]);i+=n;hit=true}
+    }
+    if(hit)continue;
+    const c=cs[i++];
+    out+=isC(c)?zc(c,ZY[c]):esc(c);
+  }
+  return out;
+}
+const SKIP=new Set(['SCRIPT','STYLE','SELECT','OPTION','TEXTAREA','INPUT','TITLE']);
+function annotate(root){
+  const list=[];
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
+  while(w.nextNode()){
+    const n=w.currentNode;
+    if(!/[㐀-鿿]/.test(n.nodeValue))continue;
+    let skip=false;
+    for(let p=n.parentNode;p&&p!==ROOT.parentNode;p=p.parentNode){
+      if(p.nodeType!==1)continue;
+      if(SKIP.has(p.tagName)||(p.classList&&(p.classList.contains('nozy-cell')||p.classList.contains('z')))){skip=true;break}
+    }
+    if(!skip)list.push(n);
+  }
+  list.forEach(n=>{const t=document.createElement('template');t.innerHTML=conv(n.nodeValue);n.replaceWith(t.content)});
+}
+function waveify(root){
+  $$('.wa[data-shape]',root).forEach(el=>{
+    if(el.dataset.done)return;el.dataset.done=1;
+    [...el.childNodes].forEach(n=>{
+      if(n.nodeType===3){const f=document.createDocumentFragment();
+        [...n.nodeValue].forEach(ch=>{const s=document.createElement('span');s.className='z';s.textContent=ch;f.append(s)});
+        n.replaceWith(f)}
+    });
+    const u=[...el.children].filter(c=>c.classList.contains('z'));
+    const N=u.length,shape=el.dataset.shape;
+    u.forEach((c,i)=>{
+      const t=N>1?i/(N-1):.5;let tr='';
+      if(shape==='wave')tr=`translateY(${(Math.sin(t*Math.PI*2.4)*.16).toFixed(3)}em)`;
+      else if(shape==='arch')tr=`translateY(${(-Math.sin(t*Math.PI)*.32+.12).toFixed(3)}em) rotate(${((t-.5)*26).toFixed(1)}deg)`;
+      else if(shape==='slant')tr=`translateY(${((.5-t)*.5).toFixed(3)}em)`;
+      else if(shape==='grow')tr=`scale(${(.78+t*.4).toFixed(3)})`;
+      c.style.transform=tr;
+    });
+  });
+}
+function refresh(el){annotate(el);waveify(el)}
+
+/* ---------- 工具 ---------- */
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+const pick=(a,r=Math.random)=>a[Math.floor(r()*a.length)];
+const ri=(n,r=Math.random)=>Math.floor(r()*n);
+const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()};
+const NUM='零一二三四五六七八九十';
+const cn=n=>n<=10?NUM[n]:n<20?'十'+NUM[n-10]:NUM[Math.floor(n/10)]+'十'+(n%10?NUM[n%10]:'');
+const mod=(a,n)=>((a%n)+n)%n;
+const T=s=>String(s).replace(/[\u3400-\u9fff]/g,c=>S2T[c]||c);
+const store={get(k,d){try{const v=localStorage.getItem('sj_'+k);return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem('sj_'+k,v)}catch(e){}}};
+const stars=n=>'<span class="stars">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span></span>';
+const STEMS='甲乙丙丁戊己庚辛壬癸',BR='子丑寅卯辰巳午未申酉戌亥';
+const WEEK='日一二三四五六';
+const LMON=['正','二','三','四','五','六','七','八','九','十','十一','臘'];
+const LDAY=d=>d<=10?'初'+NUM[d%10===0?10:d]:d<20?'十'+NUM[d-10]:d===20?'二十':d<30?'廿'+NUM[d-20]:'三十';
+function lunarOf(date){
+  try{
+    const l=LUNAR.Solar.fromYmd(date.getFullYear(),date.getMonth()+1,date.getDate()).getLunar();
+    const m=l.getMonth();
+    return{ok:true,y:l.getYear(),m:Math.abs(m),d:l.getDay(),leap:m<0};
+  }catch(e){return{ok:false,y:date.getFullYear(),m:date.getMonth()+1,d:date.getDate(),leap:false}}
+}
+const lunarText=l=>(l.leap?'閏':'')+LMON[l.m-1]+'月'+LDAY(l.d);
+const parseDate=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d,12)};
+const ANIMALS=['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗','豬'];
+const AEMO=['🐭','🐮','🐯','🐰','🐲','🐍','🐴','🐑','🐵','🐔','🐶','🐷'];
+
+/* ---------- 資料 ---------- */
+const LIST=[['qian','🏮','求籤'],['jiao','🌗','擲筊'],['yu','📜','每日一語'],['ziwei','🌠','紫微斗數'],['tarot','🃏','塔羅牌'],['star','♈️','星座'],['fortune','🍀','今日運勢'],['ball','🔮','水晶球'],['yi','☯️','易經卦象'],['name','✍️','姓名筆畫'],['bazi','🧧','八字簡批'],['chenggu','🦴','稱骨算命'],['num','🔢','生命靈數'],['meihua','🌸','梅花易數'],['dream','💤','周公解夢'],['rune','🔱','盧恩符文'],['zx','🐲','生肖流年'],['match','💘','緣分配對'],['almanac','📅','每日黃曆'],['blood','🩸','血型配對'],['palm','🖐️','手相說明']];
+
+const QIAN=[
+['上上','春風化雨潤新苗','雲開見日路迢迢','舊愁盡掃心頭暢','好事臨門不用招','萬事順遂，貴人相助，把握時機大步向前。','穩步高升','有緣成雙','正財亨通','精神飽滿'],
+['上上','紫氣東來照吉門','喜鵲登枝報福音','貴人扶持前程遠','心想事成笑語頻','福星高照，願望有機會成真，勇敢開口提出吧。','貴人提拔','好事近了','財運亨通','身強體健'],
+['上吉','明月當空照九州','一帆風順渡中流','平生所願皆能遂','莫待他年始解憂','如船行順水，只要不偏離航道，終能抵達目的地。','按部就班','真心換真心','小有進帳','作息規律'],
+['上吉','梅開二度香滿園','枯木逢春又一天','心誠自有神明助','守得雲開見月圓','經歷低潮之後，好運正在回頭，請保持耐心。','東山再起','舊緣重逢','漸入佳境','逐步復原'],
+['上吉','金鳳展翅向青天','功名在望喜連連','只要肯將心力付','前程似錦在眼前','努力即將得到回報，是展現實力的好時機。','升遷有望','桃花朵朵','財源廣進','活力十足'],
+['上吉','雙魚戲水樂悠悠','好景良辰共白頭','情深意重不須語','攜手同行過春秋','感情運旺，單身者留意身邊人，有伴者更加穩固。','貴人在側','天作之合','財隨人旺','氣色良好'],
+['上吉','朝陽初起照山河','鳥語花香唱凱歌','勤奮不辜好時節','今日播種明日多','早起的人運氣特別好，今天適合開始新計畫。','新案順利','新戀萌芽','開源有成','晨間運動'],
+['中吉','溪流九曲繞青山','緩步徐行莫急還','欲速則難宜守靜','待時而動自平安','事情不宜操之過急，慢慢來反而更順利。','穩紮穩打','細水長流','量入為出','多多休息'],
+['中吉','燈花結蕊報佳音','千里書來慰我心','貴人暗助宜把握','一朝得意展鴻襟','近期會有好消息從遠方傳來，記得回覆訊息。','有好消息','遠方有緣','貴人帶財','心情舒暢'],
+['中吉','荷風送爽夜來涼','靜坐窗前思緒長','莫為浮名勞心力','淡中有味是安康','放下比較之心，平淡生活中自有幸福。','不爭先後','平淡是福','知足常樂','宜多靜養'],
+['中吉','春來燕子報新晴','舊事重提有轉機','放下成見重溝通','誤會冰消笑語迎','過去的僵局出現轉機，主動溝通最重要。','合作順利','誤會冰釋','有意外財','心結得解'],
+['中吉','學海無涯苦作舟','今朝耕耘待秋收','莫嫌進度如蝸牛','一步一印自風流','學習與考試運佳，持續累積就會看見成果。','學有所成','不急一時','投資自己','適度運動'],
+['中吉','出門遇喜遇知音','舊友相逢話舊深','互助互諒皆有益','人和事順自成金','人緣旺盛，適合聚會、聯絡朋友與拓展人脈。','人脈加分','朋友介紹','合夥得利','心情愉快'],
+['中吉','平安二字值千金','莫向外求先靜心','家和萬事皆興旺','無災無難福自臨','家庭運旺，多陪陪家人，平安就是最大的福氣。','家和事興','家人支持','守成為上','平安健康'],
+['中平','雲遮半月夜朦朧','前路難明且慢行','多聽少說多觀察','天亮自見好光景','目前看不清方向，先蒐集資訊，不要倉促決定。','暫緩決策','多多觀察','保守為宜','注意睡眠'],
+['中平','小橋流水見人家','雖無大利也無差','勤勉持家終有望','莫羨隔牆別樣花','不好不壞的一天，腳踏實地就是最好的運氣。','平穩無波','順其自然','收支平衡','無大礙'],
+['中平','秋風起處葉飄零','世事如棋局局新','莫執一念成死結','換個角度海天青','遇到卡關時，換個角度思考，答案就在轉念之間。','換位思考','不鑽牛角','開源節流','放寬心胸'],
+['中平','路旁小草也迎風','不必爭高自從容','各有春秋各有道','隨緣自在亦英雄','不必與人比較，走自己的節奏就是贏家。','走自己路','隨緣即可','細水長流','保持心情'],
+['小凶','烏雲壓頂雨欲來','提早防備莫徘徊','謹言慎行避口舌','雨過天青笑顏開','近期宜低調，注意言行與合約細節，度過就會平順。','謹慎行事','避免爭吵','勿做投機','保重身體'],
+['小凶','逆風行舟浪滔滔','暫收風帆泊小灣','此時退步非失敗','養足精神再揚鞭','不順時先停下來整理，退一步是為了走得更遠。','暫時蟄伏','需要溝通','減少開銷','留意作息']
+];
+
+const JIAO={
+ sheng:['聖筊','神明同意。一平一圓，代表你的問題得到肯定回應，可以放心去做。'],
+ xiao:['笑筊','神明笑而不答。兩個都是平面，表示問題不夠清楚，或需要再想一想，換個方式再問一次。'],
+ yin:['陰筊','神明不同意。兩個都是圓面，表示時機未到或不宜進行，先暫緩或調整方向吧。']
+};
+
+const QUOTES=[
+['千里之行，始於足下。','老子'],['知足者富，自勝者強。','老子'],['上善若水，水善利萬物而不爭。','老子'],
+['學而不思則罔，思而不學則殆。','論語'],['三人行，必有我師焉。','論語'],['己所不欲，勿施於人。','論語'],['君子坦蕩蕩，小人長戚戚。','論語'],
+['天行健，君子以自強不息。','易經'],['地勢坤，君子以厚德載物。','易經'],
+['淡泊以明志，寧靜以致遠。','諸葛亮'],['勿以惡小而為之，勿以善小而不為。','劉備'],['海納百川，有容乃大。','林則徐'],
+['業精於勤，荒於嬉。','韓愈'],['長風破浪會有時，直掛雲帆濟滄海。','李白'],['山窮水盡疑無路，柳暗花明又一村。','陸游'],
+['沉舟側畔千帆過，病樹前頭萬木春。','劉禹錫'],['塞翁失馬，焉知非福。','淮南子'],['路遙知馬力，日久見人心。','俗諺'],
+['有志者，事竟成。','俗諺'],['欲窮千里目，更上一層樓。','王之渙'],
+['今天不必完美，只要比昨天多往前一步。','小語'],['累了就休息，休息不等於放棄。','小語'],['把心放軟一點，世界也會溫柔一點。','小語'],
+['喝口水，深呼吸，然後再出發。','小語'],['你比自己想像的更勇敢。','小語'],['好運不是等來的，是笑著走來的。','小語'],
+['慢慢來，比較快。','小語'],['認真過的每一天，都不會白費。','小語'],['先把眼前的事做好，其餘交給時間。','小語'],
+['溫柔而堅定，是最好的力量。','小語'],['今天的煩惱，睡一覺就小了一半。','小語'],['願你被世界溫柔以待，也記得溫柔待人。','小語']
+];
+const YI_POOL=['早睡早起','多喝開水','整理桌面','聯絡老友','出門散步','讀一本書','對人微笑','存一點錢','看看夕陽','吃好早餐','整理房間','寫寫日記','學點新事','感謝別人'];
+const JI_POOL=['熬夜','衝動購物','拖延','抱怨','賴床','暴飲暴食','與人爭吵','滑太久手機','說人閒話','忘記備份'];
+const ADV=['今天的你，比想像中更有力量。','慢一點沒關係，方向對就好。','別急，好事正在路上。','做好眼前的小事，大事自然水到渠成。','說聲謝謝，運氣會悄悄靠近。','把握下午的時段，效率特別高。','與其煩惱，不如先動手做一點。','今天適合斷捨離，輕鬆一身。','聽聽朋友的話，會有新的啟發。','留點時間給自己，充電再出發。','你的努力，有人看見了。','保持好奇，驚喜就在轉角。'];
+const COLORS=['朱紅','橘橙','鵝黃','草綠','天藍','紫羅蘭','粉紅','珍珠白','墨黑','金色','銀灰','咖啡'];
+const DIRS=['東','南','西','北','東南','東北','西南','西北'];
+function fortuneFor(seed){
+  const r=rng(hash(seed));
+  const total=40+ri(60,r);
+  const o={total,love:1+ri(5,r),work:1+ri(5,r),money:1+ri(5,r),health:1+ri(5,r),color:pick(COLORS,r),num:1+ri(9,r),dir:pick(DIRS,r),word:pick(ADV,r)};
+  const yi=[],ji=[];
+  while(yi.length<2){const v=pick(YI_POOL,r);if(!yi.includes(v))yi.push(v)}
+  while(ji.length<2){const v=pick(JI_POOL,r);if(!ji.includes(v))ji.push(v)}
+  o.yi=yi;o.ji=ji;
+  o.grade=total>=90?'大吉':total>=75?'吉':total>=60?'小吉':'平';
+  return o;
+}
+const fortuneHTML=f=>`
+<table class="tbl"><tr><th>愛情</th><td>${stars(f.love)}</td></tr><tr><th>事業</th><td>${stars(f.work)}</td></tr><tr><th>財運</th><td>${stars(f.money)}</td></tr><tr><th>健康</th><td>${stars(f.health)}</td></tr></table>
+<p><span class="lbl">幸運色</span>${f.color}　<span class="lbl">幸運數</span>${f.num}　<span class="lbl">吉方位</span>${f.dir}方</p>
+<p><span class="lbl">今日宜</span>${f.yi.map(x=>`<span class="tag">${x}</span>`).join('')}</p>
+<p><span class="lbl">今日忌</span>${f.ji.map(x=>`<span class="tag r">${x}</span>`).join('')}</p>
+<p class="center"><b>「${f.word}」</b></p>`;
+
+const TAROT=[
+['0','愚者','The Fool','🃏','新的開始、自由、勇敢冒險','魯莽、猶豫不決、準備不足'],
+['I','魔術師','The Magician','🎩','創造力、行動力、資源齊備','欺瞞、才華被浪費、缺乏自信'],
+['II','女祭司','The High Priestess','🌙','直覺、靜待、內在智慧','忽略直覺、祕密、情緒壓抑'],
+['III','皇后','The Empress','👑','豐盛、滋養、創造與愛','過度依賴、停滯、缺乏照顧自己'],
+['IV','皇帝','The Emperor','🏛️','穩定、秩序、責任與領導','專制、固執、缺乏彈性'],
+['V','教皇','The Hierophant','📿','傳統、學習、值得信賴的指引','打破常規、不願聽勸、形式主義'],
+['VI','戀人','The Lovers','💞','愛情、和諧、重要的選擇','不協調、猶豫、選擇出現分歧'],
+['VII','戰車','The Chariot','🏇','勝利、決心、掌握方向','失控、方向不明、衝動前進'],
+['VIII','力量','Strength','🦁','勇氣、溫柔的力量、耐心','自我懷疑、軟弱、情緒失衡'],
+['IX','隱者','The Hermit','🏮','內省、獨處、尋找答案','孤立、逃避、不願求助'],
+['X','命運之輪','Wheel of Fortune','🎡','轉機、好運、順勢而為','運氣低迷、抗拒改變、時機未到'],
+['XI','正義','Justice','⚖️','公平、理性、因果平衡','不公、偏見、逃避責任'],
+['XII','倒吊人','The Hanged Man','🙃','換位思考、暫停、犧牲換取領悟','無謂拖延、固執己見、白費力氣'],
+['XIII','死神','Death','🦋','結束與重生、放下過去','抗拒改變、停滯不前、難以釋懷'],
+['XIV','節制','Temperance','🏺','平衡、調和、適度與耐心','失衡、過度、缺乏長遠規劃'],
+['XV','惡魔','The Devil','⛓️','誘惑、執著、被慾望綁住','掙脫束縛、覺醒、重拾自由'],
+['XVI','高塔','The Tower','⚡','突發變動、舊結構崩解','災難延後、害怕改變、內在動盪'],
+['XVII','星星','The Star','⭐','希望、療癒、靈感與信心','失去信心、悲觀、遙不可及'],
+['XVIII','月亮','The Moon','🌕','不安、幻象、潛意識浮現','迷霧散去、真相浮現、恐懼減輕'],
+['XIX','太陽','The Sun','☀️','成功、快樂、活力與自信','熱情減退、延遲的喜悅、過度樂觀'],
+['XX','審判','Judgement','📯','覺醒、重生、做出重大決定','自我批判、猶豫、錯失機會'],
+['XXI','世界','The World','🌍','圓滿、完成、達成目標','未完成、缺少收尾、差一步完成']
+];
+
+const SIGNS=[
+['♈','牡羊','3/21–4/19',[3,21],'火象','熱情直率，行動力強，有點急性子。'],
+['♉','金牛','4/20–5/20',[4,20],'土象','穩重踏實，重視生活品質，也很固執。'],
+['♊','雙子','5/21–6/21',[5,21],'風象','聰明好奇，口才佳，點子多變。'],
+['♋','巨蟹','6/22–7/22',[6,22],'水象','重感情顧家，細心體貼，容易多愁善感。'],
+['♌','獅子','7/23–8/22',[7,23],'火象','自信大方，愛面子，有領袖魅力。'],
+['♍','處女','8/23–9/22',[8,23],'土象','細心謹慎，追求完美，愛分析。'],
+['♎','天秤','9/23–10/23',[9,23],'風象','優雅公正，愛好和平，有時猶豫不決。'],
+['♏','天蠍','10/24–11/22',[10,24],'水象','專注深沉，直覺敏銳，愛恨分明。'],
+['♐','射手','11/23–12/21',[11,23],'火象','樂觀自由，愛冒險，說話很直接。'],
+['♑','魔羯','12/22–1/19',[12,22],'土象','務實有毅力，責任感強，慢熱穩定。'],
+['♒','水瓶','1/20–2/18',[1,20],'風象','獨立創新，思想前衛，重視朋友。'],
+['♓','雙魚','2/19–3/20',[2,19],'水象','浪漫溫柔，想像力豐富，富同情心。']
+];
+function signOf(m,d){
+  const k=m*100+d;
+  if(k>=1222||k<120)return 9;
+  if(k<219)return 10;
+  if(k<321)return 11;
+  const th=[321,420,521,622,723,823,923,1024,1123];let idx=0;
+  th.forEach((t,i)=>{if(k>=t)idx=i});
+  return idx;
+}
+
+const BALL=['絕對是的！','毫無疑問','可以放心','很有可能','看起來不錯','按你想的去做吧','前景樂觀','答案是肯定的','跡象指向「是」','機會相當高','現在還很模糊，再問一次','先別急著決定','專心想一想，再問一次','現在還不能說','答案還不明朗','不太樂觀','別抱太大期待','我的答案是不','跡象顯示不太妙','前景並不明朗'];
+
+const TRI={'乾':['111','☰','天'],'兌':['110','☱','澤'],'離':['101','☲','火'],'震':['100','☳','雷'],'巽':['011','☴','風'],'坎':['010','☵','水'],'艮':['001','☶','山'],'坤':['000','☷','地']};
+const HEXTXT=`乾|乾|乾|剛健進取，宜積極前行
+坤|坤|坤|柔順包容，宜厚德守靜
+屯|坎|震|萬事起頭難，耐心積累
+蒙|艮|坎|啟蒙求教，虛心學習
+需|坎|乾|等待時機，不可躁進
+訟|乾|坎|易生爭執，宜退一步
+師|坤|坎|組織紀律，宜穩健帶領
+比|坎|坤|親近合作，貴在誠信
+小畜|巽|乾|小有積蓄，蓄力待發
+履|乾|兌|如履薄冰，謹慎前行
+泰|坤|乾|天地交通，諸事亨通
+否|乾|坤|閉塞不通，守正待時
+同人|乾|離|志同道合，與人同心
+大有|離|乾|豐收盛大，保持謙遜
+謙|坤|艮|謙虛受益，終能有成
+豫|震|坤|喜悅安樂，勿忘居安思危
+隨|兌|震|順勢而為，隨機應變
+蠱|艮|巽|整頓舊弊，革新有成
+臨|坤|兌|接近成功，用心經營
+觀|巽|坤|靜觀其變，以身作則
+噬嗑|離|震|排除障礙，果斷處理
+賁|艮|離|裝飾美好，重內在勝外表
+剝|艮|坤|衰退之時，宜守不宜進
+復|坤|震|否極泰來，重新出發
+無妄|乾|震|順其自然，勿存妄念
+大畜|艮|乾|厚積薄發，充實自己
+頤|艮|震|修養身心，注意飲食
+大過|兌|巽|負擔過重，需要支援
+坎|坎|坎|險阻重重，守信渡難
+離|離|離|光明附麗，依靠正道
+咸|兌|艮|感應相通，真心相待
+恆|震|巽|持之以恆，堅守本分
+遯|乾|艮|退避為上，保存實力
+大壯|震|乾|氣勢強盛，謹防過剛
+晉|離|坤|晉升進步，光明在前
+明夷|坤|離|光芒受抑，韜光養晦
+家人|巽|離|家庭和睦，各守其位
+睽|離|兌|意見相左，求同存異
+蹇|坎|艮|行路艱難，宜止不宜進
+解|震|坎|困難化解，把握時機
+損|艮|兌|有損有益，捨小取大
+益|巽|震|增益之象，把握機會
+夬|兌|乾|決斷之時，說清講明
+姤|乾|巽|不期而遇，小心誘惑
+萃|兌|坤|聚集眾人，團結可期
+升|坤|巽|步步高升，循序漸進
+困|兌|坎|處境窘迫，守志待變
+井|坎|巽|源源不絕，堅守本業
+革|兌|離|除舊布新，順應時勢
+鼎|離|巽|穩固新局，成就大事
+震|震|震|雷動驚醒，臨事鎮定
+艮|艮|艮|止於其所，靜心沉澱
+漸|巽|艮|循序漸進，水到渠成
+歸妹|震|兌|情感之事，需慎重考慮
+豐|震|離|豐盛之時，居安思危
+旅|離|艮|出門在外，謹言慎行
+巽|巽|巽|順風而入，柔順得利
+兌|兌|兌|喜悅溝通，以誠待人
+渙|巽|坎|離散化解，重聚人心
+節|坎|兌|節制有度，適可而止
+中孚|巽|兌|誠信為本，感動人心
+小過|震|艮|小事可成，大事不宜
+既濟|坎|離|功成之後，仍需謹慎
+未濟|離|坎|尚未完成，努力即成`.split('\n').map(l=>l.split('|'));
+const HEX={};HEXTXT.forEach(h=>HEX[h[1]+h[2]]=h);
+const TRIBY={};Object.keys(TRI).forEach(k=>TRIBY[TRI[k][0]]=k);
+
+const STAR14={
+ 紫微:['尊貴穩重，有領導氣質','適合管理與決策','理財有格局','重視尊重與承諾'],
+ 天機:['聰明機靈，愛思考','適合企劃、研究','靠點子生財','心思細膩，愛分析'],
+ 太陽:['熱情大方，樂於助人','適合公職、服務、宣傳','名氣大於利益','付出型，需要被看見'],
+ 武曲:['剛毅果決，重視務實','適合金融、技術','財星坐鎮，善於積蓄','外冷內熱，不善表達'],
+ 天同:['溫和知足，隨遇而安','適合服務、創意','小富安穩','溫柔體貼，重視生活氛圍'],
+ 廉貞:['個性鮮明，很有魅力','適合公關、法務、創作','起伏較大，需要節制','熱烈而專情'],
+ 天府:['穩重包容，守成有餘','適合財務、行政','財庫豐厚','可靠顧家'],
+ 太陰:['細膩溫柔，感性浪漫','適合文書、設計','細水長流','浪漫體貼'],
+ 貪狼:['多才多藝，慾望強烈','適合業務、演藝','偏財有機會','桃花旺，需要專一'],
+ 巨門:['口才佳，善於分析','適合教學、律師、傳播','靠口才吃飯','容易口角，多溝通'],
+ 天相:['公正謙和，善於輔佐','適合秘書、顧問','收入穩定','體貼包容'],
+ 天梁:['老成穩重，愛照顧人','適合醫療、教育','平穩踏實','像兄姊般守護'],
+ 七殺:['勇往直前，很有魄力','適合開創、軍警','先難後獲','愛恨分明'],
+ 破軍:['勇於突破，變化多端','適合創業、改革','起伏大，需要節制','追求新鮮與刺激']
+};
+const NAYIN=[['海中金','金'],['爐中火','火'],['大林木','木'],['路旁土','土'],['劍鋒金','金'],['山頭火','火'],['澗下水','水'],['城頭土','土'],['白蠟金','金'],['楊柳木','木'],['泉中水','水'],['屋上土','土'],['霹靂火','火'],['松柏木','木'],['長流水','水'],['沙中金','金'],['山下火','火'],['平地木','木'],['壁上土','土'],['金箔金','金'],['覆燈火','火'],['天河水','水'],['大驛土','土'],['釵釧金','金'],['桑柘木','木'],['大溪水','水'],['沙中土','土'],['天上火','火'],['石榴木','木'],['大海水','水']];
+const PAL=['命宮','兄弟','夫妻','子女','財帛','疾厄','遷移','交友','官祿','田宅','福德','父母'];
+const HOURS=['子時 23–01','丑時 01–03','寅時 03–05','卯時 05–07','辰時 07–09','巳時 09–11','午時 11–13','未時 13–15','申時 15–17','酉時 17–19','戌時 19–21','亥時 21–23'];
+function ziwei(ly,lm,ld,hi){
+  const stem=mod(ly-4,10),br=mod(ly-4,12);
+  const monthPos=mod(2+lm-1,12);
+  const ming=mod(monthPos-hi,12),shen=mod(monthPos+hi,12);
+  const s0=[2,4,6,8,0][stem%5];
+  const stemOf=b=>(s0+mod(b-2,12))%10;
+  const ms=stemOf(ming);let n=0;
+  for(let i=0;i<60;i++)if(i%10===ms&&i%12===ming){n=i;break}
+  const ny=NAYIN[Math.floor(n/2)];
+  const ju={金:4,木:3,水:2,火:6,土:5}[ny[1]];
+  let x=0;while((ld+x)%ju!==0)x++;
+  const q=(ld+x)/ju,base=mod(q+1,12);
+  const zw=x%2?mod(base-x,12):mod(base+x,12);
+  const at={};
+  const put=(nm,b)=>{(at[mod(b,12)]=at[mod(b,12)]||[]).push(nm)};
+  const Z={紫微:0,天機:-1,太陽:-3,武曲:-4,天同:-5,廉貞:-8};
+  const T={天府:0,太陰:1,貪狼:2,巨門:3,天相:4,天梁:5,七殺:6,破軍:10};
+  const tf=mod(4-zw,12);
+  Object.keys(Z).forEach(k=>put(k,zw+Z[k]));
+  Object.keys(T).forEach(k=>put(k,tf+T[k]));
+  return{stem,br,ming,shen,stemOf,ny,ju,zw,at,ly,lm,ld,hi};
+}
+const JUNAME={2:'水二局',3:'木三局',4:'金四局',5:'土五局',6:'火六局'};
+
+/* ---------- 視圖 ---------- */
+const VIEWS={};
+const backBtn='<p class="center"><a class="btn" data-go="home" tabindex="0">← 回到桌面</a></p>';
+const wa=(t,cls,shape,size)=>`<div class="wa ${cls}" data-shape="${shape}" style="font-size:${size||'clamp(40px,12vw,66px)'}">${t}</div>`;
+
+VIEWS.home={t:'神機妙算占卜館.exe',render:()=>`
+${wa('神機妙算','wa1','arch','clamp(44px,13vw,80px)')}
+${wa('東西方占卜大全','wa2','wave','clamp(24px,7vw,40px)')}
+<div class="mq"><span>★☆★ 歡迎光臨！請先誠心默念所求之事，再點選下方圖示 ★☆★ 本站結果純屬娛樂，請勿迷信 ★☆★</span></div>
+<div class="pane"><div class="icons">${LIST.map(l=>`<a class="ico" data-go="${l[0]}" tabindex="0"><span class="e">${l[1]}</span><span class="l">${l[2]}</span></a>`).join('')}</div></div>
+<p class="center"><span class="blink" style="color:#c00;font-weight:bold">NEW!</span> 點右下角「ㄅㄆㄇ」可以開關注音 ・ 您是第 <span class="odo nozy-cell" id="cnt">000001</span> 次來訪（只記在這台裝置）</p>
+<p class="center small">※ 抽籤、擲筊、塔羅等為隨機產生；紫微斗數為簡化排法，僅供娛樂參考。</p>`,
+mount(r){
+  const n=(+store.get('visits','0'))+1;store.set('visits',String(n));
+  $('#cnt',r).textContent=String(n).padStart(6,'0');
+}};
+
+/* 求籤 */
+const TUBE=`<svg class="nozy-cell" viewBox="0 0 160 200" width="160" height="200" aria-hidden="true">
+<g><rect x="52" y="8" width="9" height="110" fill="#e0b050" stroke="#7a4a00" transform="rotate(-9 56 100)"/><rect x="66" y="0" width="9" height="110" fill="#f0c860" stroke="#7a4a00" transform="rotate(-3 70 100)"/><rect x="82" y="4" width="9" height="110" fill="#e0b050" stroke="#7a4a00" transform="rotate(4 86 100)"/><rect x="97" y="10" width="9" height="110" fill="#f0c860" stroke="#7a4a00" transform="rotate(10 101 100)"/><rect x="74" y="14" width="9" height="110" fill="#d9a441" stroke="#7a4a00" transform="rotate(-1 78 100)"/></g>
+<path d="M36 92 L46 190 Q80 200 114 190 L124 92 Z" fill="#b3261e" stroke="#5a0f0a" stroke-width="3"/>
+<ellipse cx="80" cy="92" rx="44" ry="8" fill="#7a1409" stroke="#5a0f0a" stroke-width="3"/>
+<rect x="40" y="118" width="80" height="8" fill="#f5c542"/><rect x="43" y="166" width="74" height="8" fill="#f5c542"/>
+<text x="80" y="156" text-anchor="middle" font-size="30" fill="#f5c542" font-weight="bold" font-family="serif">籤</text></svg>`;
+VIEWS.qian={t:'求籤.exe',render:()=>`
+<div class="center">${wa('誠心求籤','wa4','wave')}
+<p>請在心中默念<b>姓名、生辰、所求何事</b>，再按下按鈕搖動籤筒。</p>
+<div class="tube" id="tube">${TUBE}</div>
+<button class="btn big" id="go">搖籤筒</button>
+<div id="out"></div></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r),tube=$('#tube',r),go=$('#go',r);
+  go.onclick=()=>{
+    go.disabled=true;out.innerHTML='';tube.classList.add('shake');
+    setTimeout(()=>{
+      tube.classList.remove('shake');
+      const i=ri(QIAN.length),q=QIAN[i];
+      out.innerHTML=`<div class="paper"><div class="wa wa2 sm" data-shape="arch">第${cn(i+1)}籤</div>
+      <div class="grade">${q[0]}籤</div>
+      <div class="poem">${[1,2,3,4].map(k=>`<p>${q[k]}</p>`).join('')}</div>
+      <p><b>解曰：</b>${q[5]}</p>
+      <table class="tbl"><tr><th>事業</th><td>${q[6]}</td><th>感情</th><td>${q[7]}</td></tr><tr><th>財運</th><td>${q[8]}</td><th>健康</th><td>${q[9]}</td></tr></table></div>`;
+      refresh(out);go.disabled=false;go.textContent='再抽一支';
+    },1500);
+  };
+}};
+
+/* 擲筊 */
+VIEWS.jiao={t:'擲筊.exe',render:()=>`
+<div class="center">${wa('擲筊問神','wa1','arch')}
+<p>先心中默念<b>姓名、地址與問題</b>（問題要能回答「是」或「不是」），再擲筊。</p>
+<div class="beans"><div class="bean round" id="b1" style="--r:-12deg"></div><div class="bean flat" id="b2" style="--r:18deg"></div></div>
+<button class="btn big" id="go">擲筊</button>
+<div id="out"></div>
+<p class="small">累計：聖筊 <b id="n1">0</b>　笑筊 <b id="n2">0</b>　陰筊 <b id="n3">0</b>　連續聖筊 <b id="n4">0</b></p>
+<p class="small">傳統說法：同一個問題連得三個聖筊，代表神明確認同意。</p></div>${backBtn}`,
+mount(r){
+  const cnt={sheng:0,xiao:0,yin:0},st={streak:0};
+  const b1=$('#b1',r),b2=$('#b2',r),go=$('#go',r),out=$('#out',r);
+  go.onclick=()=>{
+    go.disabled=true;out.innerHTML='';
+    [b1,b2].forEach(b=>b.classList.add('toss'));
+    setTimeout(()=>{
+      const f=[Math.random()<.5,Math.random()<.5]; // true=圓面
+      [b1,b2].forEach((b,i)=>{b.classList.remove('toss');b.className='bean '+(f[i]?'round':'flat');b.style.setProperty('--r',(ri(80)-40)+'deg')});
+      const k=f[0]!==f[1]?'sheng':f[0]?'yin':'xiao';
+      cnt[k]++;st.streak=k==='sheng'?st.streak+1:0;
+      $('#n1',r).textContent=cnt.sheng;$('#n2',r).textContent=cnt.xiao;$('#n3',r).textContent=cnt.yin;$('#n4',r).textContent=st.streak;
+      const cls={sheng:'wa4',xiao:'wa3',yin:'wa7'}[k];
+      out.innerHTML=`<div class="paper">${wa(JIAO[k][0]+(k==='sheng'?'！':''),cls,'wave','clamp(40px,12vw,60px)')}<p>${JIAO[k][1]}</p>${st.streak>=3?`<p><b class="blink" style="color:#c00">★ 連得 ${st.streak} 個聖筊，神明首肯！★</b></p>`:''}</div>`;
+      refresh(out);go.disabled=false;go.textContent='再擲一次';
+    },1150);
+  };
+}};
+
+/* 每日一語 */
+VIEWS.yu={t:'每日一語.exe',render:()=>{
+  const d=new Date(),l=lunarOf(d);
+  return`<div class="center">${wa('每日一小語','wa5','slant')}
+  <p><b>${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日　星期${WEEK[d.getDay()]}</b><br>民國 ${d.getFullYear()-1911} 年${l.ok?'・農曆 '+lunarText(l):''}</p></div>
+  <div class="pane center" id="q" style="font-size:26px;font-weight:bold;min-height:120px"></div>
+  <div class="center"><button class="btn" id="again">換一句</button></div>
+  <div class="pane" id="yj"></div>${backBtn}`},
+mount(r){
+  const q=$('#q',r);
+  const show=(i,anim)=>{const it=QUOTES[i];q.innerHTML=`${it[0]}<div class="small" style="font-weight:normal;margin-top:8px">——${it[1]}</div>`;refresh(q)};
+  const k=todayKey(),i0=hash('yu'+k)%QUOTES.length;
+  let cur=i0;show(cur);
+  $('#again',r).onclick=()=>{let j;do{j=ri(QUOTES.length)}while(j===cur);cur=j;show(j)};
+  const f=fortuneFor('day'+k);
+  $('#yj',r).innerHTML=`<p><span class="lbl">今日宜</span>${f.yi.map(x=>`<span class="tag">${x}</span>`).join('')}</p><p><span class="lbl">今日忌</span>${f.ji.map(x=>`<span class="tag r">${x}</span>`).join('')}</p>`;
+  refresh($('#yj',r));
+}};
+
+/* 紫微斗數 */
+const opt=(a,sel)=>a.map((t,i)=>`<option value="${i}"${i===sel?' selected':''}>${t}</option>`).join('');
+const ZW_PAL={命宮:'你的本質、性格與一生的基調',兄弟:'手足、同輩與合夥關係',夫妻:'感情與婚姻、另一半的樣子',子女:'子女、晚輩與創作',財帛:'賺錢方式與理財習慣',疾厄:'身體狀況與體質',遷移:'外出、人際與外在機運',僕役:'朋友、同事與部屬',官祿:'事業、工作與成就',田宅:'家庭、不動產與安全感',福德:'精神享受、心態與福氣',父母:'與長輩、上司的緣分'};
+const ZW_MU={祿:'化祿：帶來順遂、財源與人緣',權:'化權：增加掌控力與企圖心',科:'化科：帶來名聲、貴人與助力',忌:'化忌：容易糾結、起波折，需要多留心'};
+VIEWS.ziwei={t:'紫微斗數.exe',render:()=>`
+<div class="center">${wa('紫微斗數','wa7','arch')}</div>
+<div class="pane">
+<div class="row"><label>西曆生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label>
+<label>時辰 <select id="hr">${['早子時 00–01','丑時 01–03','寅時 03–05','卯時 05–07','辰時 07–09','巳時 09–11','午時 11–13','未時 13–15','申時 15–17','酉時 17–19','戌時 19–21','亥時 21–23','晚子時 23–24'].map((t,i)=>`<option value="${i}"${i===6?' selected':''}>${t}</option>`).join('')}</select></label>
+<label>性別 <select id="sx"><option>女</option><option>男</option></select></label></div>
+<p class="small center">使用開源的 iztro 排盤：十四主星、輔星、廟旺、四化、大限與流年；農曆由 lunar-javascript 精確換算。</p>
+<div class="center"><button class="btn big" id="go">排盤</button></div></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const dt=$('#dt',r).value;if(!dt)return;
+    store.set('birth',dt);
+    let a,h;
+    try{
+      a=IZTRO.astro.bySolar(dt,+$('#hr',r).value,$('#sx',r).value,true,'zh-TW');
+      h=a.horoscope(new Date());
+    }catch(e){out.innerHTML='<div class="pane center">排盤失敗，請確認日期是否正確。</div>';refresh(out);return}
+    const P=a.palaces,byB={};
+    P.forEach((p,i)=>byB[BR.indexOf(p.earthlyBranch)]=i);
+    const mu=s=>s.mutagen?`<i class="mu">${s.mutagen}</i>`:'';
+    const cell=pi=>{
+      const p=P[pi],me=p.name==='命宮';
+      return`<div class="zc nozy-cell${me?' me':''}">${(me||p.isBodyPalace)?`<span class="mk">${me&&p.isBodyPalace?'命身':me?'命':'身'}</span>`:''}<span class="br">${p.heavenlyStem}${p.earthlyBranch}</span><span class="pn">${p.name}</span>${p.majorStars.map(s=>`<span class="st${['紫微','天府'].includes(s.name)?' k':''}">${s.name}${s.brightness?`<small>${s.brightness}</small>`:''}${mu(s)}</span>`).join('')||'<span class="br">（空宮）</span>'}<span class="ms">${p.minorStars.map(s=>s.name+(s.mutagen?`<i class="mu">${s.mutagen}</i>`:'')).join(' ')}</span><span class="dr">${p.decadal.range[0]}–${p.decadal.range[1]}歲</span></div>`;
+    };
+    const order=[[5,6,7,8],[4,null,null,9],[3,null,null,10],[2,1,0,11]];
+    let grid='';
+    order.forEach((row,ri_)=>row.forEach((b,ci)=>{
+      if(b===null){if(ri_===1&&ci===1)grid+=`<div class="zmid nozy-cell"><b>${T(a.chineseDate)}</b><span>西曆 ${a.solarDate}</span><span>農曆 ${a.lunarDate}</span><span>${a.time}（${a.timeRange}）・${a.gender}</span><span>${a.zodiac}年生・${a.sign}</span><span><b>${a.fiveElementsClass}</b>・命主${a.soul}・身主${a.body}</span></div>`}
+      else grid+=cell(byB[b]);
+    }));
+    const pal=n=>P.find(p=>p.name===n);
+    const mainOf=p=>{if(p.majorStars.length)return{s:p.majorStars,b:false};return{s:P[(P.indexOf(p)+6)%12].majorStars,b:true}};
+    const para=(n,k,fmt)=>{
+      const o=mainOf(pal(n));const m=o.s[0];
+      if(!m||!STAR14[m.name])return'';
+      const ex=o.s.length>1?`（同宮還有${o.s.slice(1).map(x=>x.name).join('、')}）`:'';
+      return`<p><span class="lbl">${n}</span>${o.b?'空宮，借對宮':''}${fmt(m.name,STAR14[m.name][k])}${ex}</p>`;
+    };
+    const natal=[];
+    P.forEach(p=>[...p.majorStars,...p.minorStars].forEach(s=>{if(s.mutagen)natal.push(`<p><span class="tag${s.mutagen==='忌'?' r':''}">化${s.mutagen}</span><b>${s.name}</b>在${p.name}：${ZW_MU[s.mutagen].split('：')[1]}。</p>`)}));
+    const di=h.decadal.index,yi=h.yearly.index;
+    const dp=P[di],yp=P[yi];
+    out.innerHTML=`<div class="pane"><div class="wa wa2 sm" data-shape="wave">你的命盤</div><div class="zw">${grid}</div>
+    ${para('命宮',0,(s,t)=>`${s}坐命，${t}。`)}
+    ${para('官祿',1,(s,t)=>`見${s}：${t}。`)}
+    ${para('財帛',2,(s,t)=>`見${s}：${t}。`)}
+    ${para('夫妻',3,(s,t)=>`見${s}：${t}。`)}
+    <div class="wa wa2 sm" data-shape="wave">生年四化</div>${natal.join('')||'<p>沒有四化星。</p>'}
+    <div class="wa wa2 sm" data-shape="wave">大限與流年</div>
+    <p><span class="lbl">目前大限</span>${dp.decadal.range[0]}–${dp.decadal.range[1]}歲，大限命宮落在<b>${dp.name}</b>（${dp.heavenlyStem}${dp.earthlyBranch}），這十年重心在「${ZW_PAL[dp.name]}」。</p>
+    <p><span class="lbl">今年流年</span>${T(h.yearly.heavenlyStem+h.yearly.earthlyBranch)}年，流年命宮落在<b>${yp.name}</b>，今年重心在「${ZW_PAL[yp.name]}」。流年四化：${h.yearly.mutagen.map((m,i)=>'化'+'祿權科忌'[i]+m).join('、')}。</p>
+    <p class="small">※ 排盤由開源的 iztro（MIT）提供，採通用派別；星曜解說為簡短白話版，僅供娛樂參考，完整論命仍需專業老師細看。</p></div>`;
+    refresh(out);
+    out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* 塔羅 */
+VIEWS.tarot={t:'塔羅牌.exe',render:()=>`
+<div class="center">${wa('塔羅占卜','wa6','arch')}
+<p>專心想著你的問題，選擇牌陣後按下「洗牌抽牌」。</p>
+<div class="row"><label><input type="radio" name="m" value="1" checked> 單張牌（今日指引）</label>
+<label><input type="radio" name="m" value="3"> 三張牌（過去・現在・未來）</label></div>
+<button class="btn big" id="go">洗牌抽牌</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r),go=$('#go',r);
+  go.onclick=()=>{
+    const n=+$('input[name=m]:checked',r).value;
+    const deck=TAROT.map((c,i)=>i);
+    for(let i=deck.length-1;i>0;i--){const j=ri(i+1);[deck[i],deck[j]]=[deck[j],deck[i]]}
+    const hand=deck.slice(0,n).map(i=>({c:TAROT[i],rev:Math.random()<.3}));
+    const names=n===1?['今日指引']:['過去','現在','未來'];
+    out.innerHTML=`<div class="cards">${hand.map(h=>`<div class="card"><div class="in"><div class="b nozy-cell">✦</div><div class="f nozy-cell${h.rev?' rev':''}"><div class="c"><div class="no">${h.c[0]}</div><div class="sy">${h.c[3]}</div><div class="nm">${h.c[1]}</div><div class="en">${h.c[2]}</div></div></div></div></div>`).join('')}</div>
+    <div class="pane" id="rd" style="visibility:hidden">${hand.map((h,i)=>`<p><span class="pos">【${names[i]}】${h.c[1]}・${h.rev?'逆位':'正位'}</span><br>${h.rev?h.c[5]:h.c[4]}。</p>`).join('')}<p class="small">牌義僅為象徵性的提示，真正的答案還是在你自己心裡。</p></div>`;
+    refresh(out);
+    go.disabled=true;
+    $$('.card',out).forEach((el,i)=>setTimeout(()=>el.classList.add('flip'),500+i*700));
+    setTimeout(()=>{$('#rd',out).style.visibility='visible';go.disabled=false;go.textContent='重新抽牌'},500+n*700+600);
+  };
+}};
+
+/* 星座 */
+VIEWS.star={t:'星座.exe',render:()=>`
+<div class="center">${wa('星座運勢','wa3','wave')}</div>
+<div class="pane center"><div class="row"><label>生日 <select id="sm">${Array.from({length:12},(_,i)=>`<option value="${i+1}">${i+1} 月</option>`).join('')}</select> <select id="sd">${Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1} 日</option>`).join('')}</select></label>
+<button class="btn" id="find">我是哪一個星座？</button></div></div>
+<div class="zg" id="zg">${SIGNS.map((s,i)=>`<button class="zb" data-i="${i}"><span class="sy nozy-cell">${s[0]}&#xFE0E;</span><span class="nm">${s[1]}座</span></button>`).join('')}</div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  const show=i=>{
+    $$('.zb',r).forEach(b=>b.classList.toggle('on',+b.dataset.i===i));
+    const s=SIGNS[i],f=fortuneFor('sign'+i+'-'+todayKey());
+    out.innerHTML=`<div class="pane"><div class="center">${wa(s[1]+'座','wa4','arch','clamp(40px,12vw,60px)')}</div>
+    <p class="center"><span class="nozy-cell" style="font-size:40px;font-family:'Segoe UI Symbol',sans-serif">${s[0]}&#xFE0E;</span><br>${s[2]}　${s[4]}星座</p>
+    <p><span class="lbl">個性</span>${s[5]}</p>
+    <div class="wa wa2 sm" data-shape="wave">今日運勢</div>
+    <p class="center">綜合指數 <b style="font-size:28px;color:#c00">${f.total}</b> 分・${f.grade}</p>${fortuneHTML(f)}</div>`;
+    refresh(out);
+  };
+  $$('.zb',r).forEach(b=>b.onclick=()=>show(+b.dataset.i));
+  $('#find',r).onclick=()=>{const i=signOf(+$('#sm',r).value,+$('#sd',r).value);show(i);out.scrollIntoView({behavior:'smooth'})};
+}};
+
+/* 今日運勢 */
+VIEWS.fortune={t:'今日運勢.exe',render:()=>`
+<div class="center">${wa('今日運勢','wa4','arch')}</div>
+<div class="pane center"><label>你的生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label><br>
+<button class="btn big" id="go">算算今天</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r),dt=$('#dt',r);
+  const run=()=>{
+    store.set('birth',dt.value);
+    const d=parseDate(dt.value),l=lunarOf(d);
+    const an=mod(l.y-4,12),si=signOf(d.getMonth()+1,d.getDate());
+    const f=fortuneFor('me'+dt.value+'|'+todayKey());
+    out.innerHTML=`<div class="pane"><p class="center"><span class="nozy-cell" style="font-size:44px">${AEMO[an]}</span><br>屬${ANIMALS[an]}・${SIGNS[si][1]}座</p>
+    <div class="center">${wa(f.total+'分','wa1','wave','clamp(54px,18vw,90px)')}<p><b style="font-size:26px;color:#c00">${f.grade}</b></p></div>${fortuneHTML(f)}</div>`;
+    refresh(out);
+  };
+  $('#go',r).onclick=()=>{run();out.scrollIntoView({behavior:'smooth'})};
+}};
+
+/* 水晶球 */
+VIEWS.ball={t:'水晶球.exe',render:()=>`
+<div class="center">${wa('水晶球','wa7','wave')}
+<p>心裡想一個問題（是非題），再按下搖晃水晶球。</p>
+<input type="text" id="q" placeholder="在這裡輸入你的問題（可不填）" maxlength="40">
+<div class="ball" id="ball"><span class="nozy-cell" style="font-size:60px;opacity:.8">✦</span></div><div class="base"></div>
+<button class="btn big" id="go">搖晃水晶球</button></div>${backBtn}`,
+mount(r){
+  const ball=$('#ball',r),go=$('#go',r);
+  go.onclick=()=>{
+    go.disabled=true;ball.innerHTML='<span class="nozy-cell" style="font-size:60px;opacity:.8">✦</span>';ball.classList.add('shake');
+    setTimeout(()=>{ball.classList.remove('shake');ball.innerHTML=`<div class="ans">${pick(BALL)}</div>`;refresh(ball);go.disabled=false;go.textContent='再問一次'},1300);
+  };
+}};
+
+/* 易經 */
+
+/* 易經原典（卦辭、大象、爻辭）：Project Gutenberg 公有領域《易經》 */
+const YJM={};YJ.forEach(y=>YJM[y[0]]=y);
+const yname=(i,yang)=>i===0?'初'+(yang?'九':'六'):i===5?'上'+(yang?'九':'六'):(yang?'九':'六')+NUM[i+1];
+function yjHTML(an,cn_,mv,bitsA,bitsC){
+  const A=YJM[an];if(!A)return'';
+  const C=cn_?YJM[cn_]:null,n=mv.length;
+  const ln=(H,bits,i)=>`<p><b>${yname(i,bits[i])}</b>：${H[3][i]}</p>`;
+  let rule='',body='';
+  if(n===0){rule='沒有動爻，以本卦卦辭為準。'}
+  else if(n===1){rule='一個動爻，以本卦動爻的爻辭為準。';body=ln(A,bitsA,mv[0])}
+  else if(n===2){rule='兩個動爻，以本卦這兩爻的爻辭為準，以上面那爻為主。';body=ln(A,bitsA,mv[1])+ln(A,bitsA,mv[0])}
+  else if(n===3){rule='三個動爻，以本卦與之卦的卦辭合看，本卦為主。';body=`<p><b>之卦「${C[0]}」卦辭</b>：${C[1]}</p>`}
+  else if(n===4){const u=[0,1,2,3,4,5].filter(i=>!mv.includes(i));rule='四個動爻，以之卦兩個不變爻的爻辭為準，以下面那爻為主。';body=ln(C,bitsC,u[0])+ln(C,bitsC,u[1])}
+  else if(n===5){const u=[0,1,2,3,4,5].find(i=>!mv.includes(i));rule='五個動爻，以之卦唯一不變爻的爻辭為準。';body=ln(C,bitsC,u)}
+  else{
+    if(an==='乾'||an==='坤'){rule=an==='乾'?'乾卦六爻皆動，看「用九」。':'坤卦六爻皆動，看「用六」。';body=`<p><b>${an==='乾'?'用九':'用六'}</b>：${A[3][6]}</p>`}
+    else{rule='六爻皆動，以之卦卦辭為準。';body=`<p><b>之卦「${C[0]}」卦辭</b>：${C[1]}</p>`}
+  }
+  return`<div class="wa wa2 sm" data-shape="wave">《易經》原文</div>
+  <p><span class="lbl">卦辭</span>${A[1]}</p><p><span class="lbl">大象</span>${A[2]}</p>
+  <p><span class="lbl">取辭</span>${rule}</p>${body}`;
+}
+VIEWS.yi={t:'易經卦象.exe',render:()=>`
+<div class="center">${wa('易經卦象','wa2','arch')}
+<p>誠心默念問題，以擲三枚銅錢的方式，連擲六次，由下往上成卦。</p>
+<div class="hx" id="hx"></div>
+<button class="btn big" id="go">誠心搖卦</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const hx=$('#hx',r),out=$('#out',r),go=$('#go',r);
+  const drawLines=(ls)=>{
+    hx.innerHTML=[...ls].reverse().map(v=>{const yang=v===7||v===9,mv=v===6||v===9;
+      return`<div class="hl ${yang?'yang':'yin'}"><i></i>${yang?'':'<i></i>'}${mv?`<em>${v===9?'○':'×'}</em>`:''}</div>`}).join('');
+  };
+  const trig=(a,b,c)=>TRIBY[''+a+b+c];
+  go.onclick=()=>{
+    go.disabled=true;out.innerHTML='';
+    const ls=[];
+    const step=()=>{
+      if(ls.length<6){
+        const s=[0,0,0].reduce(a=>a+(Math.random()<.5?3:2),0);ls.push(s);drawLines(ls);setTimeout(step,550);return;
+      }
+      const bits=ls.map(v=>(v===7||v===9)?1:0);
+      const up=trig(bits[3],bits[4],bits[5]),lo=trig(bits[0],bits[1],bits[2]);
+      const h=HEX[up+lo];
+      const mv=ls.map((v,i)=>(v===6||v===9)?i+1:0).filter(Boolean);
+      let ch='',yj='';
+      if(!mv.length)yj=yjHTML(h[0],null,[],bits,bits);
+      if(mv.length){
+        const b2=ls.map(v=>v===6?1:v===9?0:(v===7?1:0));
+        const h2=HEX[trig(b2[3],b2[4],b2[5])+trig(b2[0],b2[1],b2[2])];
+        yj=yjHTML(h[0],h2[0],mv.map(x=>x-1),bits,b2);
+        ch=`<p><span class="lbl">動爻</span>第 ${mv.map(cn).join('、')} 爻在變動，事情正在轉變，可能朝<b>「${h2[0]}」卦</b>（${h2[3]}）的方向發展。</p>`;
+      }else ch='<p><span class="lbl">動爻</span>沒有動爻，情勢穩定，以本卦為準。</p>';
+      out.innerHTML=`<div class="paper center">${wa(h[0]+'卦','wa4','wave','clamp(46px,14vw,72px)')}
+      <p><span class="nozy-cell" style="font-size:28px">${TRI[up][1]} ${TRI[lo][1]}</span><br>上${up}（${TRI[up][2]}）・下${lo}（${TRI[lo][2]}）</p>
+      <p style="font-size:24px;font-weight:bold;color:#7a1409">${h[3]}</p><div style="text-align:left">${ch}</div>
+      </div><div class="pane">${yj}<p class="small">取辭法依朱熹《易學啟蒙》，經文取自公有領域的《易經》；白話解讀為簡化大意，僅供娛樂參考。</p></div>`;
+      refresh(out);go.disabled=false;go.textContent='再搖一卦';
+    };
+    step();
+  };
+}};
+
+/* ===== 姓名筆畫 ===== */
+const SHU=`大吉|萬物之始，領導開創
+凶|分離動搖，難有定向
+吉|才華橫溢，名利雙收
+凶|阻礙重重，需防挫折
+吉|五行調和，福祿俱全
+吉|安穩富足，貴人相扶
+吉|剛毅果敢，獨立有成
+吉|意志堅定，努力必成
+凶|大起大落，易勞而少功
+凶|空虛起伏，財來財去
+吉|逢春之象，穩健興旺
+凶|孤立無援，宜借助人力
+吉|才智過人，機運亨通
+凶|離散孤獨，宜多結善緣
+吉|福壽雙全，人緣和順
+吉|厚德載物，貴人提攜
+吉|剛柔並濟，突破險阻
+吉|意志強大，成就事業
+凶|多變多難，宜守不宜進
+凶|虛浮不定，凡事謹慎
+吉|光明頂點，獨立領導
+凶|懷才不遇，易有挫折
+吉|旭日東升，名利兼收
+吉|白手起家，財富累積
+吉|資性英敏，才能出眾
+半凶|波折多端，起伏不定
+半吉|起伏參半，慎防小人
+凶|風波不斷，宜謙和待人
+半吉|智謀過人，需防貪心
+半吉|吉凶難料，浮沉不定
+吉|智勇雙全，順利成功
+吉|僥倖多助，常有意外之喜
+吉|威名遠播，家運隆昌
+凶|災厄頻仍，宜安分守己
+吉|溫和平穩，具文藝之才
+凶|波瀾起伏，多受牽累
+吉|誠實忠信，終獲成功
+半吉|才藝有成，需持之以恆
+吉|富貴榮華，享有盛名
+半凶|起伏無常，宜知所進退
+吉|德高望重，大業可成
+半凶|多才多藝，但易分心
+凶|外表光鮮，內多煩惱
+凶|事多阻礙，宜安穩行事
+吉|順風揚帆，德澤廣被
+凶|空有抱負，需耐心等待
+吉|開花結果，貴人相助
+吉|智謀兼備，適合擔任顧問
+凶|吉凶相伴，宜謹慎決斷
+半凶|先得後失，宜守成
+半凶|盛衰交替，宜居安思危
+吉|眼光獨到，早見先機
+凶|表裡不一，內有憂煩
+凶|辛勞多難，需多自省
+半凶|外表順利，內藏隱憂
+凶|進取不足，易生退縮
+吉|堅忍不拔，逆境自強
+半吉|先苦後甘，晚運轉佳
+凶|意志消沉，宜振作精神
+凶|前途迷茫，宜尋求指引
+吉|名利雙收，家道興旺
+凶|基礎薄弱，易生煩憂
+吉|順遂圓滿，福壽綿長
+凶|浮沉不定，宜穩紮穩打
+吉|富貴長壽，事事順心
+凶|內外不和，宜多溝通
+吉|事業順遂，天賦良機
+吉|思慮周密，興家立業
+凶|動盪不安，宜靜心守正
+凶|運勢低迷，需靜待轉機
+半吉|吉凶參半，宜保守
+半凶|先順後逆，需預作準備
+半吉|平穩安康，志高力微
+凶|才華難展，宜腳踏實地
+半吉|守成安穩，不宜冒進
+凶|分離聚散，需多珍惜
+半吉|先難後易，晚年安康
+半吉|前期順利，後期宜守
+凶|志氣消沉，需重建信心
+半凶|晚年清閒，需防勞累
+大吉|萬象更新，回歸原點`.split('\n').map(l=>l.split('|'));
+const shu=n=>{while(n>81)n-=80;return SHU[n-1]};
+const E5=['木','火','土','金','水'];
+const el5=n=>{const d=n%10;return d===0?4:Math.floor((d-1)/2)};
+const gcol=g=>/大吉|^吉/.test(g)?'#060':g==='半吉'?'#a60':'#a00';
+function relE(a,b){
+  if(a===b)return['同',E5[a]+'與'+E5[b]+'相同'];
+  if(b===(a+1)%5)return['生',E5[a]+'生'+E5[b]];
+  if(a===(b+1)%5)return['生',E5[b]+'生'+E5[a]];
+  if(b===(a+2)%5)return['剋',E5[a]+'剋'+E5[b]];
+  return['剋',E5[b]+'剋'+E5[a]];
+}
+function grids(S,G){
+  let tian,ren,di,wai;
+  const zong=S.concat(G).reduce((a,b)=>a+b,0);
+  if(S.length===1){
+    tian=S[0]+1;ren=S[0]+G[0];
+    if(G.length===1){di=G[0]+1;wai=2}else{di=G[0]+G[1];wai=G[1]+1}
+  }else{
+    tian=S[0]+S[1];ren=S[1]+G[0];
+    if(G.length===1){di=G[0]+1;wai=S[0]+1}else{di=G[0]+G[1];wai=S[0]+G[1]}
+  }
+  return{tian,ren,di,wai,zong};
+}
+VIEWS.name={t:'姓名筆畫.exe',render:()=>`
+<div class="center">${wa('姓名筆畫','wa5','wave')}</div>
+<div class="pane">
+<div class="row"><label>姓名 <input type="text" id="nm" maxlength="6" placeholder="例如：王小明" style="width:9em"></label>
+<label>姓氏 <select id="sl"><option value="1">1 字（單姓）</option><option value="2">2 字（複姓）</option></select></label></div>
+<div class="center"><button class="btn big" id="go">算筆畫</button></div>
+<p class="small center">筆畫採康熙字典算法（例如「氵」算 4 畫、「艹」算 6 畫），找不到的字可以自己填。</p></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const chars=[...$('#nm',r).value.trim()].filter(isC);
+    const sl=+$('#sl',r).value,gl=chars.length-sl;
+    if(chars.length<2||gl<1||gl>2){out.innerHTML='<div class="pane center">請輸入完整姓名，名字要有 1～2 個字，並選對姓氏字數。</div>';refresh(out);return}
+    out.innerHTML=`<div class="pane"><p class="center"><b>各字筆畫（可以修改）</b></p>
+    <div class="row nozy-cell">${chars.map((c,i)=>`<label style="text-align:center"><span style="font-size:28px;font-weight:bold">${c}</span><br><input type="number" min="1" max="40" data-i="${i}" placeholder="?" value="${STROKE[c]||''}" style="width:3.8em;text-align:center"></label>`).join('')}</div>
+    <div id="res"></div></div>`;
+    const res=$('#res',out),ins=$$('input',out);
+    const calc=()=>{
+      const v=ins.map(i=>parseInt(i.value,10));
+      const bad=v.findIndex(x=>!(x>0));
+      if(bad>=0){res.innerHTML=`<p class="center">請填入「${chars[bad]}」的筆畫數。</p>`;refresh(res);return}
+      const g=grids(v.slice(0,sl),v.slice(sl));
+      const rows=[['天格','祖運・先天',g.tian],['人格','主運・性格與中年',g.ren],['地格','前運・基礎與家庭',g.di],['外格','副運・人際與社交',g.wai],['總格','後運・晚年總運',g.zong]];
+      const good=rows.filter(x=>/吉/.test(shu(x[2])[0])&&!/半/.test(shu(x[2])[0])).length;
+      const t=el5(g.tian),p=el5(g.ren),d=el5(g.di);
+      const r1=relE(t,p),r2=relE(p,d),bads=(r1[0]==='剋')+(r2[0]==='剋');
+      const verdict=['三才相生相和，運勢順暢。','三才略有相剋，凡事多些耐心。','三才相剋，宜穩健謹慎行事。'][bads];
+      res.innerHTML=`<div class="wa wa2 sm" data-shape="wave">五格剖象</div>
+      <div class="gl">${rows.map(x=>{const s=shu(x[2]);return`<div class="gb"><div class="gh"><b>${x[0]}</b><span class="small">${x[1]}</span><span class="nozy-cell">${x[2]} 畫・${E5[el5(x[2])]}</span><b style="color:${gcol(s[0])}">${s[0]}</b></div><div>${s[1]}。</div></div>`}).join('')}</div>
+      <p><span class="lbl">三才</span>天${E5[t]}・人${E5[p]}・地${E5[d]}（${r1[1]}、${r2[1]}）。${verdict}</p>
+      <p><span class="lbl">總評</span>五格中有 <b>${good}</b> 格為吉數。人格代表你的核心個性與主運，可以優先參考。</p>
+      <p class="small">※ 姓名學流派很多，各家數理與算法不盡相同，這裡只是娛樂參考；名字的好壞，不是筆畫決定的。</p>`;
+      refresh(res);
+    };
+    ins.forEach(i=>i.oninput=calc);
+    calc();refresh(out);
+    out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 八字簡批 ===== */
+function sunLon(jd){
+  const T=(jd-2451545)/36525,rad=Math.PI/180;
+  const L0=280.46646+36000.76983*T+0.0003032*T*T;
+  const M=(357.52911+35999.05029*T-0.0001537*T*T)*rad;
+  const C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(M)+(0.019993-0.000101*T)*Math.sin(2*M)+0.000289*Math.sin(3*M);
+  const om=(125.04-1934.136*T)*rad;
+  return mod(L0+C-0.00569-0.00478*Math.sin(om),360);
+}
+function bazi(ds,hv){ // hv: -1 不知道, 0..11 時辰, 12 晚子時；由 lunar-javascript 精確節氣排盤
+  const [Y,M,D]=ds.split('-').map(Number);
+  const H=hv<0?12:hv===12?23:hv*2;
+  const lunar=LUNAR.Solar.fromYmdHms(Y,M,D,H,hv<0?0:30,0).getLunar();
+  const ec=lunar.getEightChar();ec.setSect(1);
+  const ix=g=>[STEMS.indexOf(g[0]),BR.indexOf(g[1])];
+  return{y:ix(ec.getYear()),m:ix(ec.getMonth()),d:ix(ec.getDay()),h:hv<0?null:ix(ec.getTime()),ec,lunar};
+}
+const STEM_EL=[0,0,1,1,2,2,3,3,4,4];
+const BR_EL=[4,2,0,0,2,1,1,2,3,3,2,4];
+const BR_MAIN=[9,5,0,1,4,2,3,5,6,7,4,8];
+const TEN=['比肩','劫財','食神','傷官','偏財','正財','七殺','正官','偏印','正印'];
+function shishen(dm,s){
+  const d=STEM_EL[dm],o=STEM_EL[s],same=(dm%2)===(s%2);let k;
+  if(o===d)k=same?0:1;
+  else if(o===(d+1)%5)k=same?2:3;
+  else if(o===(d+2)%5)k=same?4:5;
+  else if((o+2)%5===d)k=same?6:7;
+  else k=same?8:9;
+  return TEN[k];
+}
+const idx60=(s,b)=>{for(let i=0;i<60;i++)if(i%10===s&&i%12===b)return i;return 0};
+const DMTXT=['甲木像參天大樹，正直挺拔、有擔當，不愛低頭，也很有上進心。','乙木像花草藤蔓，柔韌靈活、善於變通，人緣好，懂得借力使力。','丙火像太陽，熱情開朗、大方光明，愛表現，但有時比較急躁。','丁火像燭光燈火，細膩溫暖、重感情，內心敏感，有鑽研精神。','戊土像高山大地，穩重厚實、守信用，可靠但有時固執慢熱。','己土像田園沃土，溫和包容、細心務實，善於照顧人，也愛操心。','庚金像刀劍鋼鐵，剛毅果決、講義氣，原則分明，不愛拐彎抹角。','辛金像珠寶首飾，精緻敏銳、愛面子，有品味，自尊心也較強。','壬水像江河大海，聰明靈活、心胸寬廣，點子多，喜歡自由。','癸水像雨露泉水，溫柔內斂、直覺敏銳，想像力豐富，愛思考。'];
+const TENTXT={比肩:'獨立自主、重朋友，凡事想靠自己，也容易各行其是。',劫財:'行動力強、愛競爭，重義氣，花錢較大方，要留意理財。',食神:'溫和樂觀、有口福有才藝，享受生活，富創意與表達力。',傷官:'聰明有才華、愛表現，思想前衛，不喜拘束，口才佳。',偏財:'人緣好、出手大方，擅長把握機會，偏財運與人脈較旺。',正財:'踏實穩健、重信用，善於理財，適合穩定持續的收入。',七殺:'有魄力、抗壓性強，愛挑戰，壓力大時脾氣較急。',正官:'守規矩、有責任感，重名聲，適合在組織裡穩步升遷。',偏印:'想法獨特、直覺強，愛鑽研冷門領域，思慮多、情緒較敏感。',正印:'好學、仁厚，有貴人緣，重視長輩與學習，但有時依賴心較重。'};
+const LNTXT={比肩:'今年適合與朋友同行，競爭與合作並存，注意別意氣用事。',劫財:'今年開銷與人情較多，投資與借貸宜保守，要防破財。',食神:'今年心情輕鬆、才藝與口福佳，適合學習與創作。',傷官:'今年表現欲強、點子多，留意口舌是非，謹言慎行。',偏財:'今年機會與人脈活絡，有意外收穫，也要防衝動消費。',正財:'今年收入穩定、努力有回報，適合儲蓄與長期規劃。',七殺:'今年壓力與挑戰並存，只要穩住心態，便能磨練成長。',正官:'今年事業與名聲有進展，責任增加，貴人提攜。',偏印:'今年適合進修、研究與獨處，思慮較多，宜多與人聊聊。',正印:'今年貴人運佳，學習與證照順利，長輩與師長多助。'};
+const ELTXT=['多接觸綠色與植物，往東方發展，適合教育、文創、出版、環保類工作。','多穿紅橘色，往南方發展，適合傳播、設計、餐飲、能源類工作。','多用黃棕色，居家環境求穩定，適合不動產、行政、農業、顧問類工作。','多用白色與金屬色，往西方發展，適合金融、工程、法務、機械類工作。','多用黑藍色，往北方發展，適合貿易、旅遊、研究、物流類工作。'];
+const ECOL=['#2e8b2e','#d9381e','#b8860b','#8d98a8','#1e5fbf'];
+const HOUR13=['不知道時辰','早子時 00:00–01:00','丑時 01:00–03:00','寅時 03:00–05:00','卯時 05:00–07:00','辰時 07:00–09:00','巳時 09:00–11:00','午時 11:00–13:00','未時 13:00–15:00','申時 15:00–17:00','酉時 17:00–19:00','戌時 19:00–21:00','亥時 21:00–23:00','晚子時 23:00–24:00（日柱算隔天）'];
+VIEWS.bazi={t:'八字簡批.exe',render:()=>`
+<div class="center">${wa('八字簡批','wa1','arch')}</div>
+<div class="pane">
+<div class="row"><label>西曆生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label>
+<label>出生時辰 <select id="hr">${HOUR13.map((t,i)=>`<option value="${i-1}"${i===7?' selected':''}>${t}</option>`).join('')}</select></label>
+<label>性別 <select id="sx"><option value="1">男</option><option value="0">女</option></select></label></div>
+<p class="small center">以台灣時間計算；年柱以立春為界，月柱以節氣（精確到分鐘）為界；性別用來排大運順逆。</p>
+<div class="center"><button class="btn big" id="go">排八字</button></div></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const ds=$('#dt',r).value;if(!ds)return;
+    store.set('birth',ds);
+    const hv=+$('#hr',r).value,b=bazi(ds,hv);
+    const dm=b.d[0],de=STEM_EL[dm];
+    const pillars=[['年柱',b.y],['月柱',b.m],['日柱',b.d],['時柱',b.h]];
+    const cnt=[0,0,0,0,0],tens=[];
+    const addEl=(s,bb)=>{cnt[STEM_EL[s]]++;cnt[BR_EL[bb]]++};
+    pillars.forEach(([n,p],i)=>{if(!p)return;addEl(p[0],p[1]);
+      if(i!==2)tens.push(shishen(dm,p[0]));
+      tens.push(shishen(dm,BR_MAIN[p[1]]));
+    });
+    const total=cnt.reduce((a,c)=>a+c,0);
+    const helpers=['比肩','劫財','偏印','正印'];
+    const help=tens.filter(x=>helpers.includes(x)).length;
+    const deling=helpers.includes(shishen(dm,BR_MAIN[b.m[1]]));
+    const score=help+(deling?2:0),max=tens.length+2;
+    const strong=score*2>=max;
+    const yong=strong?[(de+1)%5,(de+2)%5,(de+3)%5]:[(de+4)%5,de];
+    const best=strong?(de+1)%5:(de+4)%5;
+    const tally={};tens.forEach(x=>tally[x]=(tally[x]||0)+1);
+    const top=Object.keys(tally).sort((a,c)=>tally[c]-tally[a]||TEN.indexOf(a)-TEN.indexOf(c)).slice(0,2);
+    const now=new Date(),nds=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+    const ny=bazi(nds,-1).y,lnSS=shishen(dm,ny[0]);
+    const missing=cnt.map((c,i)=>c===0?E5[i]:'').filter(Boolean);
+    const ec=b.ec,hides=[ec.getYearHideGan(),ec.getMonthHideGan(),ec.getDayHideGan(),b.h?ec.getTimeHideGan():[]];
+    const male=+$('#sx',r).value===1,yun=ec.getYun(male?1:0),dys=yun.getDaYun(9).slice(1,9);
+    const nowY=now.getFullYear();
+    const curDy=dys.find(d=>nowY>=d.getStartYear()&&nowY<=d.getEndYear());
+    const pj=b.lunar.getPrevJie(),nj=b.lunar.getNextJie();
+    const jt=j=>T(j.getName())+'（'+j.getSolar().toYmdHms().slice(0,16)+'）';
+    const dyHTML=`<div class="wa wa2 sm" data-shape="wave">大運（每十年一運）</div>
+    <p>${male?'男命':'女命'}，約出生後 <b>${yun.getStartYear()}年${yun.getStartMonth()}個月${yun.getStartDay()}天</b>起運。</p>
+    <div class="nozy-cell" style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center">${dys.map(d=>{const g=d.getGanZhi(),si=STEMS.indexOf(g[0]),on=d===curDy;return`<div style="border:2px outset #ccc;background:${on?'#ffe9a8':'#f4f4f4'};padding:3px"><div style="font-size:12px">${d.getStartAge()}歲起</div><b style="font-size:22px;color:${ECOL[STEM_EL[si]]}">${g}</b><div style="font-size:12px">${shishen(dm,si)}</div><div style="font-size:11px;color:#666">${d.getStartYear()}</div></div>`}).join('')}</div>
+    <p class="small">反白為目前所在的大運。</p>
+    ${curDy?`<p><span class="lbl">目前大運</span>走「${curDy.getGanZhi()}」運（${curDy.getStartYear()}–${curDy.getEndYear()}），天干對你是「${shishen(dm,STEMS.indexOf(curDy.getGanZhi()[0]))}」：${TENTXT[shishen(dm,STEMS.indexOf(curDy.getGanZhi()[0]))]}</p>`:'<p>目前還在起運之前的童限階段。</p>'}`;
+    const cell=(p,f)=>pillars.map(([n,pp],i)=>`<td>${pp?f(pp,i):'—'}</td>`).join('');
+    out.innerHTML=`<div class="pane"><div class="wa wa2 sm" data-shape="wave">你的四柱</div>
+    <table class="tbl t5 fix nozy-cell" style="font-size:20px"><tr><th style="width:15%">　</th>${pillars.map(p=>`<th>${p[0]}</th>`).join('')}</tr>
+    <tr><th>十神</th>${cell(0,(p,i)=>i===2?'日主':shishen(dm,p[0]))}</tr>
+    <tr><th>天干</th>${cell(0,p=>`<b style="font-size:30px;color:${ECOL[STEM_EL[p[0]]]}">${STEMS[p[0]]}</b>`)}</tr>
+    <tr><th>地支</th>${cell(0,p=>`<b style="font-size:30px;color:${ECOL[BR_EL[p[1]]]}">${BR[p[1]]}</b>`)}</tr>
+    <tr><th>納音</th>${cell(0,p=>`<span style="font-size:15px">${NAYIN[Math.floor(idx60(p[0],p[1])/2)][0]}</span>`)}</tr>
+    <tr><th>藏干</th>${cell(0,(p,i)=>`<span style="font-size:16px">${hides[i].join(' ')||'—'}</span>`)}</tr></table>
+    <p class="small nozy-cell">月柱依節氣：出生前最近的節是${jt(pj)}，下一個節是${jt(nj)}。</p>
+    <p class="center">${ANIMALS[b.y[1]]}年生・日主<b>${STEMS[dm]}${E5[de]}</b></p>
+    <p><span class="lbl">日主個性</span>${DMTXT[dm]}</p>
+    <div class="wa wa2 sm" data-shape="wave">五行分佈</div>
+    <div class="nozy-cell">${E5.map((e,i)=>`<div style="display:flex;align-items:center;gap:6px;margin:3px 0"><b style="width:1.4em">${e}</b><div style="flex:1;background:#ddd;border:2px inset #888;height:18px"><div style="width:${total?cnt[i]/total*100:0}%;height:100%;background:${ECOL[i]}"></div></div><span style="width:1.6em">${cnt[i]}</span></div>`).join('')}</div>
+    <p>${missing.length?`八字中沒有<b>${missing.join('、')}</b>。`:'五行齊全。'}</p>
+    <p><span class="lbl">日主強弱</span>${E5[de]}日主<b>${strong?'偏強':'偏弱'}</b>（月令${deling?'得助':'不得助'}，同黨 ${help}/${tens.length}）。</p>
+    <p><span class="lbl">喜用五行</span>${yong.map(i=>`<span class="tag">${E5[i]}</span>`).join('')}</p>
+    <p><span class="lbl">補運建議</span>${ELTXT[best]}</p>
+    <div class="wa wa2 sm" data-shape="wave">十神性格</div>
+    ${top.map(x=>`<p><b>${x}</b>（${tally[x]}）：${TENTXT[x]}</p>`).join('')}
+    ${dyHTML}
+    <div class="wa wa2 sm" data-shape="wave">今年流年</div>
+    <p>今年是<b>${STEMS[ny[0]]}${BR[ny[1]]}年</b>，流年天干「${STEMS[ny[0]]}」對你是「${lnSS}」。${LNTXT[lnSS]}</p>
+    <p class="small">※ 四柱、藏干與大運由開源的 lunar-javascript 依節氣精確計算；旺衰與喜用神判斷仍是簡化版，沒有細論格局與神煞，僅供娛樂參考。</p></div>`;
+    refresh(out);
+    out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 稱骨算命 ===== */
+const CG_Y=[12,9,6,7,12,5,9,8,7,8,15,9,16,8,8,19,12,6,8,7,5,15,6,16,15,7,9,12,10,7,15,6,5,14,14,9,7,7,9,12,8,7,13,5,14,5,9,17,5,7,12,8,8,6,19,6,8,16,10,6];
+const CG_M=[6,7,18,9,5,16,9,15,18,8,9,5];
+const CG_D=[5,10,8,15,16,15,8,16,8,16,9,17,8,17,10,8,9,18,5,15,10,9,8,9,15,18,7,8,16,6];
+const CG_H=[16,6,7,10,9,16,10,8,8,9,6,6];
+const CG_T=[[30,'輕舟渡江','命格偏輕，早年較辛苦，凡事要靠自己一步一步打拼，但只要肯努力，中晚年會逐漸安定。'],[40,'腳踏實地','起步平凡但肯拚，波折過後生活安穩，適合專精一門技能，慢慢累積實力。'],[50,'穩健中和','中等命格，衣食無憂，貴人緣不錯，守成有餘，再積極一點還能更上一層樓。'],[60,'福氣悠長','福氣不錯，中年後運勢轉旺，名利皆可期待，要懂得把握機會。'],[70,'厚德載福','命格厚重，領導力與貴人運都佳，事業有成，多行善事福澤更長。'],[999,'福祿雙全','難得的重量，福祿雙全，但也請保持謙虛，懂得感恩與分享。']];
+const cgFmt=x=>(x>=10?Math.floor(x/10)+'兩':'')+(x%10?(x%10)+'錢':'');
+VIEWS.chenggu={t:'稱骨算命.exe',render:()=>`
+<div class="center">${wa('稱骨算命','wa2','arch')}</div>
+<div class="pane"><div class="row"><label>西曆生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label>
+<label>時辰 <select id="hr">${HOURS.map((t,i)=>`<option value="${i}"${i===6?' selected':''}>${t}</option>`).join('')}</select></label></div>
+<div class="center"><button class="btn big" id="go">來稱骨</button></div>
+<p class="small center">依農曆生年、月、日與時辰的骨重相加。</p></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const ds=$('#dt',r).value;if(!ds)return;store.set('birth',ds);
+    const l=lunarOf(parseDate(ds)),hi=+$('#hr',r).value;
+    const yi=idx60(mod(l.y-4,10),mod(l.y-4,12));
+    const w=[CG_Y[yi],CG_M[l.m-1],CG_D[l.d-1],CG_H[hi]],t=w.reduce((a,b)=>a+b,0);
+    const tier=CG_T.find(x=>t<x[0]);
+    out.innerHTML=`<div class="paper center"><p>農曆 ${l.y} 年${lunarText(l)}・${HOURS[hi].slice(0,2)}</p>
+    ${wa(cgFmt(t),'wa4','wave','clamp(46px,14vw,72px)')}
+    <table class="tbl t5 fix nozy-cell"><tr><th>年</th><th>月</th><th>日</th><th>時</th></tr><tr>${w.map(x=>`<td>${cgFmt(x)}</td>`).join('')}</tr></table>
+    <div class="grade">${tier[1]}</div><p style="text-align:left">${tier[2]}</p>
+    <p class="small" style="text-align:left">※ 稱骨是民間流傳的趣味算法，各家骨重表略有差異，閏月出生者以當月計算，請當作娛樂。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 生命靈數 ===== */
+const sumd=n=>String(n).split('').reduce((a,c)=>a+ +c,0);
+const redu=n=>{while(n>9&&![11,22,33].includes(n))n=sumd(n);return n};
+const LN={
+1:['領導者','獨立、有開創力又自信，喜歡走自己的路。','學會傾聽，別凡事一個人扛。'],
+2:['協調者','溫柔體貼、善於合作，直覺敏銳。','別一味委屈自己，也要表達想法。'],
+3:['表達者','樂觀有創意、愛社交，天生的開心果。','專注把一件事做完，別三分鐘熱度。'],
+4:['建設者','踏實守規矩、有耐力，是可靠的後盾。','保持一點彈性，別太固執。'],
+5:['冒險者','自由、好奇、多才多藝，愛嘗鮮。','學會承諾與收心，穩定也很迷人。'],
+6:['守護者','重視家庭與責任，有美感，愛照顧人。','別過度付出，先照顧好自己。'],
+7:['思考者','愛鑽研、有智慧，擁有敏銳的直覺。','多和人交流，別把自己關起來。'],
+8:['實踐者','企圖心強，擅長管理與賺錢，有執行力。','工作與生活要平衡，別只看成敗。'],
+9:['理想家','慈悲、寬容、有大愛，富同情心。','學會放下，別為他人過度操心。'],
+11:['靈感者','直覺超強，容易啟發別人，帶有理想色彩。','情緒起伏大，多給自己安靜的時間。'],
+22:['大建築師','能把遠大的夢想化為現實，格局宏大。','壓力很大時記得休息，不必一個人扛。'],
+33:['大導師','無私奉獻、有療癒人心的力量。','先愛自己，才有力量照顧別人。']};
+const PYT=[null,'新的開始：適合訂目標、踏出第一步。','耐心與合作：慢慢累積，重視人際關係。','創意與表達：多社交、多發表，心情輕鬆。','打基礎：腳踏實地，整理與規劃是重點。','變動與機會：會有新體驗，保持彈性。','家庭與責任：關心身邊的人，也照顧自己。','內省與學習：適合進修、獨處、沉澱。','收穫與事業：努力有成果，留意金錢管理。','完成與放下：結束舊的，為下一輪做準備。'];
+VIEWS.num={t:'生命靈數.exe',render:()=>`
+<div class="center">${wa('生命靈數','wa3','wave')}</div>
+<div class="pane center"><label>西曆生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label><br>
+<button class="btn big" id="go">算靈數</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const ds=$('#dt',r).value;if(!ds)return;store.set('birth',ds);
+    const [Y,M,D]=ds.split('-').map(Number);
+    const life=redu(sumd(Y)+sumd(M)+sumd(D)),bd=redu(D);
+    let py=sumd(M)+sumd(D)+sumd(new Date().getFullYear());while(py>9)py=sumd(py);
+    const L=LN[life];
+    out.innerHTML=`<div class="paper center">${wa(String(life),'wa1','wave','clamp(70px,22vw,110px)')}
+    <div class="grade">生命靈數 ${life}：${L[0]}</div>
+    <p style="text-align:left"><span class="lbl">個性</span>${L[1]}</p>
+    <p style="text-align:left"><span class="lbl">建議</span>${L[2]}</p>
+    <p style="text-align:left"><span class="lbl">生日數</span><b>${bd}</b>（${LN[bd][0]}）：${LN[bd][1]}</p>
+    <p style="text-align:left"><span class="lbl">今年流年</span><b>${py}</b>　${PYT[py]}</p>
+    <p class="small" style="text-align:left">※ 生命靈數取自畢達哥拉斯數字學，11、22、33 為特殊的大師數字，僅供娛樂參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 梅花易數 ===== */
+const XT=['乾','兌','離','震','巽','坎','艮','坤'];
+const triOf=n=>XT[mod(n-1,8)];
+const hexLines=(lo,up)=>[...TRI[lo][0],...TRI[up][0]].map(Number);
+const hexFrom=L=>{const lo=TRIBY[L.slice(0,3).join('')],up=TRIBY[L.slice(3).join('')];return{lo,up,h:HEX[up+lo]}};
+const hexDraw=(L,mv)=>`<div class="hx">${L.map((v,i)=>({v,i})).reverse().map(o=>`<div class="hl ${o.v?'yang':'yin'}"><i></i>${o.v?'':'<i></i>'}${mv===o.i+1?'<em>○</em>':''}</div>`).join('')}</div>`;
+VIEWS.meihua={t:'梅花易數.exe',render:()=>`
+<div class="center">${wa('梅花易數','wa6','arch')}</div>
+<div class="pane"><p class="center">心裡想著一件事，選擇起卦方式：</p>
+<div class="row"><label><input type="radio" name="m" value="t" checked> 以現在時間起卦</label>
+<label><input type="radio" name="m" value="n"> 以兩個數字起卦</label></div>
+<div class="row"><label>第一個數字 <input type="number" id="n1" min="1" max="999" value="" style="width:5em"></label>
+<label>第二個數字 <input type="number" id="n2" min="1" max="999" value="" style="width:5em"></label></div>
+<p class="small center">數字隨心所欲，想到什麼寫什麼。</p>
+<div class="center"><button class="btn big" id="go">起卦</button></div></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const mode=$('input[name=m]:checked',r).value;
+    let up,lo,mv,how;
+    if(mode==='t'){
+      const now=new Date(),l=lunarOf(now),yb=mod(l.y-4,12)+1,hb=Math.floor(((now.getHours()+1)%24)/2)+1;
+      const a=yb+l.m+l.d;
+      up=triOf(a);lo=triOf(a+hb);mv=mod(a+hb-1,6)+1;
+      how=`以現在時間（農曆${lunarText(l)}・${BR[hb-1]}時）起卦`;
+    }else{
+      const a=parseInt($('#n1',r).value,10),b=parseInt($('#n2',r).value,10);
+      if(!(a>0)||!(b>0)){out.innerHTML='<div class="pane center">請先填入兩個數字。</div>';refresh(out);return}
+      up=triOf(a);lo=triOf(b);mv=mod(a+b-1,6)+1;how=`以數字 ${a}、${b} 起卦`;
+    }
+    const L=hexLines(lo,up),A=hexFrom(L);
+    const L2=L.slice();L2[mv-1]=L2[mv-1]?0:1;const C=hexFrom(L2);
+    const Hh=hexFrom([L[1],L[2],L[3],L[2],L[3],L[4]]);
+    const card=(tag,x)=>`<p><span class="lbl">${tag}</span><b>${x.h[0]}卦</b>（上${x.up}下${x.lo}）：${x.h[3]}。</p>`;
+    const YA=YJM[A.h[0]];
+    const orig=YA?`<p><span class="lbl">卦辭</span>${YA[1]}</p><p><span class="lbl">動爻辭</span><b>${yname(mv-1,L[mv-1])}</b>：${YA[3][mv-1]}</p>`:'';
+    out.innerHTML=`<div class="paper center"><p class="small">${how}</p>
+    ${wa(A.h[0]+'卦','wa4','wave','clamp(46px,14vw,72px)')}${hexDraw(L,mv)}
+    <p>第 <b>${cn(mv)}</b> 爻是動爻（○）。</p>
+    <div style="text-align:left">${card('本卦・現況',A)}${orig}${card('互卦・過程',Hh)}${card('變卦・結果',C)}</div>
+    <p class="small" style="text-align:left">※ 依邵雍梅花易數的起卦法簡化，卦辭與爻辭取自公有領域的《易經》，沒有細論體用生剋，僅供娛樂參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 周公解夢 ===== */
+const DREAMS=[
+[['水','海','河','湖','游泳','洗澡'],'夢見水','水代表情緒與財運。清澈平靜的水象徵心情穩定、財運順；混濁或洶湧的水，提醒你近期情緒起伏較大，先讓自己冷靜再做決定。'],
+[['火','火災','燒'],'夢見火','火象徵熱情、轉變與壓力。旺盛的火是運勢上升的象徵；失控的火則提醒你留意脾氣與用火用電的安全。'],
+[['蛇'],'夢見蛇','傳統說夢蛇主財，也可能與感情有關。蛇也象徵潛在的壓力或你想擺脫的事，不必太緊張，觀察身邊的變化即可。'],
+[['牙','掉牙'],'夢見掉牙','掉牙多與變動和壓力有關。民間說法會提醒關心家人的健康，現代角度則是你最近可能承受較多焦慮，記得好好休息。'],
+[['飛','飛翔','飛行'],'夢見飛翔','飛翔代表渴望自由與突破，常出現在運勢上升，或想擺脫束縛的時期。'],
+[['墜','掉下','摔','跌落'],'夢見墜落','墜落代表失控感或不安，提醒你近期壓力偏大，放慢腳步、把事情拆成小步驟會比較安心。'],
+[['考試','考卷','考場'],'夢見考試','考試夢多半反映被評價的壓力，也可能是對某件事準備不足的提醒，先做好眼前的準備就能安心。'],
+[['被追','追趕','逃跑','追我'],'夢見被追','被追趕代表你在逃避某件事，試著面對它，壓力往往會變小。'],
+[['死','死亡','葬禮'],'夢見死亡','夢見死亡通常不是凶兆，而是結束與重生的象徵：舊的階段結束，新的開始即將出現。'],
+[['結婚','婚禮','新娘','新郎'],'夢見結婚','代表承諾與人生新階段，可能是感情的進展，也可能是你將做出重要的決定。'],
+[['懷孕','嬰兒','寶寶','小孩'],'夢見新生命','象徵新的計畫、創意或生機，正在醞釀中的事情有好的發展。'],
+[['錢','鈔票','紅包','撿到錢'],'夢見錢','與價值感和安全感有關。夢中得財是好兆頭，但不代表現實會天降橫財，保持踏實最重要。'],
+[['貓'],'夢見貓','貓代表直覺、獨立與自我空間，也可能是在提醒你需要更多屬於自己的時間。'],
+[['狗'],'夢見狗','狗象徵忠誠與友誼，常代表身邊有可靠的朋友或貴人。'],
+[['魚'],'夢見魚','魚在民間象徵「有餘」，代表豐盛與財富，也常和感情與機會有關。'],
+[['鳥'],'夢見鳥','鳥象徵消息與自由，可能有好消息出現，或是你想暫時離開壓力。'],
+[['老虎','虎'],'夢見老虎','老虎代表壓力、威權或強大的力量，可能是你面對的挑戰，也象徵你內在的勇氣。'],
+[['龍'],'夢見龍','龍是吉祥的象徵，代表貴人、機運與大格局，是鼓勵你放膽追求目標的好夢。'],
+[['鬼','幽靈','靈異'],'夢見鬼','夢見鬼多半是內心恐懼或睡眠不足的反映，不一定有靈異意義，睡前放鬆很重要。'],
+[['蜘蛛','蟲','蟑螂'],'夢見小蟲','小蟲代表生活中的小煩惱或人際瑣事，處理好就會好轉；蜘蛛也象徵人際網絡。'],
+[['車','開車','機車','塞車'],'夢見車','車象徵人生方向與掌控感。順暢行駛代表你有把握，塞車或失控則提醒你需要調整步調。'],
+[['房子','搬家','新家'],'夢見房子','房子代表內心的安全感與家庭。換房子、搬家常出現在你想改變生活的時候。'],
+[['雨'],'夢見下雨','雨象徵洗滌情緒，雨後天晴代表低潮過去，也有好運將近的說法。'],
+[['花'],'夢見花','花象徵感情與喜事，盛開代表感情順利或人緣好，凋謝則提醒你多珍惜身邊人。'],
+[['前任','前男友','前女友','初戀'],'夢見前任','夢見前任多半是回顧過去的情緒，並不代表想復合，也可能是你最近有類似的感受需要被照顧。'],
+[['遲到','趕不上','來不及'],'夢見遲到','反映時間壓力與焦慮，提醒你重新安排優先順序，別把自己逼得太緊。'],
+[['裸','沒穿衣服'],'夢見赤裸','代表不安全感或怕被看穿，也可能是你想要更真實地做自己。'],
+[['迷路','找不到路'],'夢見迷路','象徵方向迷惘，也許你正在面臨選擇，不必急，先釐清自己想要什麼。'],
+[['電梯'],'夢見電梯','電梯象徵運勢和心情的起伏，上升代表進步，下降則提醒你放鬆心情。'],
+[['手機','弄丟','遺失','不見'],'夢見遺失','代表害怕失去連結或重要的東西，也提醒你整理好目前擁有的一切。'],
+[['學校','同學','老師','上課'],'夢見學校','夢見校園多半是懷舊，也可能代表你正在學習新的事物或面對評價。'],
+[['老闆','上班','工作','同事'],'夢見工作','反映工作上的壓力或期待，睡前試著把待辦事項寫下來，會比較好睡。'],
+[['吃','食物','蛋糕','飯'],'夢見吃東西','吃東西象徵滿足需求。吃得開心表示近期順心；吃不到或噎著，則代表有些欲望被壓抑。'],
+[['地震'],'夢見地震','地震象徵生活中的不穩定感，提醒你替重要的事情做好準備、保持彈性。'],
+[['血'],'夢見血','血象徵生命力與消耗，民間有「見血得財」之說，也可能代表你最近太勞累。'],
+[['棺材','墳墓'],'夢見棺材','民間說「棺材」諧音「官財」，夢見反而有升官發財的寓意；現代看法則是舊事物的結束。'],
+[['廁所','大便','馬桶'],'夢見廁所','代表排解壓力與釋放，民間說法也與偏財有關；若夢到髒亂，則是情緒需要清理。'],
+[['刀','槍','打架','吵架'],'夢見衝突','代表衝突、決斷或情緒壓力，可試著用溝通的方式化解。'],
+[['橋'],'夢見橋','橋代表過渡期，你正從一個階段走向下一個階段，穩穩走就好。'],
+[['山','爬山'],'夢見山','山象徵目標與挑戰，往上爬代表你正努力邁向目標，加油。'],
+[['樹','森林'],'夢見樹','樹象徵成長與家庭根基，茂盛代表生活穩定有發展。'],
+[['太陽','陽光'],'夢見太陽','太陽是光明與好運的象徵，代表事情將明朗，心情也會變好。'],
+[['月亮','星星'],'夢見月亮星星','月亮與星星象徵直覺與感情，也代表夜裡的靈感，適合記下點子。'],
+[['洪水','淹水'],'夢見洪水','洪水象徵情緒或壓力的氾濫，提醒你先安頓好自己。'],
+[['小偷','被偷','搶劫'],'夢見小偷','代表不安全感，擔心失去已擁有的東西，可先整理清楚自己的重要資源。'],
+[['媽媽','母親','爸爸','父親','家人','阿嬤','阿公','外婆'],'夢見家人','夢見家人多與情感需求或思念有關，也許你想念他們，或需要被關心。']];
+const DREAM_GEN=['夢境很個人化，同一個畫面對每個人的意義不同。想想夢裡你的感受是開心、害怕還是平靜，那就是這個夢想告訴你的重點。','這個夢沒有特別對應的傳統說法，不妨把它當成大腦整理白天資訊的結果，睡前放鬆、規律作息會有幫助。','夢境多半反映日常的心情與想法。想想最近是否有放不下的事，把它寫下來，心裡會輕鬆一些。'];
+const DREAM_CHIPS=['水','蛇','掉牙','飛','考試','被追','死亡','結婚','錢','貓','狗','前任','遲到','迷路','手機','老闆','地震','龍'];
+VIEWS.dream={t:'周公解夢.exe',render:()=>`
+<div class="center">${wa('周公解夢','wa7','slant')}
+<p>把昨晚夢到的內容打在下面（寫幾個關鍵字也可以），或點選常見的夢境：</p></div>
+<div class="pane"><input type="text" id="tx" maxlength="80" placeholder="例如：夢到被一條蛇追著跑">
+<div class="chips">${DREAM_CHIPS.map(c=>`<button class="chip" data-k="${c}">${c}</button>`).join('')}</div>
+<div class="center"><button class="btn big" id="go">解夢</button></div></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r),tx=$('#tx',r);
+  const solve=()=>{
+    const t=tx.value.trim();
+    if(!t){out.innerHTML='<div class="pane center">請先輸入夢境內容，或點選上面的關鍵字。</div>';refresh(out);return}
+    const hit=DREAMS.filter(d=>d[0].some(k=>t.includes(k))).slice(0,3);
+    out.innerHTML=`<div class="paper">${hit.length?hit.map(d=>`<p><b style="color:#7a1409">【${d[1]}】</b><br>${d[2]}</p>`).join(''):`<p>${pick(DREAM_GEN)}</p>`}
+    <p class="small">※ 解夢內容融合民間說法與心理學常見的解讀，僅供娛樂參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+  $('#go',r).onclick=solve;
+  $$('.chip',r).forEach(b=>b.onclick=()=>{tx.value=b.dataset.k;solve()});
+}};
+
+/* ===== 盧恩符文 ===== */
+const RUNES=[
+['ᚠ','Fehu','財富','財富與資源的流動，努力會有回報','善用資源，也樂於分享'],
+['ᚢ','Uruz','力量','原始的力量與健康','相信自己的體力與意志'],
+['ᚦ','Thurisaz','荊棘','防衛、阻礙與考驗','先停下來想清楚再行動'],
+['ᚨ','Ansuz','訊息','溝通、智慧與指引','留心他人的話與自己的直覺'],
+['ᚱ','Raidho','旅程','旅行、前進與秩序','規劃好路線，穩步上路'],
+['ᚲ','Kenaz','火炬','創造力與知識之光','把點子點亮，付諸行動'],
+['ᚷ','Gebo','禮物','交換、互惠與友誼','付出與接受都要平衡'],
+['ᚹ','Wunjo','喜悅','快樂、和諧與成就','珍惜眼前的美好'],
+['ᚺ','Hagalaz','冰雹','突如其來的變動','順勢而行，變動之後會更新'],
+['ᚾ','Nauthiz','需求','匱乏與耐心的課題','從限制裡找出路，別急'],
+['ᛁ','Isa','冰','停滯、冷靜與等待','暫停一下，保持冷靜'],
+['ᛃ','Jera','豐收','循環、耕耘與收成','時候到了，成果會出現'],
+['ᛇ','Eihwaz','紫杉','堅韌、耐力與轉化','撐住，你比想像中更堅強'],
+['ᛈ','Perthro','命運','祕密、機緣與未知','保持開放，接受意外'],
+['ᛉ','Algiz','保護','守護、直覺與防衛','相信直覺，保護好自己'],
+['ᛊ','Sowilo','太陽','成功、活力與方向','自信前進，勝利在望'],
+['ᛏ','Tiwaz','戰士','勇氣、正義與犧牲','堂堂正正，說到做到'],
+['ᛒ','Berkano','樺樹','新生、成長與滋養','耐心栽培，新事物正在萌芽'],
+['ᛖ','Ehwaz','馬','夥伴、信任與進展','找個可靠的夥伴同行'],
+['ᛗ','Mannaz','人','自我、人群與合作','認識自己，也善用人脈'],
+['ᛚ','Laguz','水','直覺、情感與流動','跟著感覺走，保持彈性'],
+['ᛜ','Ingwaz','種子','孕育、完成與蓄力','給自己時間，醞釀後再開花'],
+['ᛞ','Dagaz','黎明','突破、覺醒與轉機','曙光已現，把握轉變'],
+['ᛟ','Othala','家園','傳承、根基與家族','回到根本，珍惜家人']];
+VIEWS.rune={t:'盧恩符文.exe',render:()=>`
+<div class="center">${wa('盧恩符文','wa5','arch')}
+<p>北歐古老的符文占卜。專心想著問題，從袋子裡摸出符石。</p>
+<div class="row"><label><input type="radio" name="m" value="1" checked> 一枚（今日指引）</label>
+<label><input type="radio" name="m" value="3"> 三枚（過去・現在・未來）</label></div>
+<button class="btn big" id="go">抽符石</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const n=+$('input[name=m]:checked',r).value,idx=RUNES.map((x,i)=>i);
+    for(let i=idx.length-1;i>0;i--){const j=ri(i+1);[idx[i],idx[j]]=[idx[j],idx[i]]}
+    const hand=idx.slice(0,n).map(i=>RUNES[i]);
+    const names=n===1?['今日指引']:['過去','現在','未來'];
+    out.innerHTML=`<div class="cards">${hand.map(h=>`<div class="stone nozy-cell"><div class="rn">${h[0]}</div><div class="rl">${h[1]}</div></div>`).join('')}</div>
+    <div class="pane">${hand.map((h,i)=>`<p><span class="pos">【${names[i]}】${h[2]}（${h[1]}）</span><br>${h[3]}。<br><b>建議：</b>${h[4]}。</p>`).join('')}<p class="small">符文是古老的象徵，解讀僅供娛樂與自我反思。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 生肖流年・犯太歲 ===== */
+const HE6=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]],HE3=[[8,0,4],[11,3,7],[2,6,10],[5,9,1]],HAI=[[0,7],[1,6],[2,5],[3,4],[8,11],[9,10]],PO=[[0,9],[1,4],[2,11],[3,6],[5,8],[7,10]],XING3=[[2,5,8],[1,10,7]],ZIXING=[4,6,9,11];
+const inPair=(L,a,b)=>L.some(p=>p.includes(a)&&p.includes(b));
+function relB(a,b){
+  const d=a!==b;
+  return{zhi:!d,chong:mod(a+6,12)===b,he6:d&&inPair(HE6,a,b),he3:d&&HE3.some(g=>g.includes(a)&&g.includes(b)),hai:d&&inPair(HAI,a,b),po:d&&inPair(PO,a,b),
+    xing:d?(XING3.some(g=>g.includes(a)&&g.includes(b))||(a+b===3&&(a===0||b===0))):ZIXING.includes(a)};
+}
+const REL_TXT={
+zhi:['值太歲（本命年）','本命年變化較多，宜低調穩健，凡事多留餘地，也可多做善事、安太歲求心安。'],
+chong:['沖太歲','與太歲相沖，今年變動較大，行車、健康與重大投資都要特別謹慎，習俗上會安太歲化解。'],
+xing:['刑太歲','今年人際容易有摩擦，說話多顧慮對方感受，遇到爭執先退一步。'],
+hai:['害太歲','容易遇到小誤會或小人，重要的事情盡量白紙黑字，避免口頭承諾。'],
+po:['破太歲','計畫容易出現變數，凡事多留一點彈性與備案。'],
+he6:['六合太歲','與太歲六合，貴人多、合作順利，是適合積極把握機會的一年。'],
+he3:['三合太歲','與太歲三合，人緣與機運都不錯，團隊合作容易有好成績。']};
+const REL_KEYS=['zhi','chong','xing','hai','po','he6','he3'];
+VIEWS.zx={t:'生肖流年.exe',render:()=>`
+<div class="center">${wa('生肖流年','wa4','wave')}</div>
+<div class="pane center"><label>你的生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label><br>
+<button class="btn big" id="go">看今年</button><p class="small">生肖與流年以農曆新年為界。</p></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const ds=$('#dt',r).value;if(!ds)return;store.set('birth',ds);
+    const a=mod(lunarOf(parseDate(ds)).y-4,12),ly=lunarOf(new Date()).y,b=mod(ly-4,12);
+    const o=relB(a,b),keys=REL_KEYS.filter(k=>o[k]);
+    const grp=REL_KEYS.map(k=>{const L=[];for(let i=0;i<12;i++)if(relB(i,b)[k])L.push(ANIMALS[i]);return L.length?`<p><span class="lbl" style="min-width:5.4em">${REL_TXT[k][0]}</span>${L.join('、')}</p>`:''}).join('');
+    out.innerHTML=`<div class="pane"><p class="center"><span class="nozy-cell" style="font-size:46px">${AEMO[a]}</span><br>你屬<b>${ANIMALS[a]}</b>，今年是 <b>${STEMS[mod(ly-4,10)]}${BR[b]}年</b>（${ANIMALS[b]}年）</p>
+    ${keys.length?keys.map(k=>`<div class="paper" style="margin:6px 0"><div class="grade" style="font-size:22px">${REL_TXT[k][0]}</div><p>${REL_TXT[k][1]}</p></div>`).join(''):'<div class="paper"><p>你與今年的太歲沒有特別的生剋，是平穩的一年，照著自己的節奏就好。</p></div>'}
+    <div class="wa wa2 sm" data-shape="wave">今年各生肖一覽</div>${grp}
+    <p class="small">※ 犯太歲是民俗說法，各廟宇與流派略有不同，僅供參考；與其擔心，不如把日子過好。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 緣分配對 ===== */
+const EL4=['火','土','風','水'];
+function profile(ds){const d=parseDate(ds),l=lunarOf(d);return{an:mod(l.y-4,12),si:signOf(d.getMonth()+1,d.getDate()),dm:bazi(ds,-1).d[0]}}
+VIEWS.match={t:'緣分配對.exe',render:()=>`
+<div class="center">${wa('緣分配對','wa6','arch')}</div>
+<div class="pane"><div class="row"><label>你的生日 <input type="date" id="d1" value="${store.get('birth','2000-01-01')}"></label>
+<label>對方生日 <input type="date" id="d2" value="1998-06-15"></label></div>
+<div class="center"><button class="btn big" id="go">測緣分</button></div>
+<p class="small center">綜合生肖、星座與日主五行三個面向。</p></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const s1=$('#d1',r).value,s2=$('#d2',r).value;if(!s1||!s2)return;store.set('birth',s1);
+    const A=profile(s1),B=profile(s2);
+    let sc=60;const lines=[];
+    // 生肖
+    const o=relB(A.an,B.an);
+    if(o.he6){sc+=25;lines.push(['生肖','六合，天生契合又互補，相處自然舒服。'])}
+    else if(o.he3){sc+=20;lines.push(['生肖','三合，價值觀相近，容易有共同目標。'])}
+    else if(o.zhi){sc+=5;lines.push(['生肖','生肖相同，彼此很懂，也要小心一起固執。'])}
+    else if(o.chong){sc-=20;lines.push(['生肖','相沖，個性差異大，吸引力與衝突並存，需要多包容。'])}
+    else if(o.hai){sc-=12;lines.push(['生肖','相害，容易有小誤會，說話要多顧慮對方感受。'])}
+    else if(o.xing){sc-=10;lines.push(['生肖','相刑，相處易有摩擦，學會溝通是關鍵。'])}
+    else if(o.po){sc-=8;lines.push(['生肖','相破，默契需要時間磨合。'])}
+    else lines.push(['生肖','沒有特別的生剋，關係由你們自己經營。']);
+    // 星座
+    const e1=EL4.indexOf(SIGNS[A.si][4][0]),e2=EL4.indexOf(SIGNS[B.si][4][0]);
+    const pairKey=[e1,e2].sort().join('');
+    if(e1===e2){sc+=12;lines.push(['星座',`同屬${EL4[e1]}象，頻率相近，很聊得來。`])}
+    else if(pairKey==='02'||pairKey==='13'){sc+=10;lines.push(['星座','元素互補，彼此能激勵對方。'])}
+    else if(pairKey==='03'||pairKey==='12'){sc-=8;lines.push(['星座','元素差異較大，需要多一點理解與耐心。'])}
+    else lines.push(['星座','元素沒有明顯衝突，可以慢慢培養默契。']);
+    if(mod(A.si-B.si,12)===6){sc+=5;lines.push(['星座','互為對宮星座，有強烈的吸引力。'])}
+    // 日主五行
+    const x=STEM_EL[A.dm],y=STEM_EL[B.dm];
+    if(x===y){sc+=6;lines.push(['五行',`日主五行同為${E5[x]}，想法相近，也容易較勁。`])}
+    else if(y===(x+1)%5||x===(y+1)%5){sc+=8;lines.push(['五行','日主五行相生，一方容易滋養、成就另一方。'])}
+    else{sc-=6;lines.push(['五行','日主五行相剋，彼此刺激，也需要磨合。'])}
+    sc=Math.max(38,Math.min(98,sc));
+    const v=sc>=90?'天作之合':sc>=80?'非常合拍':sc>=70?'頗有緣分':sc>=60?'平順相處':'需要磨合';
+    const name=p=>`${AEMO[p.an]} ${ANIMALS[p.an]}・${SIGNS[p.si][1]}座・日主${STEMS[p.dm]}`;
+    out.innerHTML=`<div class="paper center">${wa(sc+'%','wa1','wave','clamp(60px,20vw,100px)')}<div class="grade">${v}</div>
+    <p class="nozy-cell" style="font-size:18px">你：${name(A)}<br>對方：${name(B)}</p>
+    <div style="text-align:left">${lines.map(l=>`<p><span class="lbl">${l[0]}</span>${l[1]}</p>`).join('')}</div>
+    <p class="small" style="text-align:left">※ 感情靠經營，不是靠數字。這個結果只是好玩的參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 每日黃曆（lunar-javascript） ===== */
+VIEWS.almanac={t:'每日黃曆.exe',render:()=>`
+<div class="center">${wa('每日黃曆','wa5','arch')}</div>
+<div class="pane center"><div class="row" style="justify-content:center"><button class="btn" id="pv">◀ 前一天</button><input type="date" id="dt"><button class="btn" id="nx">後一天 ▶</button></div>
+<button class="btn" id="tdy">回到今天</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const dt=$('#dt',r),out=$('#out',r);
+  const f2=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const tags=(a,c)=>a.length?a.map(x=>`<span class="tag${c?' r':''}">${T(x)}</span>`).join(''):'<span class="small">諸事皆宜／無特別</span>';
+  const show=()=>{
+    if(!dt.value)return;
+    const d=parseDate(dt.value),S=LUNAR.Solar.fromYmd(d.getFullYear(),d.getMonth()+1,d.getDate()),l=S.getLunar();
+    const jq=l.getJieQi(),fes=[...l.getFestivals(),...S.getFestivals(),...l.getOtherFestivals()];
+    const luck=l.getDayTianShenLuck(),lc=luck==='吉'?'#0a7a2a':'#a00';
+    const times=l.getTimes().slice(0,12).map(t=>{const g=t.getTianShenLuck()==='吉';return`<div style="border:2px outset #ccc;padding:2px;background:${g?'#eaffea':'#ffecec'};text-align:center"><b>${t.getZhi()}時</b><br><span style="color:${g?'#0a7a2a':'#a00'}">${T(t.getTianShen())}${g?'吉':'凶'}</span><br><span style="font-size:11px">${t.getMinHm()}–${t.getMaxHm()}</span></div>`}).join('');
+    out.innerHTML=`<div class="pane"><div class="center">
+      <div style="font-size:15px">${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日 星期${WEEK[d.getDay()]}</div>
+      <div class="nozy-cell" style="font-size:60px;font-weight:bold;line-height:1.1;color:#a00">${d.getDate()}</div>
+      <div>農曆${T(l.getMonthInChinese())}月${T(l.getDayInChinese())}　${T(l.getYearInGanZhi())}年（${T(l.getYearShengXiao())}）</div>
+      <div>${T(l.getMonthInGanZhi())}月　${T(l.getDayInGanZhi())}日　納音${T(l.getDayNaYin())}</div>
+      ${jq?`<p><span class="tag">${T(jq)}</span></p>`:''}${fes.length?`<p>${fes.map(x=>`<span class="tag r">${T(x)}</span>`).join('')}</p>`:''}</div>
+    <div class="wa wa2 sm" data-shape="wave">今日宜忌</div>
+    <p><span class="lbl">宜</span>${tags(l.getDayYi(),0)}</p>
+    <p><span class="lbl">忌</span>${tags(l.getDayJi(),1)}</p>
+    <div class="wa wa2 sm" data-shape="wave">日課資訊</div>
+    <p><span class="lbl">值神</span>${T(l.getDayTianShen())}（${T(l.getDayTianShenType())}・<b style="color:${lc}">${luck}</b>）</p>
+    <p><span class="lbl">建除</span>${T(l.getZhiXing())}日</p>
+    <p><span class="lbl">沖煞</span>沖${T(l.getDayChongDesc())}，煞${T(l.getDaySha())}方</p>
+    <p><span class="lbl">星宿</span>二十八星宿・${T(l.getXiu())}（${T(l.getXiuLuck())}）</p>
+    <p><span class="lbl">吉神宜趨</span>${tags(l.getDayJiShen(),0)}</p>
+    <p><span class="lbl">凶煞宜忌</span>${tags(l.getDayXiongSha(),1)}</p>
+    <p><span class="lbl">物候</span>${T(l.getHou())}・${T(l.getWuHou())}</p>
+    <div class="wa wa2 sm" data-shape="wave">今日方位</div>
+    <p><span class="lbl">財神</span>${T(l.getPositionCaiDesc())}　<span class="lbl">喜神</span>${T(l.getPositionXiDesc())}　<span class="lbl">福神</span>${T(l.getPositionFuDesc())}</p>
+    <p><span class="lbl">貴人</span>陽貴人${T(l.getPositionYangGuiDesc())}　<span class="lbl">胎神</span>${T(l.getDayPositionTai())}</p>
+    <div class="wa wa2 sm" data-shape="wave">十二時辰吉凶</div>
+    <div class="nozy-cell" style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;font-size:14px">${times}</div>
+    <div class="wa wa2 sm" data-shape="wave">彭祖百忌</div>
+    <p>${T(l.getPengZuGan())}；${T(l.getPengZuZhi())}。</p>
+    <p class="small">※ 資料由開源的 lunar-javascript（MIT）提供，簡體字已轉為繁體；宜忌為傳統黃曆參考，重要日子仍請以個人情況與專業擇日為準。</p></div>`;
+    refresh(out);
+  };
+  const shift=n=>{const d=parseDate(dt.value);d.setDate(d.getDate()+n);dt.value=f2(d);show()};
+  dt.value=f2(new Date());dt.onchange=show;
+  $('#pv',r).onclick=()=>shift(-1);$('#nx',r).onclick=()=>shift(1);$('#tdy',r).onclick=()=>{dt.value=f2(new Date());show()};
+  show();
+}};
+
+/* ===== 血型配對 ===== */
+const BLOOD={
+ A:['A 型','🅰️','細心穩重、重視規則與禮貌，責任感強，習慣先把事情想清楚再行動；容易把壓力往肚子裡吞，需要一點放鬆的出口。'],
+ B:['B 型','🅱️','自由奔放、好奇心旺盛，想到就做，擅長在興趣領域鑽研；直率不拐彎，有時顯得我行我素，需要多留意他人感受。'],
+ O:['O 型','🅾️','大方熱情、重感情也有行動力，喜歡帶領大家往前走；自尊心強，遇到被質疑時容易倔強，要學會適度示弱。'],
+ AB:['AB 型','🆎','理性與感性並存、想法獨特，觀察力敏銳，和人保持舒服的距離；情緒切換快，讓人有點難捉摸，多溝通會更順利。']
+};
+const BM={AA:[82,'彼此都細心、重承諾，相處穩定踏實，只要別互相悶著不說，就能走得很長久。'],
+ AB:[66,'一個謹慎、一個隨興，節奏不同；A 型多給空間、B 型多給交代，反而能互補。'],
+ AO:[88,'O 型的大方帶動 A 型的細膩，A 型也能穩住 O 型的衝勁，是很有安全感的組合。'],
+ AAB:[78,'A 型的踏實加上 AB 型的靈活，聊得來、也各自有空間，要記得把心裡話說出口。'],
+ BB:[80,'同樣愛自由、愛玩，容易一拍即合，只要在大事上互相協調，就是最佳玩伴。'],
+ BO:[85,'一起冒險、一起享受生活，O 型能包容 B 型的天馬行空，默契很好。'],
+ BAB:[72,'都有點特立獨行，彼此欣賞對方的獨特，但要小心都很自我，溝通要有耐心。'],
+ OO:[76,'兩個都重面子、有主見，熱情十足卻也容易硬碰硬，學會先退一步，感情會更甜。'],
+ OAB:[70,'O 型直來直往，AB 型含蓄多變，剛開始需要磨合，但互相理解後，反差會變成吸引力。'],
+ ABAB:[84,'兩人都有獨特的內心世界，能懂對方的奇妙想法，是很有默契的靈魂伴侶。']};
+VIEWS.blood={t:'血型配對.exe',render:()=>`
+<div class="center">${wa('血型配對','wa3','wave')}
+<p>選擇你和對方的血型，看看血型個性與相處建議。</p>
+<div class="row" style="justify-content:center"><label>你 <select id="a">${['A','B','O','AB'].map(x=>`<option>${x}</option>`).join('')}</select></label>
+<label>對方 <select id="b">${['A','B','O','AB'].map(x=>`<option>${x}</option>`).join('')}</select></label></div>
+<button class="btn big" id="go">看看配不配</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const a=$('#a',r).value,b=$('#b',r).value;
+    const k=[a,b].sort((x,y)=>['A','B','O','AB'].indexOf(x)-['A','B','O','AB'].indexOf(y)).join('');
+    const m=BM[k];
+    out.innerHTML=`<div class="paper center">${wa(m[0]+'%','wa1','wave','clamp(60px,20vw,100px)')}
+    <p class="nozy-cell" style="font-size:20px">${BLOOD[a][1]} ${BLOOD[a][0]} × ${BLOOD[b][1]} ${BLOOD[b][0]}</p>
+    <div style="text-align:left"><p><span class="lbl">相處</span>${m[1]}</p>
+    <p><span class="lbl">你</span>${BLOOD[a][2]}</p><p><span class="lbl">對方</span>${BLOOD[b][2]}</p>
+    <p class="small">※ 血型與個性並沒有科學上的因果關係，這只是好玩的文化話題，感情還是要靠真心相處。</p></div></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 手相說明 ===== */
+const PALM={
+ life:['生命線','拇指根部繞著大魚際的弧線，代表活力與生活的穩定度。',[['又長又深','精力充沛、體力好，做事有耐力，遇到困難也能撐過去。'],['短而淺','不代表壽命短，而是較容易感到疲倦，生活上多留意作息與運動。'],['中途有斷開','人生可能有一次明顯的轉換期或搬遷，斷開後若有重疊接續，表示轉換後會再度穩定。'],['末端分叉','晚年想嘗試不同的生活方式，也有可能旅居或多地發展。']]],
+ head:['智慧線','從拇指與食指之間橫向延伸，代表思考方式與學習風格。',[['平直','講求邏輯、務實理性，擅長分析與規劃。'],['微微下彎','想像力豐富、有創意，直覺敏銳，適合文藝與創作。'],['短而直','做事乾脆，重效率，喜歡直接說重點。'],['末端分叉','能同時兼顧理性與感性，善於變通，多才多藝。']]],
+ heart:['感情線','小指下方橫向延伸的線，代表感情表達與人際互動。',[['末端上翹','熱情外放、重視感情的表達，朋友緣佳。'],['平直','感情觀理性，注重相處的穩定與尊重。'],['向下彎','很重感情、內心細膩，付出多，也容易受傷，要學會照顧自己。'],['像鏈條般細碎','情緒豐富敏感，感情起伏較多，多一點自我肯定會更安心。']]],
+ career:['事業線','從手腕往中指方向的縱線，代表工作態度與事業走向。',[['清晰筆直','目標明確、事業穩定向上，適合循序漸進累積成就。'],['斷斷續續','職涯可能多次轉換，擁有多方面的經驗，靠彈性取勝。'],['不明顯／沒有','不代表沒有事業運，而是不愛被框架，適合自由工作或斜槓發展。'],['末端分叉','中年後有機會多方發展，名聲或副業都有可能。']]]
+};
+VIEWS.palm={t:'手相說明.exe',render:()=>`
+<div class="center">${wa('手相說明','wa6','arch')}
+<p>看看自己的掌心，選出最像你的特徵，下面會為你解說。</p>
+<svg viewBox="0 0 220 260" width="200" class="nozy-cell" role="img" aria-label="手掌四條主線示意圖">
+<path d="M60 250 Q30 220 34 170 Q20 130 40 110 Q38 70 60 70 Q62 20 84 24 Q104 8 118 30 Q138 24 146 48 Q172 50 164 92 Q196 110 182 150 Q176 200 150 250 Z" fill="#f6d2a8" stroke="#8b5a2b" stroke-width="3"/>
+<path d="M92 108 Q70 150 92 220" fill="none" stroke="#c0392b" stroke-width="4"/>
+<path d="M88 112 Q120 125 150 150" fill="none" stroke="#1e5fbf" stroke-width="4"/>
+<path d="M164 112 Q130 102 100 108" fill="none" stroke="#d4408c" stroke-width="4"/>
+<path d="M112 250 Q114 190 112 120" fill="none" stroke="#2e8b2e" stroke-width="4"/>
+<g font-size="12" fill="#333" font-family="DFKai-SB,BiauKai,serif"><text x="40" y="190" fill="#c0392b">生命</text><text x="150" y="168" fill="#1e5fbf">智慧</text><text x="130" y="100" fill="#d4408c">感情</text><text x="116" y="215" fill="#2e8b2e">事業</text></g></svg>
+</div>
+<div class="pane">${Object.keys(PALM).map(k=>`<p><b>${PALM[k][0]}</b>　<span class="small">${PALM[k][1]}</span><br><select data-k="${k}">${PALM[k][2].map((o,i)=>`<option value="${i}">${o[0]}</option>`).join('')}</select></p>`).join('')}
+<div class="center"><button class="btn big" id="go">解說我的手相</button></div></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    out.innerHTML=`<div class="paper"><div class="center">${wa('你的掌紋','wa2','wave')}</div>${Object.keys(PALM).map(k=>{const i=+$(`select[data-k=${k}]`,r).value,o=PALM[k][2][i];return`<p><span class="lbl">${PALM[k][0]}</span><b>${o[0]}</b>：${o[1]}</p>`}).join('')}
+    <p class="small">※ 手相解說為傳統民俗說法的簡化整理，掌紋會隨年齡與使用習慣改變，僅供娛樂參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ---------- 路由與外框 ---------- */
+let cur='home';
+function go(id){cur=id;route()}
+function route(){
+  const id=cur;
+  const v=VIEWS[id]||VIEWS.home;
+  const w=document.createElement('div');w.className='win';
+  w.innerHTML=`<div class="tb"><span class="ttl nozy-cell">${v.t}</span><span class="tbtn">_</span><span class="tbtn">□</span><a class="tbtn" data-go="home" tabindex="0" title="關閉">✕</a></div><div class="body">${v.render()}</div>`;
+  app.replaceChildren(w);
+  v.mount&&v.mount(w);
+  refresh(w);
+  $('#cur').textContent=v.t.replace('.exe','');
+  $('#menu').classList.remove('on');
+  window.scrollTo(0,0);
+}
+function setZy(on){ROOT.classList.toggle('nozy',!on);$('#zytog').textContent='ㄅㄆㄇ '+(on?'開':'關');store.set('zy',on?'1':'0')}
+function clock(){const d=new Date();$('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+$('#menulist').innerHTML=LIST.map(l=>`<a data-go="${l[0]}" tabindex="0">${l[1]} ${l[2]}</a>`).join('')+'<hr><a data-go="home" tabindex="0">🖥️ 回到桌面</a>';
+$('#start').onclick=e=>{e.stopPropagation();$('#menu').classList.toggle('on')};
+document.addEventListener('click',e=>{if(!e.target.closest('#menu'))$('#menu').classList.remove('on')});
+$('#zytog').onclick=()=>setZy(ROOT.classList.contains('nozy'));
+setZy(store.get('zy','1')==='1');clock();setInterval(clock,20000);
+ROOT.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go)}});
+ROOT.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[data-go]')){e.preventDefault();go(e.target.dataset.go)}});
+route();
+})();
+</script>
+</body>
+</html>

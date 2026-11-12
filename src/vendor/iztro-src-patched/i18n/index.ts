@@ -1,0 +1,104 @@
+import i18next from 'i18next';
+import transZhTW from './locales/zh-TW';
+import { Language } from '../data/types';
+import { STAR_ALIASES } from './starAliases';
+import { LANGUAGES } from '../data/constants';
+
+const resources: { [key: Language]: { translation: { [key: string]: string } } } = {
+  'zh-TW': {
+    translation: transZhTW,
+  },
+};
+
+// 设置默认语言和加载翻译文件
+i18next.init({ lng: 'zh-TW', resources });
+
+/**
+ * 设置全局默认输出语言，初始为 zh-CN。
+ * 排盘及日期辅助方法显式传入的 language 参数优先。
+ * 已有星盘及其后续查询保留生成时的语言。
+ *
+ * @param language 需要设置的语言
+ */
+export const setLanguage = (language: Language): void => {
+  if (!LANGUAGES.includes(language)) throw new Error('invalid language.');
+  i18next.changeLanguage(language);
+};
+
+let activeLanguage: Language | undefined;
+
+/** 获取全局默认语言，不受当前同步计算上下文影响。@internal */
+export const getGlobalLanguage = (): Language => i18next.language;
+
+/**
+ * 获取当前同步计算使用的语言；在计算上下文之外返回全局语言。
+ *
+ * @version 2.6.2
+ */
+export const getLanguage = (): Language => activeLanguage ?? getGlobalLanguage();
+
+/**
+ * 同步计算期间使用指定语言，不改变其他调用的语言。
+ *
+ * @internal
+ * @version 2.6.2
+ * @param language 当前计算使用的语言
+ * @param calculate 同步计算方法
+ */
+export const withLanguage = <T>(language: Language, calculate: () => T): T => {
+  if (!LANGUAGES.includes(language)) throw new Error('invalid language.');
+  const previous = activeLanguage;
+  activeLanguage = language;
+  try {
+    return calculate();
+  } finally {
+    activeLanguage = previous;
+  }
+};
+
+/**
+ * 输出国际化文本。
+ *
+ * @param str 待翻译的字符串
+ * @returns 翻译后的字符串
+ */
+export const t = <T>(str: string, options?: Record<string, string | number>) => {
+  if (!str) {
+    return '' as T;
+  }
+
+  return i18next.t(str, { ...options, lng: getLanguage() }) as T;
+};
+
+/**
+ * kot(Key of Translation).
+ *
+ * 通过翻译文本反查Key的值，用于各种计算。
+ * 若没有找到则会返回Value本身。
+ *
+ * @param value 翻译后的字符串
+ * @returns 翻译文本的Key值
+ */
+export const kot = <T>(value: string, k?: string) => {
+  let res = value;
+  const aliasKey = STAR_ALIASES[value as keyof typeof STAR_ALIASES];
+
+  if (aliasKey) {
+    return aliasKey as T;
+  }
+
+  for (const [, item] of Object.entries(resources)) {
+    for (const [transKey, trans] of Object.entries(item.translation)) {
+      if (((k && transKey.includes(k)) || !k) && trans === value) {
+        res = transKey;
+        return res as T;
+      }
+    }
+  }
+
+  return res as T;
+};
+
+export * from './types';
+
+export default i18next;

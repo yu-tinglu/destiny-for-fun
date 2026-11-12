@@ -13,3 +13,7 @@ cd src && node build.js   # 產生 src/index.html
 
 ## 開源資料與授權
 見 `NOTICE.md`，完整授權文字在 `src/vendor/LICENSE.*`。
+
+
+---
+© 2026 庭庭與胖胖（Ting Ting & Juby）。All rights reserved. 第三方開源元件請見 NOTICE.md。

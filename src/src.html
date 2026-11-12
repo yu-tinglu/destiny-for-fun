@@ -37,7 +37,7 @@ label{display:inline-block;margin:4px 8px 4px 0}
 @keyframes sjbl{to{visibility:hidden}}
 .odo{display:inline-block;background:#000;color:#f33;font:bold 18px/1 "Courier New",monospace;padding:3px 6px;letter-spacing:3px;border:2px inset #888}
 /* desktop icons */
-.icons{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.icons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
 .ico{cursor:pointer;display:block;text-align:center;padding:10px 2px 8px;border:2px dotted transparent;text-decoration:none;color:#000}
 .ico:hover,.ico:focus,.ico:active{border-color:#000;background:rgba(0,0,128,.12)}
 .ico .e{font-size:46px;display:block;line-height:1.25;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.3))}
@@ -150,19 +150,29 @@ body:not(.nozy) .pane,body:not(.nozy) .paper{line-height:1.9}
 .chips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:8px 0}
 .chip{font:inherit;font-size:17px;background:#fff;border:2px solid #8b5a2b;padding:0 10px;cursor:pointer;color:#000}
 .chip:active{background:#ffe27a}
+/* layout safety for long translated text */
+.win,.body,.pane,.paper,.intro{min-width:0;overflow-wrap:anywhere}
+.ico .l{overflow-wrap:anywhere;hyphens:auto;line-height:1.15}
+label{max-width:100%}
+select{min-width:0;max-width:62vw;text-overflow:ellipsis}
+.tbl td,.tbl th{overflow-wrap:anywhere}
+.row{min-width:0}
+body:not([data-lang=zh-TW]):not([data-lang=zh-HK]) .ico .l{font-size:16px}
+body:not([data-lang=zh-TW]):not([data-lang=zh-HK]) .btn{font-size:18px}
+body:not([data-lang=zh-TW]):not([data-lang=zh-HK]) .btn.big{font-size:21px;padding:8px 18px}
 /* fonts by language */
-#shenji[data-lang=en],#shenji[data-lang=fr],#shenji[data-lang=es],#shenji[data-lang=id],#shenji[data-lang=vi],#shenji[data-lang=ru]{font-family:"Times New Roman",Times,"Liberation Serif","Noto Serif",serif}
-#shenji[data-lang=ja]{font-family:"MS Mincho","ＭＳ 明朝","Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif}
-#shenji[data-lang=ko]{font-family:"Batang","바탕","AppleMyungjo","Noto Serif KR","Noto Serif CJK KR",serif}
-#shenji[data-lang=hi]{font-family:"Mangal","Kokila","Noto Serif Devanagari","Nirmala UI",serif}
-#shenji[data-lang=th]{font-family:"Angsana New","TH Sarabun New","Noto Serif Thai","Tahoma",serif;font-size:1.12em}
-#shenji[data-lang=en],#shenji[data-lang=fr],#shenji[data-lang=es],#shenji[data-lang=id],#shenji[data-lang=vi],#shenji[data-lang=ru]{font-size:1.06em}
-#shenji[data-lang=en] .wa,#shenji[data-lang=fr] .wa,#shenji[data-lang=es] .wa,#shenji[data-lang=id] .wa,#shenji[data-lang=vi] .wa,#shenji[data-lang=ru] .wa{font-family:Impact,"Arial Black","Haettenschweiler","Times New Roman",sans-serif;font-weight:400;letter-spacing:.04em}
-#shenji select,#shenji input,#shenji .btn,#shenji button{font-family:inherit}
+body[data-lang=en],body[data-lang=fr],body[data-lang=es],body[data-lang=id],body[data-lang=vi],body[data-lang=ru]{font-family:"Times New Roman",Times,"Liberation Serif","Noto Serif",serif}
+body[data-lang=ja]{font-family:"MS Mincho","ＭＳ 明朝","Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif}
+body[data-lang=ko]{font-family:"Batang","바탕","AppleMyungjo","Noto Serif KR","Noto Serif CJK KR",serif}
+body[data-lang=hi]{font-family:"Mangal","Kokila","Noto Serif Devanagari","Nirmala UI",serif}
+body[data-lang=th]{font-family:"Angsana New","TH Sarabun New","Noto Serif Thai","Tahoma",serif;font-size:1.12em}
+body[data-lang=en],body[data-lang=fr],body[data-lang=es],body[data-lang=id],body[data-lang=vi],body[data-lang=ru]{font-size:1.06em}
+body[data-lang=en] .wa,body[data-lang=fr] .wa,body[data-lang=es] .wa,body[data-lang=id] .wa,body[data-lang=vi] .wa,body[data-lang=ru] .wa{font-family:Impact,"Arial Black","Haettenschweiler","Times New Roman",sans-serif;font-weight:400;letter-spacing:.04em}
+select,input,.btn,button{font-family:inherit}
 .intro{background:#fff8d6;border:2px solid #a0522d;padding:6px 10px;margin:6px 0 10px;font-size:17px;line-height:1.6}
 .intro summary{cursor:pointer;font-weight:bold;font-size:19px;color:#7a1409}
 .intro p{margin:6px 0}
-.mtp{opacity:.45;transition:opacity .2s}
+.mtw{visibility:hidden}
 #mtbar{display:none;background:#fff3c4;color:#000;border-bottom:2px solid #a0522d;padding:4px 10px;font-size:15px;font-family:Arial,sans-serif}
 /* topbar / lang / desk */
 #topbar{position:sticky;top:0;z-index:25;height:38px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;display:flex;align-items:center;gap:8px;padding:0 8px;font-weight:bold;font-size:18px;border-bottom:2px solid #000}
@@ -427,7 +437,7 @@ for(const k in D2){if(D[k]){D[k][9]=D2[k][0];D[k][10]=D2[k][1]}}
 
 /* ===== 每個占卜的文化說明：[文化背景(中), 怎麼玩(中), culture(en), how(en)] ===== */
 const INTRO={
-qian:['求籤是華人廟宇最普遍的問神方式：信眾在神像前默念姓名、生辰與心事，搖動籤筒，掉出的竹籤對應一首籤詩。台灣常見的有觀音一百籤、媽祖六十甲子籤、關帝一百籤與月老籤。','選一個籤本，心中誠懇默念你的問題，按「搖籤筒」。籤詩是比喻，不是直接答案；重點看大方向，並把它當作自我提醒。','Drawing fortune sticks is the most common way to consult a deity in Chinese temples. Worshippers silently state their name, birthday and worry, shake a tube, and the stick that falls matches a short poem. Popular sets include the 100 Guanyin lots, the 60 Mazu lots, the 100 Guandi lots and the Matchmaker-god lots.','Pick a set, think sincerely about your question and press the button. The poem is a metaphor, not a literal answer — read it for the general direction and treat it as a reminder.'],
+qian:['求籤是華人廟宇最普遍的問神方式：信眾在神像前默念姓名、生辰與心事，搖動籤筒，掉出的竹籤對應一首籤詩。台灣常見的有觀音一百籤、媽祖六十甲子籤、關帝一百籤與月老籤；藥師殿常用觀音一百籤的籤詩，專門問健康與平安。','選一個籤本，心中誠懇默念你的問題，按「搖籤筒」。籤詩是比喻，不是直接答案；重點看大方向，並把它當作自我提醒。','Drawing fortune sticks is the most common way to consult a deity in Chinese temples. Worshippers silently state their name, birthday and worry, shake a tube, and the stick that falls matches a short poem. Popular sets include the 100 Guanyin lots, the 60 Mazu lots, the 100 Guandi lots and the Matchmaker-god lots; Medicine Buddha halls often use the Guanyin 100 poems to ask about health and peace.','Pick a set, think sincerely about your question and press the button. The poem is a metaphor, not a literal answer — read it for the general direction and treat it as a reminder.'],
 jiao:['擲筊（擲杯）是向神明請示「是或否」的方式。兩片半月形木塊，一面平、一面凸：一平一凸為聖筊（同意），兩面都平為笑筊（再想想），兩面都凸為陰筊（不同意）。台灣廟宇求籤前後通常都會擲筊確認。','先在心中問一個「可以用是／否回答」的問題，再按擲筊。連續三次聖筊代表非常肯定。','Poe (moon-block) throwing is how people ask a deity a yes/no question in Taiwanese and Chinese temples. Two crescent-shaped blocks, flat on one side and round on the other: one of each means yes, two flat sides means laughing (think again), two round sides means no. It is usually done before and after drawing sticks.','Ask a yes/no question in your mind, then press the button. Three yes results in a row is a very strong yes.'],
 yu:['「每日一語」像古人的座右銘與籤語：用一句溫柔的話，給今天的自己一點力量。華人傳統裡，開春寫春聯、新年抽福語，都是希望用好話帶來好運。','按「換一句」就會換一句小語，挑一句今天最想聽的就好。','A "daily phrase" works like an old motto or fortune-cookie line: one kind sentence to give today some strength. In Chinese tradition, writing spring couplets and drawing New Year blessings are ways of inviting good luck through good words.','Press the button for a new line and keep the one you most need to hear today.'],
 ziwei:['紫微斗數是中國最完整的命盤推算術之一，相傳源自五代北宋的陳摶，以出生的年月日時排出十二宮與百餘顆星曜，看性格、事業、感情與人生階段。在台灣、香港與東南亞華人社會非常流行。','輸入西曆生日、出生時辰與性別，按「排盤」。先看「命宮」主星，再看事業、財帛、夫妻等宮位與四化。','Zi Wei Dou Shu ("Purple Star Astrology") is one of the most complete Chinese birth-chart systems, traditionally credited to the Taoist Chen Tuan of the Song era. Your birth year, month, day and hour place about a hundred stars across twelve "palaces" describing character, career, love and life stages. It is very popular in Taiwan, Hong Kong and Southeast Asia.','Enter your birth date, hour and gender, then press the button. Start with the main star in your Life Palace, then look at Career, Wealth and Spouse palaces and the four transformations.'],
@@ -516,7 +526,8 @@ async function mtPass(root){
     root.querySelectorAll('[data-mt]:not([data-mtd])').forEach(e=>items.push(['m',e,'en']));
     root.querySelectorAll('[placeholder],[title]').forEach(e=>['placeholder','title'].forEach(a=>{const v=e.getAttribute(a);if(v&&CJK.test(v))items.push(['a',e,'zh-TW',a])}));
     if(items.length){
-      root.classList&&root.classList.add('mtp');
+      const hid=new Set();items.forEach(it=>{const pe=it[1].nodeType===3?it[1].parentElement:it[1];const w=pe&&(pe.closest('.paper,.pane,.intro,.mq,.tb,.center,.body')||pe);if(w){w.classList.add('mtw');hid.add(w)}});
+      const unhide=()=>hid.forEach(w=>w.classList.remove('mtw'));const failsafe=setTimeout(unhide,9000);
       let failed=false;
       await Promise.all(items.map(async it=>{
         const [k,n,sl,a]=it;
@@ -528,7 +539,7 @@ async function mtPass(root){
         else if(k==='m'){n.textContent=o;n.dataset.mtd='1'}
         else n.setAttribute(a,o);
       }));
-      root.classList&&root.classList.remove('mtp');
+      clearTimeout(failsafe);unhide();
       mtBanner(failed);
     }
   }finally{mtBusy=false}
@@ -768,7 +779,7 @@ const JUNAME={2:'水二局',3:'木三局',4:'金四局',5:'土五局',6:'火六�
 /* ---------- 視圖 ---------- */
 const VIEWS={};
 const backBtn='<p class="center"><a class="btn" data-go="home" tabindex="0">← 回到桌面</a></p>';
-const wa=(t,cls,shape,size)=>{const t2=TR(t),sz=size||'clamp(40px,12vw,66px)';return `<div class="wa ${cls}" data-shape="${shape}" style="font-size:${t2!==t?'calc('+sz+' * .62)':sz}">${t2}</div>`};
+const wa=(t,cls,shape,size)=>{const t2=TR(t),sz=size||'clamp(40px,12vw,66px)';return `<div class="wa ${cls}" data-shape="${shape}" style="font-size:${t2!==t?'calc('+sz+' * '+(t2.length<=10?'.85':t2.length<=22?'.62':'.5')+')':sz}">${t2}</div>`};
 
 VIEWS.home={t:'神機妙算占卜館.exe',render:()=>`
 ${wa('神機妙算','wa1','arch','clamp(44px,13vw,80px)')}
@@ -792,7 +803,7 @@ const SLV={上上:'#0a7a2a',大吉:'#0a7a2a',上吉:'#0a7a2a',上籤:'#0a7a2a',�
 VIEWS.qian={t:'求籤.exe',render:()=>`
 <div class="center">${wa('誠心求籤','wa4','wave')}
 <p>請在心中默念<b>姓名、生辰、所求何事</b>，選好籤本，再按下按鈕搖動籤筒。</p>
-<div class="row" style="justify-content:center"><label>籤本 <select id="bk"><option value="g">觀音靈籤（一百籤）</option><option value="j">媽祖靈籤（六十甲子籤）</option><option value="d">關帝靈籤（一百籤）</option><option value="y">月老靈籤（姻緣籤）</option></select></label></div>
+<div class="row" style="justify-content:center"><label>籤本 <select id="bk"><option value="g">觀音靈籤（一百籤）</option><option value="j">媽祖靈籤（六十甲子籤）</option><option value="d">關帝靈籤（一百籤）</option><option value="y">月老靈籤（姻緣籤）</option><option value="k">藥師靈籤（健康平安）</option></select></label></div>
 <div class="tube" id="tube">${TUBE}</div>
 <button class="btn big" id="go">搖籤筒</button>
 <div id="out"></div></div>${backBtn}`,
@@ -802,13 +813,14 @@ mount(r){
     go.disabled=true;out.innerHTML='';tube.classList.add('shake');
     setTimeout(()=>{
       tube.classList.remove('shake');
-      const pool=STICKS.filter(x=>x[0]===$('#bk',r).value),q=pool[ri(pool.length)];
-      const A=['總評','事業','感情','財運','健康','學業','家運'];
+      const bk=$('#bk',r).value,pool=STICKS.filter(x=>x[0]===(bk==='k'?'g':bk)),q=pool[ri(pool.length)];
+      const A=['總評','事業','感情','財運','健康','學業','家運'];const yaoshi=$('#bk',r).value==='k';
       out.innerHTML=`<div class="paper"><div class="wa wa2 sm" data-shape="arch">第${cn(q[1])}籤</div>
       <div class="grade" style="color:${SLV[q[3]]||'#a00'}">${q[3]}${/籤$/.test(q[3])?'':'籤'}・${q[2]}</div>
       <div class="poem">${q[4].map(l=>`<p>${l}</p>`).join('')}</div>
+      ${yaoshi?`<p class="small" style="background:#fff3c4;border:1px dashed #a0522d;padding:6px 8px">藥師佛（東方淨琉璃世界）發十二大願，消災延壽、除病離苦。這一籤請以「健康與身心平安」的角度來讀；這不是醫療建議，身體不適請務必就醫。</p><p><span class="lbl">健康</span>${q[6][4]}</p>`:''}
       <p>${/^古解/.test(q[5])?'':'<b>白話：</b>'}${q[5]}</p>
-      ${A.map((a,k)=>q[6][k]?`<p><span class="lbl">${a}</span>${q[6][k]}</p>`:'').join('')}
+      ${A.map((a,k)=>q[6][k]&&!(yaoshi&&k===4)?`<p><span class="lbl">${a}</span>${q[6][k]}</p>`:'').join('')}
       <p class="small" style="text-align:left">※ 籤詩原文為流傳已久的傳統籤文（公有領域；關帝籤古解與聖意錄自道藏本），各廟版本用字略有不同；白話解讀取自開源專案 FateVerse（MIT / CC BY 4.0），僅供娛樂參考，真正有疑問請以廟宇解籤為準。</p></div>`;
       refresh(out);go.disabled=false;go.textContent='再抽一支';
     },1500);

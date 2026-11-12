@@ -17,7 +17,7 @@ dictTxt.split('\n').forEach(line=>{
 });
 for(const [w,z] of Object.entries(WORDS)){if([...w].length!==z.length)console.error('WORD LEN MISMATCH',w)}
 // check chars
-const sticksTxt=fs.existsSync('data/sticks.json')?fs.readFileSync('data/sticks.json','utf8'):'';
+const sticksTxt=JSON.stringify([...JSON.parse(fs.readFileSync('data/sticks.json','utf8')),...JSON.parse(fs.readFileSync('data/sticks2.json','utf8'))]);
 const body=src.split('/*DICT*/')[1]+sticksTxt;
 const freq={};
 for(const ch of body){if(ch>='㐀'&&ch<='鿿')freq[ch]=(freq[ch]||0)+1}

@@ -156,7 +156,7 @@ body:not(.nozy) .pane,body:not(.nozy) .paper{line-height:1.9}
 #menu{position:fixed;left:6px;bottom:48px;width:240px;background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:3px 3px 0 rgba(0,0,0,.4);z-index:30;display:none;font-size:20px}
 #menu.on{display:block}
 #menu .side{background:linear-gradient(0deg,#000080,#1084d0);color:#fff;font-weight:bold;writing-mode:vertical-rl;transform:rotate(180deg);position:absolute;left:0;top:0;bottom:0;width:30px;text-align:center;padding:6px 0;font-size:20px}
-#menu .list{margin-left:30px}
+#menu .list{margin-left:30px;max-height:calc(100vh - 110px);overflow-y:auto}
 #menu a,#menu button{display:block;width:100%;text-align:left;padding:7px 10px;color:#000;text-decoration:none;background:none;border:0;font:inherit;cursor:pointer}
 #menu a:hover,#menu button:hover{background:#000080;color:#fff}
 #menu hr{border:0;border-top:1px solid var(--sh);border-bottom:1px solid var(--hi);margin:3px 2px}
@@ -258,6 +258,8 @@ const todayKey=()=>{const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+
 const NUM='零一二三四五六七八九十';
 const cn=n=>n<=10?NUM[n]:n<20?'十'+NUM[n-10]:NUM[Math.floor(n/10)]+'十'+(n%10?NUM[n%10]:'');
 const mod=(a,n)=>((a%n)+n)%n;
+const KX={};for(const n in KXG)for(const c of KXG[n])KX[c]=+n;
+const strokeOf=c=>KX[c]||KX[S2T[c]]||0;
 const T=s=>String(s).replace(/[\u3400-\u9fff]/g,c=>S2T[c]||c);
 const store={get(k,d){try{const v=localStorage.getItem('sj_'+k);return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem('sj_'+k,v)}catch(e){}}};
 const stars=n=>'<span class="stars">'+'★'.repeat(n)+'<span class="off">'+'★'.repeat(5-n)+'</span></span>';
@@ -278,30 +280,9 @@ const ANIMALS=['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗'
 const AEMO=['🐭','🐮','🐯','🐰','🐲','🐍','🐴','🐑','🐵','🐔','🐶','🐷'];
 
 /* ---------- 資料 ---------- */
-const LIST=[['qian','🏮','求籤'],['jiao','🌗','擲筊'],['yu','📜','每日一語'],['ziwei','🌠','紫微斗數'],['tarot','🃏','塔羅牌'],['star','♈️','星座'],['fortune','🍀','今日運勢'],['ball','🔮','水晶球'],['yi','☯️','易經卦象'],['name','✍️','姓名筆畫'],['bazi','🧧','八字簡批'],['chenggu','🦴','稱骨算命'],['num','🔢','生命靈數'],['meihua','🌸','梅花易數'],['dream','💤','周公解夢'],['rune','🔱','盧恩符文'],['zx','🐲','生肖流年'],['match','💘','緣分配對'],['almanac','📅','每日黃曆'],['blood','🩸','血型配對'],['palm','🖐️','手相說明']];
+const LIST=[['qian','🏮','求籤'],['jiao','🌗','擲筊'],['yu','📜','每日一語'],['ziwei','🌠','紫微斗數'],['tarot','🃏','塔羅牌'],['star','♈️','星座'],['fortune','🍀','今日運勢'],['ball','🔮','水晶球'],['yi','☯️','易經卦象'],['name','✍️','姓名筆畫'],['bazi','🧧','八字簡批'],['chenggu','🦴','稱骨算命'],['num','🔢','生命靈數'],['meihua','🌸','梅花易數'],['dream','💤','周公解夢'],['rune','🔱','盧恩符文'],['zx','🐲','生肖流年'],['match','💘','緣分配對'],['almanac','📅','每日黃曆'],['blood','🩸','血型配對'],['palm','🖐️','手相說明'],['natal','🪐','西洋星盤'],['pyth','🔤','姓名數字學'],['omikuji','⛩️','日本御神籤'],['kyusei','🧭','九星氣學'],['maya','🗿','瑪雅神聖曆'],['vedic','🪔','吠陀月宿'],['celt','🌳','凱爾特樹木曆']];
 
-const QIAN=[
-['上上','春風化雨潤新苗','雲開見日路迢迢','舊愁盡掃心頭暢','好事臨門不用招','萬事順遂，貴人相助，把握時機大步向前。','穩步高升','有緣成雙','正財亨通','精神飽滿'],
-['上上','紫氣東來照吉門','喜鵲登枝報福音','貴人扶持前程遠','心想事成笑語頻','福星高照，願望有機會成真，勇敢開口提出吧。','貴人提拔','好事近了','財運亨通','身強體健'],
-['上吉','明月當空照九州','一帆風順渡中流','平生所願皆能遂','莫待他年始解憂','如船行順水，只要不偏離航道，終能抵達目的地。','按部就班','真心換真心','小有進帳','作息規律'],
-['上吉','梅開二度香滿園','枯木逢春又一天','心誠自有神明助','守得雲開見月圓','經歷低潮之後，好運正在回頭，請保持耐心。','東山再起','舊緣重逢','漸入佳境','逐步復原'],
-['上吉','金鳳展翅向青天','功名在望喜連連','只要肯將心力付','前程似錦在眼前','努力即將得到回報，是展現實力的好時機。','升遷有望','桃花朵朵','財源廣進','活力十足'],
-['上吉','雙魚戲水樂悠悠','好景良辰共白頭','情深意重不須語','攜手同行過春秋','感情運旺，單身者留意身邊人，有伴者更加穩固。','貴人在側','天作之合','財隨人旺','氣色良好'],
-['上吉','朝陽初起照山河','鳥語花香唱凱歌','勤奮不辜好時節','今日播種明日多','早起的人運氣特別好，今天適合開始新計畫。','新案順利','新戀萌芽','開源有成','晨間運動'],
-['中吉','溪流九曲繞青山','緩步徐行莫急還','欲速則難宜守靜','待時而動自平安','事情不宜操之過急，慢慢來反而更順利。','穩紮穩打','細水長流','量入為出','多多休息'],
-['中吉','燈花結蕊報佳音','千里書來慰我心','貴人暗助宜把握','一朝得意展鴻襟','近期會有好消息從遠方傳來，記得回覆訊息。','有好消息','遠方有緣','貴人帶財','心情舒暢'],
-['中吉','荷風送爽夜來涼','靜坐窗前思緒長','莫為浮名勞心力','淡中有味是安康','放下比較之心，平淡生活中自有幸福。','不爭先後','平淡是福','知足常樂','宜多靜養'],
-['中吉','春來燕子報新晴','舊事重提有轉機','放下成見重溝通','誤會冰消笑語迎','過去的僵局出現轉機，主動溝通最重要。','合作順利','誤會冰釋','有意外財','心結得解'],
-['中吉','學海無涯苦作舟','今朝耕耘待秋收','莫嫌進度如蝸牛','一步一印自風流','學習與考試運佳，持續累積就會看見成果。','學有所成','不急一時','投資自己','適度運動'],
-['中吉','出門遇喜遇知音','舊友相逢話舊深','互助互諒皆有益','人和事順自成金','人緣旺盛，適合聚會、聯絡朋友與拓展人脈。','人脈加分','朋友介紹','合夥得利','心情愉快'],
-['中吉','平安二字值千金','莫向外求先靜心','家和萬事皆興旺','無災無難福自臨','家庭運旺，多陪陪家人，平安就是最大的福氣。','家和事興','家人支持','守成為上','平安健康'],
-['中平','雲遮半月夜朦朧','前路難明且慢行','多聽少說多觀察','天亮自見好光景','目前看不清方向，先蒐集資訊，不要倉促決定。','暫緩決策','多多觀察','保守為宜','注意睡眠'],
-['中平','小橋流水見人家','雖無大利也無差','勤勉持家終有望','莫羨隔牆別樣花','不好不壞的一天，腳踏實地就是最好的運氣。','平穩無波','順其自然','收支平衡','無大礙'],
-['中平','秋風起處葉飄零','世事如棋局局新','莫執一念成死結','換個角度海天青','遇到卡關時，換個角度思考，答案就在轉念之間。','換位思考','不鑽牛角','開源節流','放寬心胸'],
-['中平','路旁小草也迎風','不必爭高自從容','各有春秋各有道','隨緣自在亦英雄','不必與人比較，走自己的節奏就是贏家。','走自己路','隨緣即可','細水長流','保持心情'],
-['小凶','烏雲壓頂雨欲來','提早防備莫徘徊','謹言慎行避口舌','雨過天青笑顏開','近期宜低調，注意言行與合約細節，度過就會平順。','謹慎行事','避免爭吵','勿做投機','保重身體'],
-['小凶','逆風行舟浪滔滔','暫收風帆泊小灣','此時退步非失敗','養足精神再揚鞭','不順時先停下來整理，退一步是為了走得更遠。','暫時蟄伏','需要溝通','減少開銷','留意作息']
-];
+
 
 const JIAO={
  sheng:['聖筊','神明同意。一平一圓，代表你的問題得到肯定回應，可以放心去做。'],
@@ -531,9 +512,11 @@ const TUBE=`<svg class="nozy-cell" viewBox="0 0 160 200" width="160" height="200
 <ellipse cx="80" cy="92" rx="44" ry="8" fill="#7a1409" stroke="#5a0f0a" stroke-width="3"/>
 <rect x="40" y="118" width="80" height="8" fill="#f5c542"/><rect x="43" y="166" width="74" height="8" fill="#f5c542"/>
 <text x="80" y="156" text-anchor="middle" font-size="30" fill="#f5c542" font-weight="bold" font-family="serif">籤</text></svg>`;
+const SLV={上上:'#0a7a2a',大吉:'#0a7a2a',上吉:'#0a7a2a',上籤:'#0a7a2a',中吉:'#2a6a9a',中籤:'#2a6a9a',中平:'#7a6a1a',下:'#a00',下籤:'#a00',下下:'#a00'};
 VIEWS.qian={t:'求籤.exe',render:()=>`
 <div class="center">${wa('誠心求籤','wa4','wave')}
-<p>請在心中默念<b>姓名、生辰、所求何事</b>，再按下按鈕搖動籤筒。</p>
+<p>請在心中默念<b>姓名、生辰、所求何事</b>，選好籤本，再按下按鈕搖動籤筒。</p>
+<div class="row" style="justify-content:center"><label>籤本 <select id="bk"><option value="g">觀音靈籤（一百籤）</option><option value="j">媽祖靈籤（六十甲子籤）</option></select></label></div>
 <div class="tube" id="tube">${TUBE}</div>
 <button class="btn big" id="go">搖籤筒</button>
 <div id="out"></div></div>${backBtn}`,
@@ -543,12 +526,14 @@ mount(r){
     go.disabled=true;out.innerHTML='';tube.classList.add('shake');
     setTimeout(()=>{
       tube.classList.remove('shake');
-      const i=ri(QIAN.length),q=QIAN[i];
-      out.innerHTML=`<div class="paper"><div class="wa wa2 sm" data-shape="arch">第${cn(i+1)}籤</div>
-      <div class="grade">${q[0]}籤</div>
-      <div class="poem">${[1,2,3,4].map(k=>`<p>${q[k]}</p>`).join('')}</div>
-      <p><b>解曰：</b>${q[5]}</p>
-      <table class="tbl"><tr><th>事業</th><td>${q[6]}</td><th>感情</th><td>${q[7]}</td></tr><tr><th>財運</th><td>${q[8]}</td><th>健康</th><td>${q[9]}</td></tr></table></div>`;
+      const pool=STICKS.filter(x=>x[0]===$('#bk',r).value),q=pool[ri(pool.length)];
+      const A=['總評','事業','感情','財運','健康','學業','家運'];
+      out.innerHTML=`<div class="paper"><div class="wa wa2 sm" data-shape="arch">第${cn(q[1])}籤</div>
+      <div class="grade" style="color:${SLV[q[3]]||'#a00'}">${q[3]}${/籤$/.test(q[3])?'':'籤'}・${q[2]}</div>
+      <div class="poem">${q[4].map(l=>`<p>${l}</p>`).join('')}</div>
+      <p><b>白話：</b>${q[5]}</p>
+      ${A.map((a,k)=>q[6][k]?`<p><span class="lbl">${a}</span>${q[6][k]}</p>`:'').join('')}
+      <p class="small" style="text-align:left">※ 籤詩原文為流傳已久的傳統籤文（公有領域），各廟版本用字略有不同；白話解讀取自開源專案 FateVerse（MIT / CC BY 4.0），僅供娛樂參考，真正有疑問請以廟宇解籤為準。</p></div>`;
       refresh(out);go.disabled=false;go.textContent='再抽一支';
     },1500);
   };
@@ -647,6 +632,23 @@ mount(r){
     };
     const natal=[];
     P.forEach(p=>[...p.majorStars,...p.minorStars].forEach(s=>{if(s.mutagen)natal.push(`<p><span class="tag${s.mutagen==='忌'?' r':''}">化${s.mutagen}</span><b>${s.name}</b>在${p.name}：${ZW_MU[s.mutagen].split('：')[1]}。</p>`)}));
+    const MINOR_T={'左輔':'貴人運佳，有人從旁協助','右弼':'人緣好，容易得到平輩幫忙','文昌':'重條理與文筆，利考試與文書','文曲':'才藝與口才佳，感受細膩','天魁':'貴人多半來自長輩或上司','天鉞':'貴人多半來自異性或平輩','祿存':'守成、穩定，財運踏實','天馬':'變動、奔波，利外出發展','火星':'性急衝動，爆發力強','鈴星':'外靜內躁，暗藏壓力','擎羊':'做事果斷但易有衝突','陀羅':'慢熱固執，凡事反覆','地空':'想法跳脫，不重物質','地劫':'得失起伏，要懂得守財'};
+    const BRI={'廟':'星曜得力，發揮最好','旺':'表現強勢，助力明顯','得':'表現不錯','利':'表現平穩','平':'力量普通','不':'力量偏弱，需靠後天努力','陷':'星曜失力，反而是磨練的功課'};
+    const extra=()=>{
+      const m=pal('命宮'),mi=P.indexOf(m);
+      const tri=[mi,(mi+4)%12,(mi+8)%12,(mi+6)%12].map(i=>P[i]);
+      const names=tri.map(p=>p.name+'：'+(p.majorStars.map(x=>x.name).join('、')||'空宮')).join('；');
+      const bd=P.find(p=>p.isBodyPalace);
+      let h2='<div class="wa wa2 sm" data-shape="wave">進階解讀</div>';
+      h2+=`<p><span class="lbl">三方四正</span>命宮的三方四正（本宮、財帛、官祿、遷移）：${names}。這些宮位的星曜會一起影響你的整體格局。</p>`;
+      if(bd)h2+=`<p><span class="lbl">身宮</span>身宮落在<b>${bd.name}</b>：中年以後的重心會偏向「${ZW_PAL[bd.name]}」。</p>`;
+      const ms=m.majorStars[0];
+      if(ms&&ms.brightness&&BRI[ms.brightness])h2+=`<p><span class="lbl">命主星亮度</span>${ms.name}為「${ms.brightness}」，${BRI[ms.brightness]}。</p>`;
+      const mn=[...m.minorStars,...(m.adjectiveStars||[])].map(x=>x.name).filter(n=>MINOR_T[n]);
+      if(mn.length)h2+=`<p><span class="lbl">命宮輔星</span>${mn.map(n=>n+'：'+MINOR_T[n]).join('；')}。</p>`;
+      ['遷移','福德','田宅','疾厄','子女','兄弟','父母','僕役'].forEach(n=>{const p=pal(n);if(!p)return;const o=mainOf(p),st=o.s.map(x=>x.name).join('、');if(st)h2+=`<p><span class="lbl">${n}</span>${o.b?'空宮，借對宮':''}${st}。與「${ZW_PAL[n]||n}」有關的事，風格偏向「${(STAR14[o.s[0].name]||[''])[0].slice(0,14)}」。</p>`});
+      return h2;
+    };
     const di=h.decadal.index,yi=h.yearly.index;
     const dp=P[di],yp=P[yi];
     out.innerHTML=`<div class="pane"><div class="wa wa2 sm" data-shape="wave">你的命盤</div><div class="zw">${grid}</div>
@@ -654,6 +656,7 @@ mount(r){
     ${para('官祿',1,(s,t)=>`見${s}：${t}。`)}
     ${para('財帛',2,(s,t)=>`見${s}：${t}。`)}
     ${para('夫妻',3,(s,t)=>`見${s}：${t}。`)}
+    ${extra()}
     <div class="wa wa2 sm" data-shape="wave">生年四化</div>${natal.join('')||'<p>沒有四化星。</p>'}
     <div class="wa wa2 sm" data-shape="wave">大限與流年</div>
     <p><span class="lbl">目前大限</span>${dp.decadal.range[0]}–${dp.decadal.range[1]}歲，大限命宮落在<b>${dp.name}</b>（${dp.heavenlyStem}${dp.earthlyBranch}），這十年重心在「${ZW_PAL[dp.name]}」。</p>
@@ -664,30 +667,51 @@ mount(r){
   };
 }};
 
-/* 塔羅 */
+/* ===== 塔羅 78 張 + 多種牌陣 ===== */
+(function(){
+  const SU=[['權杖','🪄','Wands','行動、熱情與事業'],['聖杯','🏆','Cups','情感與人際'],['寶劍','🗡️','Swords','思考、溝通與衝突'],['錢幣','🪙','Pentacles','金錢、工作與現實']];
+  const RK=['王牌','二','三','四','五','六','七','八','九','十','侍者','騎士','王后','國王'];
+  const RE=['Ace','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Page','Knight','Queen','King'];
+  const RN=['A','2','3','4','5','6','7','8','9','10','P','Kn','Q','K'];
+  const UP=['新的開始與契機','抉擇、平衡與合作','成長、擴展與初步成果','穩定、基礎與適度休整','衝突、挑戰與變動','和諧、分享與逐步好轉','評估、堅持與策略','行動、進展與專注','接近完成、堅韌與獨立','圓滿，或承擔過多的終點','好奇、學習與新的消息','積極追求、行動力十足','成熟內斂、滋養與直覺','掌控、責任與領導力'];
+  const RV=['機會延遲或被錯過','猶豫不決、失衡','進展受阻、缺乏配合','停滯、過度保守','衝突緩解或陷入僵持','不平衡、被過去牽絆','疑慮重重、半途而廢','分心、動力不足','焦慮、擔心功虧一簣','負擔沉重、結束被拖延','不成熟、消息延遲','衝動躁進或原地踏步','情緒化、過度控制','專斷、濫用權力'];
+  SU.forEach(su=>RK.forEach((rk,i)=>{
+    TAROT.push([RN[i],su[0]+rk,RE[i]+(i>=10?' of ':' of ')+su[2],su[1],UP[i]+'，主題落在'+su[3],RV[i]+'，'+su[3]+'方面要多留意']);
+  }));
+})();
+const TSP={
+  1:['單張牌（今日指引）',['今日指引']],
+  3:['三張牌（過去・現在・未來）',['過去','現在','未來']],
+  5:['愛情牌陣（五張）',['你的狀態','對方的狀態','兩人關係現況','需要面對的課題','建議與走向']],
+  10:['凱爾特十字（十張）',['現況','挑戰或阻礙','根源','過去','可能的目標','近期未來','你的態度','外在環境','希望與恐懼','最終結果']]
+};
 VIEWS.tarot={t:'塔羅牌.exe',render:()=>`
 <div class="center">${wa('塔羅占卜','wa6','arch')}
-<p>專心想著你的問題，選擇牌陣後按下「洗牌抽牌」。</p>
-<div class="row"><label><input type="radio" name="m" value="1" checked> 單張牌（今日指引）</label>
-<label><input type="radio" name="m" value="3"> 三張牌（過去・現在・未來）</label></div>
+<p>專心想著你的問題，選擇牌陣後按下「洗牌抽牌」。全副 78 張牌，包含大阿爾克那與小阿爾克那。</p>
+<div class="row" style="flex-direction:column;align-items:flex-start;display:inline-flex;text-align:left">${Object.keys(TSP).map((k,i)=>`<label><input type="radio" name="m" value="${k}"${i===0?' checked':''}> ${TSP[k][0]}</label>`).join('')}</div><br>
 <button class="btn big" id="go">洗牌抽牌</button></div>
 <div id="out"></div>${backBtn}`,
 mount(r){
   const out=$('#out',r),go=$('#go',r);
   go.onclick=()=>{
-    const n=+$('input[name=m]:checked',r).value;
+    const n=+$('input[name=m]:checked',r).value,names=TSP[n][1];
     const deck=TAROT.map((c,i)=>i);
     for(let i=deck.length-1;i>0;i--){const j=ri(i+1);[deck[i],deck[j]]=[deck[j],deck[i]]}
-    const hand=deck.slice(0,n).map(i=>({c:TAROT[i],rev:Math.random()<.3}));
-    const names=n===1?['今日指引']:['過去','現在','未來'];
+    const hand=deck.slice(0,n).map(i=>({c:TAROT[i],i,rev:Math.random()<.3}));
+    const major=hand.filter(h=>h.i<22).length;
+    const sc=[0,0,0,0];hand.forEach(h=>{if(h.i>=22)sc[Math.floor((h.i-22)/14)]++});
+    const top=sc.indexOf(Math.max(...sc));
+    const SUM=['權杖：這件事的重點在「行動與事業」','聖杯：這件事的重點在「情感與人際」','寶劍：這件事的重點在「思考與溝通」','錢幣：這件事的重點在「金錢與現實」'];
+    const overall=n<3?'':`<p><span class="lbl">整體</span>${major>=Math.ceil(n/2)?`大阿爾克那有 ${major} 張，表示這是影響較深遠的人生課題。`:`大阿爾克那只有 ${major} 張，多半是日常層面、可以靠行動調整的事。`}${Math.max(...sc)>=2?SUM[top]+'。':''}${hand.filter(h=>h.rev).length>n/2?'逆位偏多，提醒你先整理內心與步調再行動。':''}</p>`;
     out.innerHTML=`<div class="cards">${hand.map(h=>`<div class="card"><div class="in"><div class="b nozy-cell">✦</div><div class="f nozy-cell${h.rev?' rev':''}"><div class="c"><div class="no">${h.c[0]}</div><div class="sy">${h.c[3]}</div><div class="nm">${h.c[1]}</div><div class="en">${h.c[2]}</div></div></div></div></div>`).join('')}</div>
-    <div class="pane" id="rd" style="visibility:hidden">${hand.map((h,i)=>`<p><span class="pos">【${names[i]}】${h.c[1]}・${h.rev?'逆位':'正位'}</span><br>${h.rev?h.c[5]:h.c[4]}。</p>`).join('')}<p class="small">牌義僅為象徵性的提示，真正的答案還是在你自己心裡。</p></div>`;
+    <div class="pane" id="rd" style="visibility:hidden">${hand.map((h,i)=>`<p><span class="pos">【${names[i]}】${h.c[1]}・${h.rev?'逆位':'正位'}</span><br>${h.rev?h.c[5]:h.c[4]}。</p>`).join('')}${overall}<p class="small">牌義僅為象徵性的提示，小阿爾克那的牌義為依牌序與花色整理的簡要版，真正的答案還是在你自己心裡。</p></div>`;
     refresh(out);
     go.disabled=true;
-    $$('.card',out).forEach((el,i)=>setTimeout(()=>el.classList.add('flip'),500+i*700));
-    setTimeout(()=>{$('#rd',out).style.visibility='visible';go.disabled=false;go.textContent='重新抽牌'},500+n*700+600);
+    $$('.card',out).forEach((el,i)=>setTimeout(()=>el.classList.add('flip'),500+i*450));
+    setTimeout(()=>{$('#rd',out).style.visibility='visible';go.disabled=false;go.textContent='重新抽牌'},500+n*450+700);
   };
 }};
+
 
 /* 星座 */
 VIEWS.star={t:'星座.exe',render:()=>`
@@ -924,7 +948,7 @@ VIEWS.name={t:'姓名筆畫.exe',render:()=>`
 <div class="row"><label>姓名 <input type="text" id="nm" maxlength="6" placeholder="例如：王小明" style="width:9em"></label>
 <label>姓氏 <select id="sl"><option value="1">1 字（單姓）</option><option value="2">2 字（複姓）</option></select></label></div>
 <div class="center"><button class="btn big" id="go">算筆畫</button></div>
-<p class="small center">筆畫採康熙字典算法（例如「氵」算 4 畫、「艹」算 6 畫），找不到的字可以自己填。</p></div>
+<p class="small center">筆畫採康熙字典算法（例如「氵」算 4 畫、「艹」算 6 畫），收錄 2 萬多字，簡體字會自動轉成繁體再查，找不到的字可以自己填。</p></div>
 <div id="out"></div>${backBtn}`,
 mount(r){
   const out=$('#out',r);
@@ -933,7 +957,7 @@ mount(r){
     const sl=+$('#sl',r).value,gl=chars.length-sl;
     if(chars.length<2||gl<1||gl>2){out.innerHTML='<div class="pane center">請輸入完整姓名，名字要有 1～2 個字，並選對姓氏字數。</div>';refresh(out);return}
     out.innerHTML=`<div class="pane"><p class="center"><b>各字筆畫（可以修改）</b></p>
-    <div class="row nozy-cell">${chars.map((c,i)=>`<label style="text-align:center"><span style="font-size:28px;font-weight:bold">${c}</span><br><input type="number" min="1" max="40" data-i="${i}" placeholder="?" value="${STROKE[c]||''}" style="width:3.8em;text-align:center"></label>`).join('')}</div>
+    <div class="row nozy-cell">${chars.map((c,i)=>`<label style="text-align:center"><span style="font-size:28px;font-weight:bold">${c}</span><br><input type="number" min="1" max="60" data-i="${i}" placeholder="?" value="${strokeOf(c)||''}" style="width:3.8em;text-align:center"></label>`).join('')}</div>
     <div id="res"></div></div>`;
     const res=$('#res',out),ins=$$('input',out);
     const calc=()=>{
@@ -1076,7 +1100,7 @@ const CG_Y=[12,9,6,7,12,5,9,8,7,8,15,9,16,8,8,19,12,6,8,7,5,15,6,16,15,7,9,12,10
 const CG_M=[6,7,18,9,5,16,9,15,18,8,9,5];
 const CG_D=[5,10,8,15,16,15,8,16,8,16,9,17,8,17,10,8,9,18,5,15,10,9,8,9,15,18,7,8,16,6];
 const CG_H=[16,6,7,10,9,16,10,8,8,9,6,6];
-const CG_T=[[30,'輕舟渡江','命格偏輕，早年較辛苦，凡事要靠自己一步一步打拼，但只要肯努力，中晚年會逐漸安定。'],[40,'腳踏實地','起步平凡但肯拚，波折過後生活安穩，適合專精一門技能，慢慢累積實力。'],[50,'穩健中和','中等命格，衣食無憂，貴人緣不錯，守成有餘，再積極一點還能更上一層樓。'],[60,'福氣悠長','福氣不錯，中年後運勢轉旺，名利皆可期待，要懂得把握機會。'],[70,'厚德載福','命格厚重，領導力與貴人運都佳，事業有成，多行善事福澤更長。'],[999,'福祿雙全','難得的重量，福祿雙全，但也請保持謙虛，懂得感恩與分享。']];
+const CG_T=[['一生勞碌','出身清寒、早年辛苦，凡事得靠雙手打拼；好在肯學肯做，晚年能逐步安穩。'],['白手起家','起步較慢，貴人不多，但越磨越亮；先打好一項專長，就能少走冤枉路。'],['奔波有成','常需往外發展，工作與居住地可能多變，只要不嫌累，後勢會慢慢轉順。'],['巧手謀生','聰明靈巧、點子多，適合靠技能吃飯；別三心二意，專注一門最能出頭。'],['身閒心忙','看似輕鬆卻總操心，腦筋停不下來；學會放下，福氣才聚得住。'],['先貧後富','前期積蓄不易，中年後漸入佳境；耐住性子，後半生有安穩可期。'],['勤儉持家','不求大富，但能靠節儉與計畫把日子過好；理財習慣是你最大的本錢。'],['平步緩進','運勢像爬緩坡，沒有大起大落；穩紮穩打就能累積成果。'],['晚運漸佳','早年不算順，越往後貴人越多；千萬別在谷底放棄。'],['知足常樂','容易滿足、人緣不差，日子平平淡淡也過得開心。'],['小康之命','衣食無缺，偶有波折都能化解；遇事多與家人商量，運勢更穩。'],['技藝安身','學一門手藝或專業，就能在社會上站穩；越專精越吃香。'],['刻苦成家','靠自己努力成家立業，不靠祖蔭；中年後生活漸漸寬裕。'],['人緣助運','待人和氣、朋友多，很多機會都是人帶來的；珍惜人脈就是增運。'],['中年轉運','三、四十歲是關鍵轉折，之前累積的努力會在此刻開花。'],['穩中求進','性格踏實，適合長期投入；不貪快，反而走得遠。'],['福祿平和','不愁吃穿、日子平順；若能多學習、多行善，福氣還能再加厚。'],['安穩中和','運勢中等偏上，一生起伏不大；把握幾個重要機會就能更上一層。'],['貴人提攜','一生遇到不少願意幫忙的人；懂得感恩與回饋，運勢更旺。'],['名利漸成','中年以後事業與名聲逐步建立；保持謙虛，機會會自己找上門。'],['智勇兼備','有想法也敢行動，能在團體中脫穎而出；留意情緒急躁壞事。'],['事業有成','工作運不錯，能承擔責任；記得留時間給家人與健康。'],['財源穩進','理財與賺錢能力都不錯，收入越來越穩定；投資要分散風險。'],['福澤綿長','福氣長遠，家庭和睦；只要不驕不躁，晚年生活安適。'],['衣食豐足','物質生活寬裕，不為生計煩惱；多做公益，福報更厚。'],['領導之才','有號召力，能帶領他人；責任越大越要沉穩。'],['名成利就','努力會被看見，名聲與收入同步提升；別忘了身邊幫過你的人。'],['富足安康','財運與健康都有保障；維持規律作息，福氣才能長久。'],['厚德載福','為人寬厚，福隨德至；肯付出的人，得到的往往更多。'],['貴氣在身','氣質穩重、容易被信任，適合擔任要職；謙虛是你最好的護身符。'],['大器晚成','越晚越有成就，是慢工出細活的類型；耐心等待時機。'],['福壽雙全','重視健康與家庭，晚年生活幸福；保持開朗心情最重要。'],['順風順水','做事多半順利，常有意外助力；順境時更要居安思危。'],['出類拔萃','才能與機運皆強，常是大家的焦點；低調行事，更能長久。'],['一呼百應','號召力強、人緣佳，團隊少不了你；要留意別過度承擔。'],['財官兼備','事業與財運兩旺，能在專業領域立足；別忘了照顧身心。'],['名重一方','容易在所屬領域建立聲望；越有名越要重視品德。'],['福祿雙收','福氣與收入都不錯，家庭美滿；多分享，快樂加倍。'],['步步為營','做事謹慎，每一步都踏得很穩；累積久了，成果自然可觀。'],['家業興旺','家庭與事業相互扶持，容易一起成長；多溝通就能一路順遂。'],['志高望遠','格局大、目標高，願意為理想努力；腳踏實地才走得穩。'],['貴人環繞','身邊總有貴人；真誠待人，好運自來。'],['德高望重','受人敬重、人生圓滿；越成熟越能發揮影響力。'],['富貴可期','運勢強勁，是難得的好命盤；保持善念，福澤才能長久。'],['事業鼎盛','在事業上能有大成就，要注意休息與家人相處。'],['一生順遂','人生大致平順，貴人運與財運皆佳；感恩知足最可貴。'],['福厚命重','骨重福厚，責任也重；能扛事、能成事，也要學會放鬆。'],['龍章鳳姿','氣度不凡、才華出眾；保持謙和，更能受人愛戴。'],['尊貴之相','在傳統說法中屬難得的重命，但命重也要德厚，多行善才承得住。'],['德配其位','運勢極強，傳統認為需以德行相配；懂得回饋社會，福報更穩。'],['極品好命','骨重已到頂端，是傳說中的少見命盤；別忘了命運還是靠自己經營。'],['福祿滿盈','重量最高的一級，是滿滿的祝福；知福惜福，更能長長久久。']];
 const cgFmt=x=>(x>=10?Math.floor(x/10)+'兩':'')+(x%10?(x%10)+'錢':'');
 VIEWS.chenggu={t:'稱骨算命.exe',render:()=>`
 <div class="center">${wa('稱骨算命','wa2','arch')}</div>
@@ -1092,12 +1116,12 @@ mount(r){
     const l=lunarOf(parseDate(ds)),hi=+$('#hr',r).value;
     const yi=idx60(mod(l.y-4,10),mod(l.y-4,12));
     const w=[CG_Y[yi],CG_M[l.m-1],CG_D[l.d-1],CG_H[hi]],t=w.reduce((a,b)=>a+b,0);
-    const tier=CG_T.find(x=>t<x[0]);
+    const tier=CG_T[Math.max(0,Math.min(51,t-21))];
     out.innerHTML=`<div class="paper center"><p>農曆 ${l.y} 年${lunarText(l)}・${HOURS[hi].slice(0,2)}</p>
     ${wa(cgFmt(t),'wa4','wave','clamp(46px,14vw,72px)')}
     <table class="tbl t5 fix nozy-cell"><tr><th>年</th><th>月</th><th>日</th><th>時</th></tr><tr>${w.map(x=>`<td>${cgFmt(x)}</td>`).join('')}</tr></table>
-    <div class="grade">${tier[1]}</div><p style="text-align:left">${tier[2]}</p>
-    <p class="small" style="text-align:left">※ 稱骨是民間流傳的趣味算法，各家骨重表略有差異，閏月出生者以當月計算，請當作娛樂。</p></div>`;
+    <div class="grade">${tier[0]}</div><p style="text-align:left">${tier[1]}</p>
+    <p class="small" style="text-align:left">※ 稱骨是民間流傳的趣味算法，骨重由年月日時重量相加（2.1～7.2 兩共 52 級），各家骨重表略有差異，閏月出生者以當月計算；評語為自編白話版，請當作娛樂。</p></div>`;
     refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
   };
 }};
@@ -1236,7 +1260,94 @@ const DREAMS=[
 [['月亮','星星'],'夢見月亮星星','月亮與星星象徵直覺與感情，也代表夜裡的靈感，適合記下點子。'],
 [['洪水','淹水'],'夢見洪水','洪水象徵情緒或壓力的氾濫，提醒你先安頓好自己。'],
 [['小偷','被偷','搶劫'],'夢見小偷','代表不安全感，擔心失去已擁有的東西，可先整理清楚自己的重要資源。'],
-[['媽媽','母親','爸爸','父親','家人','阿嬤','阿公','外婆'],'夢見家人','夢見家人多與情感需求或思念有關，也許你想念他們，或需要被關心。']];
+[['媽媽','母親','爸爸','父親','家人','阿嬤','阿公','外婆'],'夢見家人','夢見家人多與情感需求或思念有關，也許你想念他們，或需要被關心。'],[['蛋糕','生日'],'夢見生日蛋糕','象徵被祝福與值得慶祝的事，也可能是你渴望被關注與肯定。'],
+[['游泳','潛水'],'夢見游泳','在水中自在代表你能駕馭情緒；若感到吃力，提醒你最近需要多休息。'],
+[['海浪','海嘯','洪水','淹水'],'夢見大水','大水象徵強烈的情緒或生活變動，退水後往往是新的開始，先穩住自己。'],
+[['雪'],'夢見下雪','雪代表純淨與暫停，也有「瑞雪兆豐年」的說法，是放慢腳步、整理心情的好時機。'],
+[['太陽','日出'],'夢見太陽','太陽象徵希望與活力，民間視為吉兆，代表事情將逐步明朗。'],
+[['月亮','月'],'夢見月亮','月亮象徵情感、直覺與陪伴，滿月代表圓滿，彎月則提醒你多留意內心需求。'],
+[['星星','流星'],'夢見星星','星星象徵願望與方向，流星則像靈感一閃，記得把想法寫下來。'],
+[['彩虹'],'夢見彩虹','彩虹代表雨過天晴與好消息，也是希望與轉機的象徵。'],
+[['地震'],'夢見地震','地震代表生活或心裡的根基受到震動，提醒你檢查目前讓你不安的事，先處理最重要的一件。'],
+[['颱風','暴風','閃電','打雷'],'夢見風暴','風暴象徵情緒或環境的衝擊，通常也預示著事情會「風雨過後」更清楚。'],
+[['山','爬山','登山'],'夢見爬山','爬山象徵努力與目標，輕鬆登頂代表進展順利，爬得辛苦則提醒你分段前進。'],
+[['森林','樹林'],'夢見森林','森林象徵未知與潛意識，迷路代表你正在探索自己，走出來就是收穫。'],
+[['樹','大樹'],'夢見大樹','大樹象徵根基、家庭與成長，茂盛代表穩定，枯萎則提醒你多關心身邊的人。'],
+[['橋'],'夢見橋','橋象徵過渡與轉換，走過去代表順利跨越難關。'],
+[['門','開門','關門'],'夢見門','門代表機會與選擇，開著的門是新機會，關上的門提醒你調整方向。'],
+[['窗'],'夢見窗戶','窗象徵視野與溝通，望向窗外代表想看見更多可能。'],
+[['鏡子'],'夢見鏡子','鏡子代表自我審視，看到清楚的自己是自信的提示，模糊則表示對自己還有疑惑。'],
+[['樓梯','爬樓'],'夢見樓梯','往上走代表進步與提升，往下走提醒你回頭整理基礎。'],
+[['學校','教室','上課'],'夢見學校','學校夢多半與學習、成長與過去的記憶有關，也可能是壓力的出口。'],
+[['公司','上班','老闆','主管'],'夢見工作','代表現實中的責任與壓力，夢到被稱讚是自信提示，被責備則是壓力的反映。'],
+[['同學','朋友','老友'],'夢見朋友','夢見舊友多半是懷念，或對人際連結的渴望，主動聯絡一下也不錯。'],
+[['家人','爸爸','媽媽','父母'],'夢見家人','代表安全感與親情，夢見家人爭吵多半是壓力轉換，不一定會成真。'],
+[['小孩','孩子','兒子','女兒'],'夢見孩子','孩子象徵新的希望與責任，也可能是內心那個需要被照顧的自己。'],
+[['老人','爺爺','奶奶','外婆','外公'],'夢見長輩','長輩常象徵智慧與庇蔭，夢到他們是想念，也代表你需要被鼓勵。'],
+[['陌生人'],'夢見陌生人','陌生人象徵你尚未認識的一面，或即將出現的新機會與新關係。'],
+[['明星','偶像'],'夢見明星','代表你欣賞的特質或想成為的樣子，也是對自己的期待。'],
+[['親吻','接吻','擁抱'],'夢見親密','代表對情感與連結的渴望，也可能是目前關係的投射，不必過度解讀。'],
+[['吵架','打架','爭執'],'夢見吵架','代表壓抑的情緒需要出口，現實中試著好好表達，會輕鬆很多。'],
+[['哭','哭泣','流淚'],'夢見哭泣','夢中哭泣常是情緒釋放，醒來後心情反而變輕，是身體在幫你整理心情。'],
+[['笑','大笑'],'夢見大笑','開心的夢是好兆頭，代表近期心情輕鬆，也可能有喜事。'],
+[['生病','住院','醫院'],'夢見生病','夢見生病多半是提醒你關心身體與壓力，也有「病夢反吉」的民間說法。'],
+[['打針','開刀','手術'],'夢見手術','象徵想改變或移除生活中的某個問題，你正在做重要的調整。'],
+[['血','流血'],'夢見血','血象徵生命力與情緒，不一定是凶兆，也可能代表某種付出或消耗。'],
+[['警察','被抓','被捕'],'夢見被抓','代表心裡有愧疚或擔心被批評的事，坦誠面對會比逃避輕鬆。'],
+[['小偷','被偷','搶劫'],'夢見被偷','代表擔心失去某些東西，也可能是在提醒你注意財物與人際界線。'],
+[['中獎','彩券','樂透'],'夢見中獎','代表對豐盛與好運的期待，現實中仍要靠努力累積，夢是好心情的禮物。'],
+[['黃金','金子','珠寶','鑽石'],'夢見黃金珠寶','象徵價值與自我肯定，也傳統上被視為財運的象徵。'],
+[['衣服','新衣','換衣服'],'夢見衣服','衣服象徵形象與身份，穿新衣是轉變的象徵，衣服不合身則代表有些不自在。'],
+[['鞋','鞋子','掉鞋'],'夢見鞋子','鞋象徵人生道路與伴侶，找不到鞋提醒你調整方向或關心身邊的人。'],
+[['頭髮','剪髮','掉髮','禿'],'夢見頭髮','頭髮象徵活力與形象，剪頭髮是想換個心情，掉髮則提醒你放鬆壓力。'],
+[['飯','吃飯','美食','吃東西'],'夢見吃東西','吃東西代表滿足與需求，吃得開心是好兆頭，吃不下則可能有心事。'],
+[['酒','喝酒','醉'],'夢見喝酒','代表想放鬆或逃避壓力，也提醒你節制，別讓情緒帶著決定走。'],
+[['廁所','上廁所','馬桶'],'夢見廁所','夢見廁所常是排解壓力與整理心情的象徵，也可能只是身體需要。'],
+[['電話','手機','訊息'],'夢見電話','代表渴望溝通或等待消息，接到好消息是人際順暢的象徵。'],
+[['電腦','網路','斷線'],'夢見電腦','代表工作與資訊壓力，斷線或當機提醒你需要好好休息。'],
+[['飛機','機場','登機'],'夢見飛機','飛機象徵遠大目標與重大改變，錯過班機代表擔心錯失機會。'],
+[['火車','高鐵','捷運','公車'],'夢見交通工具','代表人生階段的移動，順利搭上是進展順利，趕不上則是焦慮的反映。'],
+[['船','坐船'],'夢見船','船象徵人生旅程與情緒，平穩航行代表安定，搖晃則提醒你調整步調。'],
+[['馬'],'夢見馬','馬象徵行動力與事業進展，駿馬奔騰是順利的象徵。'],
+[['牛'],'夢見牛','牛象徵勤勞與踏實，傳統視為吉兆，代表努力會有收穫。'],
+[['羊'],'夢見羊','羊象徵溫和與福氣，也有吉祥的意義。'],
+[['豬'],'夢見豬','豬在民間象徵福氣與財富，是有「財庫」的吉兆。'],
+[['雞'],'夢見雞','雞象徵早起與機會，雞鳴也代表新的一天與新的開始。'],
+[['鴨','鵝'],'夢見鴨鵝','象徵家庭和樂與平順，也有人際和諧的意思。'],
+[['猴子'],'夢見猴子','猴子象徵機靈與調皮，提醒你別太分心，也可能有有趣的人出現。'],
+[['兔子'],'夢見兔子','兔子象徵溫和與好運，也代表感情上的柔軟。'],
+[['老鼠'],'夢見老鼠','老鼠象徵小煩惱與瑣事，也有聚財的說法，整理環境與財務是好選擇。'],
+[['螞蟻'],'夢見螞蟻','螞蟻象徵勤勞與團隊，提醒你把大事拆成小步驟。'],
+[['蝴蝶'],'夢見蝴蝶','蝴蝶象徵蛻變與美好，是轉變順利、心情輕盈的象徵。'],
+[['蜜蜂','蜂'],'夢見蜜蜂','蜜蜂象徵勤奮與收穫，也提醒你別被小事刺痛心情。'],
+[['鱷魚','鯊魚'],'夢見猛獸','代表你感受到的壓力或威脅，也象徵你內在的力量，面對它就不那麼可怕。'],
+[['獅子'],'夢見獅子','獅子象徵勇氣與權威，是在鼓勵你展現自信。'],
+[['熊'],'夢見熊','熊象徵強大力量與保護，也提醒你注意自己的情緒是否壓抑太久。'],
+[['鯨魚','海豚'],'夢見海洋動物','象徵情感深度與智慧，是心靈平靜、直覺良好的象徵。'],
+[['寵物'],'夢見寵物','寵物象徵陪伴與無條件的愛，也提醒你多給自己一點溫柔。'],
+[['玫瑰','紅花'],'夢見玫瑰','玫瑰象徵愛情與熱情，可能預示感情的新發展。'],
+[['稻田','田野','農場'],'夢見田野','田野象徵耕耘與收穫，是努力會有結果的象徵。'],
+[['沙漠'],'夢見沙漠','沙漠象徵孤獨或感到資源匱乏，也提醒你尋找屬於自己的綠洲。'],
+[['墓','墓地','棺材'],'夢見墓地','不一定是壞兆頭，常象徵結束與重生，也可能代表對過去的整理與告別。'],
+[['廟','寺廟','神明','菩薩','佛'],'夢見神佛','民間視為吉兆，代表內心渴望平靜與庇佑，也提醒你多行善。'],
+[['天使'],'夢見天使','象徵守護與好消息，是心靈得到安慰的象徵。'],
+[['外星人','UFO','飛碟'],'夢見外星人','代表你對未知的好奇，或覺得與周遭格格不入，也可能是創意的火花。'],
+[['戰爭','槍','爆炸'],'夢見戰爭','代表內心衝突或外在壓力，醒來後試著釐清是哪件事讓你緊繃。'],
+[['喪屍','殭屍'],'夢見喪屍','代表疲憊與被事情追著跑的感覺，提醒你需要真正的休息。'],
+[['被困','困住','關起來'],'夢見被困','代表感到受限或無法選擇，試著找出生活中最讓你喘不過氣的一件事。'],
+[['沒穿鞋','赤腳'],'夢見赤腳','象徵放鬆與真實，也可能代表想回歸簡單的生活。'],
+[['迷宮'],'夢見迷宮','代表選擇太多或方向不明，慢慢來，走一步看一步就能找到出口。'],
+[['看不到','失明','看不見'],'夢見看不見','代表對現況缺乏資訊或感到不確定，多蒐集資訊會讓你安心。'],
+[['說不出話','失聲'],'夢見說不出話','代表想表達卻有顧慮，試著用寫的方式整理想說的話。'],
+[['重複','一直做同一個夢'],'夢見重複的夢','反覆出現的夢常在提醒同一件事，靜下心想想那份情緒指向的現實課題。'],
+[['時鐘','手錶','鬧鐘'],'夢見時鐘','代表時間壓力與期限，提醒你重新安排優先順序。'],
+[['行李','旅行','旅遊','出國'],'夢見旅行','代表渴望改變與探索，也可能是你需要休息的信號。'],
+[['畢業'],'夢見畢業','代表告一段落與新階段的開始，是成長的象徵。'],
+[['演講','上台','舞台'],'夢見上台','代表被注視與表現的壓力，順利表現是自信的提示。'],
+[['唱歌','音樂','跳舞'],'夢見唱歌跳舞','代表情緒的釋放與喜悅，也可能是創意的泉源。'],
+[['禮物','送禮'],'夢見禮物','象徵被重視與好運，也提醒你多表達感謝。'],
+[['信','寫信','情書'],'夢見信件','代表尚未說出口的話，或遲來的消息。'],
+[['雲'],'夢見雲','白雲象徵輕鬆自在，烏雲則提醒你留意心情的低氣壓，雲散就是好轉。']];
 const DREAM_GEN=['夢境很個人化，同一個畫面對每個人的意義不同。想想夢裡你的感受是開心、害怕還是平靜，那就是這個夢想告訴你的重點。','這個夢沒有特別對應的傳統說法，不妨把它當成大腦整理白天資訊的結果，睡前放鬆、規律作息會有幫助。','夢境多半反映日常的心情與想法。想想最近是否有放不下的事，把它寫下來，心裡會輕鬆一些。'];
 const DREAM_CHIPS=['水','蛇','掉牙','飛','考試','被追','死亡','結婚','錢','貓','狗','前任','遲到','迷路','手機','老闆','地震','龍'];
 VIEWS.dream={t:'周公解夢.exe',render:()=>`
@@ -1351,7 +1462,7 @@ VIEWS.match={t:'緣分配對.exe',render:()=>`
 <div class="pane"><div class="row"><label>你的生日 <input type="date" id="d1" value="${store.get('birth','2000-01-01')}"></label>
 <label>對方生日 <input type="date" id="d2" value="1998-06-15"></label></div>
 <div class="center"><button class="btn big" id="go">測緣分</button></div>
-<p class="small center">綜合生肖、星座與日主五行三個面向。</p></div>
+<p class="small center">綜合生肖、星座、日主五行、日柱合婚與生命靈數五個面向。</p></div>
 <div id="out"></div>${backBtn}`,
 mount(r){
   const out=$('#out',r);
@@ -1382,6 +1493,22 @@ mount(r){
     if(x===y){sc+=6;lines.push(['五行',`日主五行同為${E5[x]}，想法相近，也容易較勁。`])}
     else if(y===(x+1)%5||x===(y+1)%5){sc+=8;lines.push(['五行','日主五行相生，一方容易滋養、成就另一方。'])}
     else{sc-=6;lines.push(['五行','日主五行相剋，彼此刺激，也需要磨合。'])}
+    // 日柱（八字合婚）
+    const dl=q=>{const[Y,M,D]=q.split('-').map(Number),l=LUNAR.Solar.fromYmd(Y,M,D).getLunar();return[STEMS.indexOf(l.getDayGan()),BR.indexOf(l.getDayZhi()),l.getMonthZhi?BR.indexOf(l.getMonthZhi()):0]};
+    const d1=dl(s1),d2=dl(s2);
+    if(mod(d1[0]-d2[0],10)===5||mod(d2[0]-d1[0],10)===5){sc+=10;lines.push(['日干','日干五合（'+STEMS[d1[0]]+STEMS[d2[0]]+'合），八字合婚中的好配對，容易互相吸引。'])}
+    const od=relB(d1[1],d2[1]);
+    if(od.he6){sc+=10;lines.push(['日支','日支六合，私下相處融洽，是很貼心的搭配。'])}
+    else if(od.he3){sc+=6;lines.push(['日支','日支三合，生活步調容易同步。'])}
+    else if(od.chong){sc-=8;lines.push(['日支','日支相沖，生活習慣差異大，要多溝通磨合。'])}
+    else if(od.hai||od.xing){sc-=4;lines.push(['日支','日支相害或相刑，小摩擦難免，多體諒就能化解。'])}
+    else lines.push(['日支','日支沒有特別牽動，關係平穩。']);
+    const lp=q=>{let n=sumd(q.replace(/-/g,''));while(n>9&&n!==11&&n!==22)n=sumd(n);return n>9&&n!==11&&n!==22?sumd(n):n};
+    const n1=lp(s1),n2=lp(s2),r1=n1>9?sumd(n1):n1,r2=n2>9?sumd(n2):n2;
+    if(r1===r2){sc+=4;lines.push(['靈數',`生命靈數同為 ${n1}，價值觀很像，彼此一看就懂。`])}
+    else if(mod(r1-r2,3)===0){sc+=5;lines.push(['靈數',`靈數 ${n1} 與 ${n2} 屬同一類型（同頻），默契好。`])}
+    else if(Math.abs(r1-r2)===1||Math.abs(r1-r2)===8){sc+=2;lines.push(['靈數',`靈數 ${n1} 與 ${n2} 相鄰，互補而不衝突。`])}
+    else lines.push(['靈數',`靈數 ${n1} 與 ${n2} 差異明顯，反而能帶來新鮮感。`]);
     sc=Math.max(38,Math.min(98,sc));
     const v=sc>=90?'天作之合':sc>=80?'非常合拍':sc>=70?'頗有緣分':sc>=60?'平順相處':'需要磨合';
     const name=p=>`${AEMO[p.an]} ${ANIMALS[p.an]}・${SIGNS[p.si][1]}座・日主${STEMS[p.dm]}`;
@@ -1510,6 +1637,248 @@ mount(r){
     refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
   };
 }};
+
+/* ===== 共用：出生資料表單 ===== */
+const CITY=[['台北',121.56,25.04],['新北',121.46,25.01],['桃園',121.30,24.99],['新竹',120.97,24.80],['台中',120.68,24.14],['彰化',120.54,24.07],['嘉義',120.45,23.48],['台南',120.21,23.00],['高雄',120.30,22.63],['花蓮',121.60,23.98],['台東',121.15,22.76],['香港',114.17,22.32,8],['東京',139.69,35.69,9],['北京',116.40,39.90,8],['新加坡',103.82,1.35,8],['倫敦',-0.13,51.51,0],['紐約',-74.01,40.71,-5],['洛杉磯',-118.24,34.05,-8]];
+const birthForm=(needPlace)=>`<div class="pane"><div class="row"><label>西曆生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label>
+<label>出生時間 <input type="time" id="tm" value="12:00"></label></div>
+${needPlace?`<div class="row"><label>出生地 <select id="ct">${CITY.map((c,i)=>`<option value="${i}">${c[0]}</option>`).join('')}</select></label></div><p class="small center">以當地標準時間計算（不處理夏令時間）；不確定出生時間的話，上升星座可能不準。</p>`:''}
+<div class="center"><button class="btn big" id="go">開始</button></div></div>`;
+function readBirth(r){
+  const ds=$('#dt',r).value;if(!ds)return null;store.set('birth',ds);
+  const [Y,M,D]=ds.split('-').map(Number),[h,mi]=($('#tm',r)?$('#tm',r).value:'12:00').split(':').map(Number);
+  const c=$('#ct',r)?CITY[+$('#ct',r).value]:CITY[0],tz=c[3]===undefined?8:c[3];
+  return{Y,M,D,h:h||0,mi:mi||0,lon:c[1],lat:c[2],tz,city:c[0],date:new Date(Date.UTC(Y,M-1,D,h||0,mi||0)-tz*3600000)};
+}
+const sgn=lon=>Math.floor(mod(lon,360)/30);
+const dm=lon=>Math.floor(mod(lon,30))+'°'+String(Math.floor(mod(lon,1)*60)).padStart(2,'0')+'′';
+
+/* ===== 西洋本命星盤 ===== */
+const WP=['太陽','月亮','水星','金星','火星','木星','土星','天王星','海王星','冥王星'],WPG=['☉','☽','☿','♀','♂','♃','♄','♅','♆','♇'],WPE=['Sun','Moon','Mercury','Venus','Mars','Jupiter','Saturn','Uranus','Neptune','Pluto'];
+const WH=['自我與外在形象','金錢與價值觀','學習與溝通','家庭與根源','創造與戀愛','工作與健康','伴侶與合作','深層情感與轉化','遠行與信念','事業與社會地位','朋友與理想','潛意識與獨處'];
+const W_SUN=['直接、勇敢，有先行動再說的衝勁','踏實、有耐性，重視安全感與生活品質','好奇、反應快，思緒活潑愛交流','細膩、重感情，很會照顧身邊的人','自信、熱情，渴望被看見與被喜愛','謹慎、重細節，追求把事情做到更好','優雅、重和諧，凡事講求公平與平衡','深沉、專注，有強大的意志與洞察力','樂觀、愛自由，嚮往遠方與真理','務實、有野心，肯長期耕耘達成目標','獨立、有創見，思想前衛不愛被框住','浪漫、富同情心，想像力與感受力很強'];
+const W_MOON=['情緒來得快去得也快，需要行動來釋放','需要穩定與舒適，美食與安心的環境能安撫你','需要透過說話與資訊來整理心情','情感深厚，需要家與歸屬感的安全感','需要被肯定與關愛，付出時最有光彩','用整理與幫助他人來安頓情緒，容易自我苛求','需要和諧的關係，害怕衝突與孤單','感受強烈而隱藏，信任需要時間建立','需要自由與新鮮感，樂觀能幫你走出低潮','情緒內斂、不輕易示弱，以責任感穩住自己','需要空間與獨處，習慣用理性看待感受','共感力強、容易吸收他人情緒，需要靜心獨處'];
+const W_MER=['想到就說，直率而有說服力','思考慢但穩，一旦決定很難改變','腦筋靈活、學得快，點子很多','憑感覺與記憶思考，說話溫柔帶情緒','表達生動有戲劇性，說話有感染力','邏輯清楚、重細節，擅長分析與整理','講究措辭與公平，善於協調','洞察力強，善於挖掘事情背後的真相','視野寬廣，愛談理念與大方向','務實有條理，說話精簡有重點','思路獨特，常有超前的想法','直覺式思考，富想像力但偶爾不夠具體'];
+const W_VEN=['愛得直接熱烈，喜歡主動追求','重感官與穩定，愛得專一長久','喜歡聊得來、有趣的對象，愛要有新鮮感','付出型的愛，重視家庭與安全感','大方浪漫，愛得戲劇化也需要被讚美','低調務實，用行動與細心表達愛','追求優雅與和諧，對美與關係很有品味','愛得深刻專一，占有慾與忠誠並存','嚮往自由與共同成長的伴侶','慢熱、重承諾，愛是長期的責任','重視友誼與心靈連結，愛要有空間','溫柔浪漫、願意犧牲，愛帶著夢幻色彩'];
+const W_MAR=['行動力爆表，勇於開創與挑戰','行動慢但持久，一旦投入就不輕易放棄','同時做很多事，反應快、點子多','行動帶著情緒與保護欲，常迂迴前進','帶著自信與魄力，喜歡領導全場','細心有計畫，用效率達成目標','行動前會權衡利弊，不愛正面衝突','意志力強、專注，行動有策略也有爆發力','熱情衝勁十足，愛冒險與追求目標','有毅力與耐力，穩定朝野心前進','以創新與理想驅動，行動有時很出人意料','行動受直覺與感受影響，需要明確的目標'];
+const W_ASC=['給人積極、直接的第一印象','給人沉穩、可靠、有品味的第一印象','給人機靈、親切、愛聊天的第一印象','給人溫和、親切、有保護感的第一印象','氣場明亮，給人自信有魅力的第一印象','給人乾淨、謹慎、聰明的第一印象','給人優雅、有禮、好相處的第一印象','給人神祕、有深度、眼神很有力的第一印象','給人開朗、愛自由、樂觀的第一印象','給人穩重、成熟、有責任感的第一印象','給人獨特、疏離又有個性的第一印象','給人溫柔、夢幻、親和的第一印象'];
+const W_EL=['火','土','風','水'],W_MO=['開創','固定','變動'];
+const W_ASP=[[0,'合相',8,'能量融合、彼此強化'],[60,'六分相',5,'順暢互助、容易發揮'],[90,'四分相',6,'帶來張力與挑戰，也是成長的動力'],[120,'三分相',6,'天賦般的順暢與好運'],[180,'對分相',8,'拉扯與平衡，需要學會兼顧兩邊']];
+VIEWS.natal={t:'西洋星盤.exe',render:()=>`
+<div class="center">${wa('西洋本命星盤','wa5','arch')}<p>輸入出生日期、時間與地點，算出太陽、月亮、上升與各行星位置。</p></div>${birthForm(true)}<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const b=readBirth(r);if(!b)return;
+    const t=ASTRO.MakeTime(b.date);
+    const lons=WPE.map(n=>n==='Sun'?ASTRO.SunPosition(t).elon:n==='Moon'?ASTRO.EclipticGeoMoon(t).lon:ASTRO.Ecliptic(ASTRO.GeoVector(n,t,true)).elon).map(x=>mod(x,360));
+    const T=t.ut/36525,rad=Math.PI/180,eps=(23.439291-0.0130042*T)*rad;
+    const ramc=mod(ASTRO.SiderealTime(t)*15+b.lon,360)*rad,la=b.lat*rad;
+    const asc=mod(Math.atan2(Math.cos(ramc),-(Math.sin(ramc)*Math.cos(eps)+Math.tan(la)*Math.sin(eps)))/rad,360);
+    const mc=mod(Math.atan2(Math.sin(ramc),Math.cos(ramc)*Math.cos(eps))/rad,360);
+    const node=mod(125.04452-1934.136261*T,360);
+    const A=sgn(asc),hs=l=>mod(sgn(l)-A,12)+1;
+    const S=i=>SIGNS[i][0]+SIGNS[i][1]+'座';
+    const rows=lons.map((l,i)=>`<tr><td>${WPG[i]} ${WP[i]}</td><td>${S(sgn(l))} ${dm(l)}</td><td>第${hs(l)}宮</td></tr>`);
+    rows.unshift(`<tr><td>⬆ 上升</td><td>${S(A)} ${dm(asc)}</td><td>第1宮</td></tr>`,`<tr><td>MC 天頂</td><td>${S(sgn(mc))} ${dm(mc)}</td><td>—</td></tr>`);
+    rows.push(`<tr><td>☊ 北交點</td><td>${S(sgn(node))} ${dm(node)}</td><td>第${hs(node)}宮</td></tr>`);
+    // 圖
+    const cx=130,cy=130,pr=(l)=>{const a=(180+(l-asc))*rad;return[cx+Math.cos(a),cy-Math.sin(a)]};
+    let svg=`<svg viewBox="0 0 260 260" width="100%" style="max-width:340px" class="nozy-cell"><circle cx="130" cy="130" r="122" fill="#fff8e1" stroke="#8b5a2b" stroke-width="3"/><circle cx="130" cy="130" r="92" fill="none" stroke="#8b5a2b"/><circle cx="130" cy="130" r="40" fill="#f6ecc8" stroke="#8b5a2b"/>`;
+    for(let i=0;i<12;i++){const a=(180+(i*30-asc))*rad;svg+=`<line x1="${cx+Math.cos(a)*92}" y1="${cy-Math.sin(a)*92}" x2="${cx+Math.cos(a)*122}" y2="${cy-Math.sin(a)*122}" stroke="#8b5a2b"/>`;const m=(180+(i*30+15-asc))*rad;svg+=`<text x="${cx+Math.cos(m)*107}" y="${cy-Math.sin(m)*107+5}" font-size="15" text-anchor="middle" fill="#a00">${SIGNS[i][0]}&#xFE0E;</text>`}
+    const ha=(180)*rad;svg+=`<line x1="${cx-40}" y1="${cy}" x2="${cx-92}" y2="${cy}" stroke="#000080" stroke-width="3"/><text x="${cx-96}" y="${cy-4}" font-size="11" text-anchor="end" fill="#000080">ASC</text>`;
+    lons.forEach((l,i)=>{const[x,y]=pr(l);const rr=72-(i%3)*10;const a=(180+(l-asc))*rad;svg+=`<text x="${cx+Math.cos(a)*rr}" y="${cy-Math.sin(a)*rr+5}" font-size="16" text-anchor="middle" fill="#000080" font-weight="bold">${WPG[i]}&#xFE0E;</text>`});
+    svg+='</svg>';
+    // 相位
+    const asp=[];
+    for(let i=0;i<7;i++)for(let j=i+1;j<7;j++){const d=Math.abs(lons[i]-lons[j]),dd=d>180?360-d:d;for(const a of W_ASP){const o=Math.abs(dd-a[0]);if(o<=a[2]){asp.push([o,`${WP[i]} ${a[1]} ${WP[j]}`,a[3]]);break}}}
+    asp.sort((x,y)=>x[0]-y[0]);
+    // 元素 / 模式
+    const el=[0,0,0,0],mo=[0,0,0];[...lons.slice(0,7),asc].forEach(l=>{el[sgn(l)%4]++;mo[sgn(l)%3]++});
+    const eT=['火象多：熱情、行動、愛表現','土象多：務實、穩定、重現實','風象多：理性、愛溝通、想法多','水象多：感性、直覺、重情感'][el.indexOf(Math.max(...el))];
+    const mT=['開創多：愛起頭、有行動力','固定多：堅持、專一，也較固執','變動多：彈性、適應力強，容易分心'][mo.indexOf(Math.max(...mo))];
+    const para=(i,txt)=>`<p><span class="lbl">${WP[i]}</span>在${S(sgn(lons[i]))}・第${hs(lons[i])}宮：${txt}。重心在「${WH[hs(lons[i])-1]}」。</p>`;
+    out.innerHTML=`<div class="pane"><div class="center">${wa(SIGNS[sgn(lons[0])][1]+'・'+SIGNS[sgn(lons[1])][1]+'・'+SIGNS[A][1],'wa2','wave','clamp(30px,9vw,46px)')}<p class="small">太陽・月亮・上升　（${b.city}）</p>${svg}</div>
+    <table class="tbl t5 fix nozy-cell" style="font-size:15px">${rows.join('')}</table>
+    <div class="wa wa2 sm" data-shape="wave">星盤解讀</div>
+    ${para(0,'核心自我'+W_SUN[sgn(lons[0])])}
+    ${para(1,W_MOON[sgn(lons[1])])}
+    <p><span class="lbl">上升</span>${S(A)}：${W_ASC[A]}，你的人生舞台從「${WH[0]}」開始。</p>
+    ${para(2,'思考溝通上，'+W_MER[sgn(lons[2])])}
+    ${para(3,'感情與價值觀上，'+W_VEN[sgn(lons[3])])}
+    ${para(4,'行動方式上，'+W_MAR[sgn(lons[4])])}
+    <p><span class="lbl">木星</span>在第${hs(lons[5])}宮：成長與好運容易出現在「${WH[hs(lons[5])-1]}」。</p>
+    <p><span class="lbl">土星</span>在第${hs(lons[6])}宮：長期的功課與成熟，會出現在「${WH[hs(lons[6])-1]}」。</p>
+    <p><span class="lbl">北交點</span>在第${hs(node)}宮：靈魂想往「${WH[hs(node)-1]}」的方向成長。</p>
+    <div class="wa wa2 sm" data-shape="wave">元素與模式</div><p>${eT}；${mT}。</p>
+    <div class="wa wa2 sm" data-shape="wave">主要相位</div>
+    ${asp.slice(0,8).map(a=>`<p><b>${a[1]}</b>（誤差 ${a[0].toFixed(1)}°）：${a[2]}。</p>`).join('')||'<p>沒有明顯的相位。</p>'}
+    <p class="small">※ 行星位置由開源的 astronomy-engine（MIT）計算；宮位採整宮制，北交點為平均交點；外行星為世代行星，不逐一解讀。解說為簡化白話版，僅供娛樂參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 姓名數字學（畢達哥拉斯） ===== */
+const PY_V='AEIOU';
+const pyv=c=>(c.charCodeAt(0)-65)%9+1;
+function pyRed(n){while(n>9&&n!==11&&n!==22&&n!==33)n=sumd(n);return n}
+VIEWS.pyth={t:'姓名數字學.exe',render:()=>`
+<div class="center">${wa('姓名數字學','wa3','wave')}<p>輸入英文（或護照拼音）姓名，算出天賦、內心渴望與外在形象數字。</p></div>
+<div class="pane center"><input type="text" id="nm" maxlength="40" placeholder="例如：Tina Lu"><br><label>生日（選填） <input type="date" id="dt"></label><br><button class="btn big" id="go">算算看</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const nm=$('#nm',r).value.toUpperCase().replace(/[^A-Z]/g,'');
+    if(nm.length<2){out.innerHTML='<div class="pane center">請輸入至少兩個英文字母的姓名。</div>';refresh(out);return}
+    const all=[...nm],vow=all.filter(c=>PY_V.includes(c)),con=all.filter(c=>!PY_V.includes(c));
+    const sm=a=>a.reduce((s,c)=>s+pyv(c),0);
+    const ex=pyRed(sm(all)),so=pyRed(sm(vow)),pe=pyRed(sm(con));
+    const row=(lbl,n,desc)=>`<p><span class="lbl">${lbl}</span><b style="font-size:24px;color:#a00">${n}</b>　${LN[n][0]}<br>${LN[n][1]}<br><span class="small">${desc}</span></p>`;
+    let life='';
+    const ds=$('#dt',r).value;
+    if(ds){const [Y,M,D]=ds.split('-').map(Number);const lp=pyRed(sumd(Y)+sumd(M)+sumd(D));life=row('生命道路',lp,'由生日算出的人生主軸，可與生命靈數工具對照。')}
+    out.innerHTML=`<div class="paper"><div class="center">${wa(nm,'wa1','wave','clamp(30px,10vw,52px)')}</div>
+    ${row('天賦數',ex,'全名所有字母，代表你的天賦、才能與人生使命。')}
+    ${row('心靈數',so,'全名母音，代表內心真正的渴望與動機。')}
+    ${row('人格數',pe,'全名子音，代表別人眼中的你、外在形象。')}${life}
+    <p class="small">※ 字母對應採畢達哥拉斯制（A=1…I=9、J=1…），11、22、33 為特殊的大師數字；僅供娛樂參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 日本御神籤 ===== */
+const OMI=[
+['大吉',8,['心願必能成就，放膽去做','緣分美好，真心會被回應','努力有回報，可望突破','出行順利，處處有貴人','精神飽滿，維持作息即可','很快就會找到，也許就在身邊']],
+['中吉',18,['願望可成，需要一點耐心','關係穩步加溫，主動一點更好','穩定進步，持續就會見效','平安愉快，細節先準備好','狀況良好，留意飲食','慢慢找就會出現']],
+['小吉',14,['小有進展，別心急','平淡中有溫度，多聊聊','穩紮穩打，不要分心','適合近郊小旅行','小心換季與疲勞','靠記憶回推，會在熟悉的地方']],
+['吉',24,['順其自然，終會實現','真誠相處，不必勉強','基礎打穩，後勢看漲','行程順遂，出發前確認交通','注意作息，多喝水','先冷靜，再找一次']],
+['末吉',14,['要等待時機，莫急','暫緩腳步，先把自己顧好','先補弱項，勿鬆懈','宜保守，留意天氣','別熬夜，多休息','可能要等一陣子']],
+['凶',16,['此時不宜強求，調整方向','慎防誤會，凡事說清楚','容易分心，先建立規律','行程要多留彈性','身體在提醒你放慢','不易尋回，下次多留意']],
+['大凶',6,['先沉潛累積力量，反而是轉機','暫時放下，避免衝動決定','把基礎檢視一遍，別硬撐','改期為宜，安全第一','務必休息，有不適就就醫','暫時放下，之後再留意']]];
+VIEWS.omikuji={t:'御神籤.exe',render:()=>`
+<div class="center">${wa('御神籤','wa1','arch')}<p>日本神社的求籤方式：心中默念願望，抽一支籤。</p>
+<div class="tube" id="tube">${TUBE}</div><button class="btn big" id="go">抽籤</button></div><div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r),tube=$('#tube',r),go=$('#go',r);
+  go.onclick=()=>{
+    go.disabled=true;out.innerHTML='';tube.classList.add('shake');
+    setTimeout(()=>{
+      tube.classList.remove('shake');
+      let x=ri(100),lv=OMI[0];for(const o of OMI){if(x<o[1]){lv=o;break}x-=o[1]}
+      const A=['願望','戀愛','學業','旅行','健康','失物'],bad=lv[0]==='凶'||lv[0]==='大凶';
+      out.innerHTML=`<div class="paper center"><div style="writing-mode:horizontal-tb;font-size:12px;color:#a00">神籤</div>${wa(lv[0],bad?'wa7':'wa4','wave','clamp(70px,24vw,120px)')}
+      <div style="text-align:left">${A.map((a,i)=>`<p><span class="lbl">${a}</span>${lv[2][i]}</p>`).join('')}
+      <p class="small">${bad?'日本的習俗是把凶籤綁在神社的樹枝或籤架上，象徵把壞運留在那裡。':'吉籤可以帶回家收好當作護身符，或綁在籤架上與神明結緣。'}籤文為自編白話版，僅供娛樂參考。</p></div></div>`;
+      refresh(out);go.disabled=false;go.textContent='再抽一支';
+    },1400);
+  };
+}};
+
+/* ===== 九星氣學 ===== */
+const KS=[null,
+['一白水星',4,'柔軟聰明、善於適應，內心深沉、重視人際，需要多一點主動。'],
+['二黑土星',2,'踏實勤勞、愛照顧人，有耐心，也容易為別人操心。'],
+['三碧木星',0,'活潑積極、行動力強、反應快，有時比較急躁。'],
+['四綠木星',0,'溫和守信、人緣好、重視禮貌，優柔寡斷是需要克服的地方。'],
+['五黃土星',2,'存在感強烈，有領導力與毅力，個性鮮明、也不輕易低頭。'],
+['六白金星',3,'正直有威嚴、責任感重、重規矩，自尊心也很強。'],
+['七赤金星',3,'開朗愛享受、口才好、重感情，花錢比較大方。'],
+['八白土星',2,'沉穩有定見，善於累積與守成，固執是需要留意的弱點。'],
+['九紫火星',1,'聰明有美感、熱情、直覺佳，情緒起伏比較大。']];
+const KP=['中宮：蟄伏與整理的一年，適合沉澱、檢視方向，不宜冒進。','西北（乾宮）：貴人與責任的一年，要承擔更多，也容易得到前輩幫助。','正西（兌宮）：享樂與金錢的一年，人際與社交活絡，留意花費。','東北（艮宮）：變動與轉機的一年，舊事結束、新機會浮現。','正南（離宮）：名聲與才華被看見的一年，適合表現與學習。','正北（坎宮）：辛勞與考驗的一年，需要耐心，多留意健康。','西南（坤宮）：踏實耕耘的一年，適合打基礎、顧家庭。','正東（震宮）：新開始與活力的一年，適合啟動新計畫。','東南（巽宮）：信用與人緣的一年，旅行、洽談與拓展人脈順利。'];
+function ksYear(Y,M,D){const l=LUNAR.Solar.fromYmd(Y,M,D).getLunar(),g=l.getYearInGanZhiByLiChun();for(const y of[Y-1,Y,Y+1])if(STEMS[mod(y-4,10)]===g[0]&&BR[mod(y-4,12)]===g[1])return y;return Y}
+const ksStar=y=>{let s=sumd(y);while(s>9)s=sumd(s);let n=11-s;if(n>9)n-=9;return n};
+VIEWS.kyusei={t:'九星氣學.exe',render:()=>`
+<div class="center">${wa('九星氣學','wa6','arch')}<p>日本流傳的九星氣學：依出生年（以立春為界）與月份算出你的本命星與月命星。</p></div>
+<div class="pane center"><label>西曆生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label><br><button class="btn big" id="go">算本命星</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const ds=$('#dt',r).value;if(!ds)return;store.set('birth',ds);
+    const [Y,M,D]=ds.split('-').map(Number),y=ksYear(Y,M,D),star=ksStar(y);
+    const l=LUNAR.Solar.fromYmd(Y,M,D).getLunar(),mb=BR.indexOf(l.getMonthInGanZhiExact()[1]),m0=mod(mb-2,12);
+    const yb=mod(y-4,12);
+    const grp='子午卯酉'.includes(BR[yb])?8:'辰戌丑未'.includes(BR[yb])?5:2;
+    const mstar=mod(grp-1-m0,9)+1;
+    const now=new Date(),cy=ksYear(now.getFullYear(),now.getMonth()+1,now.getDate()),cs=ksStar(cy);
+    const pos=mod(star-cs,9);
+    const K=KS[star],K2=KS[mstar];
+    const rel=(a,b)=>{const x=KS[a][1],z=KS[b][1];if(x===z)return'五行相同，容易有共鳴';if(z===(x+1)%5||x===(z+1)%5)return'五行相生，彼此能互相成就';return'五行相剋，需要多磨合'};
+    out.innerHTML=`<div class="paper center">${wa(K[0],'wa2','wave','clamp(40px,12vw,66px)')}<p>${y} 年生（以立春為界）</p>
+    <div style="text-align:left"><p><span class="lbl">本命星</span><b>${K[0]}</b>（${E5[K[1]]}）：${K[2]}</p>
+    <p><span class="lbl">月命星</span><b>${K2[0]}</b>（${E5[K2[1]]}）：代表內在、私下的你。${K2[2]}</p>
+    <p><span class="lbl">兩星關係</span>${rel(star,mstar)}。</p>
+    <div class="wa wa2 sm" data-shape="wave">今年（${cy} 年）</div>
+    <p>今年中宮是${KS[cs][0]}，你的本命星飛到<b>${KP[pos].split('：')[0]}</b>。</p><p>${KP[pos].split('：')[1]}</p>
+    <p class="small">※ 九星氣學流派很多，這裡採常見的年盤算法並簡化說明，僅供娛樂參考。</p></div></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 瑪雅神聖曆 ===== */
+const MS=[['Imix','鱷魚・原初之水','滋養、直覺，像大地之母般包容，是起點與源頭的能量。'],['Ik','風','溝通與靈感，自由自在，思想與言語很有力量。'],['Akbal','夜・屋','夢境與內省，需要安全感，擅長在安靜中看見答案。'],['Kan','種子','潛力與成長，善於耕耘，點子會慢慢開花結果。'],['Chicchan','蛇','生命力與本能，熱情旺盛，直覺敏銳。'],['Cimi','轉化・死亡','懂得放下與更新，帶著智慧面對結束與重生。'],['Manik','手・鹿','療癒與實踐，善於動手把想法做出來。'],['Lamat','星','和諧與豐盛，帶著藝術氣質與幸運感。'],['Muluc','水・月','情感與淨化，願意付出，也需要學習釋放。'],['Oc','狗','忠誠與友誼，是可靠的夥伴，也常為人引路。'],['Chuen','猴','創意與玩心，點子多、幽默，把生活當成藝術。'],['Eb','草・道路','服務與人道，腳踏實地走自己的路，有同理心。'],['Ben','蘆葦','領導與探索，意志堅定，總有想去的遠方。'],['Ix','美洲豹','魔力與守護，帶著神祕的氣場與敏銳的感受。'],['Men','老鷹','遠見與視野，站得高看得遠，重視自由。'],['Cib','禿鷲・貓頭鷹','智慧與傳承，洞察力強，重視祖先與經驗。'],['Caban','大地','與大地連結，直覺與同步性強，善於把握時機。'],['Etznab','燧石・鏡子','真理與決斷，直接坦率，像鏡子般照見真實。'],['Cauac','風暴','淨化與轉變，能量強大，經歷風雨後更堅強。'],['Ahau','太陽','光明與領袖，樂觀有魅力，天生帶著溫暖的光。']];
+const MT=['開始與目標','對立與選擇','行動與服務','形塑與定義','賦權與核心','平衡與組織','共鳴與調和','和諧與整合','脈動與實現','顯化與完成','釋放與解放','合作與奉獻','超越與圓滿'];
+VIEWS.maya={t:'瑪雅神聖曆.exe',render:()=>`
+<div class="center">${wa('瑪雅神聖曆','wa4','wave')}<p>瑪雅人使用 260 天的神聖曆（卓爾金曆）：20 個日符號搭配 13 個數字。</p></div>
+<div class="pane center"><label>西曆生日 <input type="date" id="dt" value="${store.get('birth','2000-01-01')}"></label><br><button class="btn big" id="go">查我的日符號</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  const kin=(Y,M,D)=>{const d=Math.floor(Date.UTC(Y,M-1,D)/86400000)+2440588-2456283;return{tone:mod(3+d,13)+1,sign:mod(19+d,20)}};
+  $('#go',r).onclick=()=>{
+    const ds=$('#dt',r).value;if(!ds)return;store.set('birth',ds);
+    const [Y,M,D]=ds.split('-').map(Number),k=kin(Y,M,D),s=MS[k.sign],n=new Date(),tk=kin(n.getFullYear(),n.getMonth()+1,n.getDate());
+    out.innerHTML=`<div class="paper center">${wa(k.tone+' '+s[0],'wa7','wave','clamp(44px,13vw,72px)')}<div class="grade">${s[1]}</div>
+    <div style="text-align:left"><p><span class="lbl">日符號</span>${s[2]}</p>
+    <p><span class="lbl">數字 ${k.tone}</span>${MT[k.tone-1]}：這個數字給你的日符號帶來「${MT[k.tone-1].split('與')[0]}」的色彩。</p>
+    <p><span class="lbl">今天</span>今天是 ${tk.tone} ${MS[tk.sign][0]}（${MS[tk.sign][1]}），日子的主題是「${MT[tk.tone-1]}」。</p>
+    <p class="small">※ 採傳統 GMT 對照（2012/12/21 為 4 Ahau）計算卓爾金曆；解說為簡化白話版，與「夢境咒語曆」的 KIN 系統不同，僅供娛樂參考。</p></div></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 吠陀月宿 ===== */
+const NK=[['Ashwini','馬頭星宿','行動敏捷、善於開創與療癒'],['Bharani','負載星宿','承擔力強、情感強烈、重視生命力'],['Krittika','剪刀・火焰','銳利有批判力，具有淨化與保護的力量'],['Rohini','紅星','有魅力、重享受，富創造力'],['Mrigashira','鹿頭','好奇愛探索，溫柔又愛追尋'],['Ardra','濕潤之星','風暴後的重生，聰明而敏感'],['Punarvasu','回歸之光','樂觀包容，跌倒了也能東山再起'],['Pushya','滋養之星','善良可靠，擅長照顧與教導'],['Ashlesha','擁抱之蛇','洞察力深、有策略，感受複雜細膩'],['Magha','王座','重傳承與尊榮，有領導氣質'],['Purva Phalguni','前紅星','愛享樂與藝術，重視愛與休閒'],['Uttara Phalguni','後紅星','重承諾與友誼，穩定可靠'],['Hasta','手','靈巧，善於手作與解決問題'],['Chitra','明珠','愛美有設計感，創造力豐富'],['Swati','獨立之風','自由靈活，重視獨立與平衡'],['Vishakha','凱旋門','目標堅定，企圖心強'],['Anuradha','友誼之星','忠誠善合作，擅長經營關係'],['Jyeshtha','長者','保護欲強、有威信，肯承擔責任'],['Mula','根','追根究柢，勇於破舊立新'],['Purva Ashadha','前不敗','樂觀自信，說服力強'],['Uttara Ashadha','後不敗','穩健持久，重原則與長遠的勝利'],['Shravana','聆聽之星','善於學習與傾聽，重視知識'],['Dhanishta','鼓','有節奏感，社交與財運活絡，活力充沛'],['Shatabhisha','百醫之星','獨立神祕，擅長療癒與研究'],['Purva Bhadrapada','前雙足','理想熱情，帶有靈性與激進色彩'],['Uttara Bhadrapada','後雙足','沉穩深刻，富同情心與智慧'],['Revati','富足之星','溫柔守護，善於引導，旅途平安']];
+VIEWS.vedic={t:'吠陀月宿.exe',render:()=>`
+<div class="center">${wa('吠陀月宿','wa5','arch')}<p>印度吠陀占星以「月亮」為核心：看月亮落在 27 星宿的哪一宿（採恆星黃道）。</p></div>${birthForm(true)}<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const b=readBirth(r);if(!b)return;
+    const t=ASTRO.MakeTime(b.date),yr=2000+t.ut/365.25;
+    const ay=23.853+(yr-2000)*0.013972;
+    const mo=mod(ASTRO.EclipticGeoMoon(t).lon-ay,360),su=mod(ASTRO.SunPosition(t).elon-ay,360);
+    const w=360/27,ni=Math.floor(mo/w),pada=Math.floor(mod(mo,w)/(w/4))+1,N=NK[ni];
+    out.innerHTML=`<div class="paper center">${wa(N[0],'wa3','wave','clamp(30px,9vw,46px)')}<div class="grade">${N[1]}・第 ${pada} 足</div>
+    <div style="text-align:left"><p><span class="lbl">月宿特質</span>${N[2]}。</p>
+    <p><span class="lbl">月亮星座</span>恆星黃道下，月亮在${SIGNS[sgn(mo)][1]}座（${dm(mo)}）。這是吠陀占星中最重要的星座，代表你的情緒本質。</p>
+    <p><span class="lbl">太陽星座</span>恆星黃道下，太陽在${SIGNS[sgn(su)][1]}座，通常比西洋星座「晚一個」，代表你的生命力方向。</p>
+    <p class="small">※ 採拉希里（Lahiri）近似歲差 ${ay.toFixed(2)}°，月亮位置由 astronomy-engine（MIT）計算；若月亮在星宿邊界附近，結果可能有差異。解說為簡化版，僅供娛樂參考。</p></div></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
+/* ===== 凱爾特樹木曆 ===== */
+const CT=[['樺樹 Birch',[12,24],'開始與更新。你像清晨的第一道光，有開創力與樂觀，也要學習耐心。'],['花楸 Rowan',[1,21],'保護與洞察。你敏銳、有靈感，能看穿表面，適合研究與創作。'],['梣木 Ash',[2,18],'連結與想像。你的思緒廣闊，善於連結不同的事物，也有藝術氣質。'],['赤楊 Alder',[3,18],'勇氣與引導。你有堅定的信念，願意為他人站出來，重視自主。'],['柳樹 Willow',[4,15],'直覺與流動。你感受細膩、情緒豐富，很能適應變化，懂得放下。'],['山楂 Hawthorn',[5,13],'熱情與守護。你充滿生命力，既浪漫也有保護欲，重視真誠。'],['橡樹 Oak',[6,10],'力量與可靠。你堅毅穩重，像大樹般讓人安心，是團體的支柱。'],['冬青 Holly',[7,8],'高貴與挑戰。你勇敢有尊嚴，面對挑戰越挫越勇，內心也很溫暖。'],['榛樹 Hazel',[8,5],'智慧與學習。你好奇心強、聰明有條理，喜歡追求知識與真相。'],['葡萄藤 Vine',[9,2],'豐收與享受。你重視感官與品質，擅長把生活過得精緻，也重視關係。'],['常春藤 Ivy',[9,30],'忠誠與韌性。你執著而堅韌，對朋友與夢想都不離不棄。'],['蘆葦 Reed',[10,28],'探究與沉潛。你擅長觀察與保密，深度思考，對真相有強烈渴望。'],['接骨木 Elder',[11,25],'結束與重生。你有轉化的智慧，能在結束中看見新的開始。']];
+VIEWS.celt={t:'凱爾特樹木曆.exe',render:()=>`
+<div class="center">${wa('凱爾特樹木曆','wa6','wave')}<p>現代凱爾特占卜把一年分成 13 個樹木月，每個生日都有一棵守護樹。</p></div>
+<div class="pane center"><label>生日 <select id="m">${Array.from({length:12},(_,i)=>`<option value="${i+1}">${i+1} 月</option>`).join('')}</select> <select id="d">${Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1} 日</option>`).join('')}</select></label><br><button class="btn big" id="go">找我的守護樹</button></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  const m0=new Date().getMonth()+1,d0=new Date().getDate();$('#m',r).value=m0;$('#d',r).value=d0;
+  $('#go',r).onclick=()=>{
+    const v=+$('#m',r).value*100+ +$('#d',r).value;
+    let idx=0;CT.forEach((c,i)=>{if(i>0&&v>=c[1][0]*100+c[1][1])idx=i});
+    if(v>=1224)idx=0;else if(v<121)idx=0;
+    const c=CT[idx];
+    out.innerHTML=`<div class="paper center">${wa(c[0].split(' ')[0],'wa4','wave','clamp(50px,16vw,80px)')}<div class="grade">${c[0].split(' ')[1]}</div><p style="text-align:left">${c[2]}</p><p class="small" style="text-align:left">※ 這是現代（羅伯特・格雷夫斯一派）的樹木曆，並非古代凱爾特人的原始曆法，僅供娛樂參考。</p></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
 
 /* ---------- 路由與外框 ---------- */
 let cur='home';

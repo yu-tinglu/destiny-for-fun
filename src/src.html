@@ -173,6 +173,7 @@ select,input,.btn,button{font-family:inherit}
 .intro summary{cursor:pointer;font-weight:bold;font-size:19px;color:#7a1409}
 .intro p{margin:6px 0}
 .mtw{visibility:hidden}
+.dsel select{max-width:30vw;margin:0 1px}
 #mtbar{display:none;background:#fff3c4;color:#000;border-bottom:2px solid #a0522d;padding:4px 10px;font-size:15px;font-family:Arial,sans-serif}
 /* topbar / lang / desk */
 #topbar{position:sticky;top:0;z-index:25;height:38px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;display:flex;align-items:center;gap:8px;padding:0 8px;font-weight:bold;font-size:18px;border-bottom:2px solid #000}
@@ -305,7 +306,34 @@ function waveify(root,force){
     });
   });
 }
-function refresh(el){i18nNodes(el);annotate(el);waveify(el)}
+function dsel(el){
+  const loc=({'zh-TW':'zh-TW','zh-HK':'zh-HK'}[LANG]||LANG||'zh-TW')+'-u-ca-gregory-nu-latn';
+  const F=(o)=>{try{return new Intl.DateTimeFormat(loc,o)}catch(e){return new Intl.DateTimeFormat('en',o)}};
+  const fy=F({year:'numeric',timeZone:'UTC'}),fm=F({month:'long',timeZone:'UTC'}),fd=F({day:'numeric',timeZone:'UTC'});
+  const ymd=/^(zh|ja|ko)/.test(LANG||'zh-TW');
+  el.querySelectorAll('input[type=date]:not([data-ds])').forEach(inp=>{
+    inp.dataset.ds='1';let val=inp.value||'';
+    const wrap=document.createElement('span');wrap.className='dsel';
+    const sy=document.createElement('select'),sm=document.createElement('select'),sd=document.createElement('select');
+    const opt=(s,v,t)=>{const o=document.createElement('option');o.value=v;o.textContent=t;s.appendChild(o)};
+    opt(sy,'','—');opt(sm,'','—');opt(sd,'','—');
+    for(let y=2100;y>=1900;y--)opt(sy,y,fy.format(new Date(Date.UTC(y,5,15))));
+    for(let m=1;m<=12;m++)opt(sm,m,fm.format(new Date(Date.UTC(2001,m-1,15))));
+    for(let d=1;d<=31;d++)opt(sd,d,fd.format(new Date(Date.UTC(2001,0,d))));
+    (ymd?[sy,sm,sd]:[sd,sm,sy]).forEach(x=>wrap.appendChild(x));
+    const p2=n=>String(n).padStart(2,'0');
+    const put=v=>{val=v||'';const m=val.match(/^(\d+)-(\d+)-(\d+)$/);sy.value=m?+m[1]:'';sm.value=m?+m[2]:'';sd.value=m?+m[3]:''};
+    const emit=()=>{
+      if(sy.value&&sm.value){const mx=new Date(+sy.value,+sm.value,0).getDate();if(+sd.value>mx)sd.value=mx}
+      val=(sy.value&&sm.value&&sd.value)?sy.value+'-'+p2(sm.value)+'-'+p2(sd.value):'';
+      inp.dispatchEvent(new Event('input',{bubbles:true}));inp.dispatchEvent(new Event('change',{bubbles:true}));
+    };
+    [sy,sm,sd].forEach(x=>x.addEventListener('change',emit));
+    Object.defineProperty(inp,'value',{get:()=>val,set:v=>put(v),configurable:true});
+    put(val);inp.style.display='none';inp.parentNode.insertBefore(wrap,inp);
+  });
+}
+function refresh(el){dsel(el);i18nNodes(el);annotate(el);waveify(el)}
 
 /* ---------- 工具 ---------- */
 function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
@@ -321,7 +349,7 @@ const strokeOf=c=>KX[c]||KX[S2T[c]]||0;
 const T=s=>String(s).replace(/[\u3400-\u9fff]/g,c=>S2T[c]||c);
 const store={get(k,d){try{const v=localStorage.getItem('sj_'+k);return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem('sj_'+k,v)}catch(e){}}};
 /* ===== 多語言（介面與選單；占卜內文維持中文） ===== */
-const LANGS=[['zh-TW','繁體中文'],['zh-HK','粵語（香港）'],['en','English'],['ja','日本語'],['ko','한국어'],['hi','हिन्दी'],['id','Bahasa Indonesia'],['th','ไทย'],['vi','Tiếng Việt'],['es','Español'],['fr','Français'],['ru','Русский']];
+const LANGS=[['zh-TW','繁體中文'],['en','English'],['ja','日本語'],['ko','한국어'],['hi','हिन्दी'],['id','Bahasa Indonesia'],['th','ไทย'],['vi','Tiếng Việt'],['es','Español'],['fr','Français'],['ru','Русский']];
 /* 欄位順序：[粵語, English, 日本語, 한국어, हिन्दी, Indonesia, ไทย, Tiếng Việt, Español]；null＝同繁體中文 */
 const D={
 '求籤':[null,'Fortune Sticks','おみくじ','점괘 막대','भाग्य की तीलियाँ','Kocok Ciamsi','เซียมซี','Xin quẻ','Varillas de fortuna'],
@@ -413,8 +441,8 @@ const D={
 '選擇語言':[null,'Choose language','言語を選択','언어 선택','भाषा चुनें','Pilih bahasa','เลือกภาษา','Chọn ngôn ngữ','Elegir idioma'],
 '還原視窗':[null,'Restore window','ウィンドウを戻す','창 복원','विंडो बहाल करें','Pulihkan jendela','คืนค่าหน้าต่าง','Khôi phục cửa sổ','Restaurar ventana'],
 };
-const li=()=>LANGS.findIndex(l=>l[0]===LANG)-1;
-let LANG=(()=>{try{return localStorage.getItem('sj_lang')||''}catch(e){return''}})();
+const li=()=>['zh-TW','zh-HK','en','ja','ko','hi','id','th','vi','es','fr','ru'].indexOf(LANG)-1;
+let LANG=(()=>{try{const v=localStorage.getItem('sj_lang')||'';return v==='zh-HK'?'zh-TW':v}catch(e){return''}})();
 const TR=s=>{const e=D[s];if(!e||li()<0)return s;return e[li()]===null||e[li()]===undefined?s:e[li()]};
 function i18nNodes(root){
   if(li()<0)return;
@@ -527,7 +555,7 @@ async function mtPass(root){
   try{
     const items=[];
     const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);
-    while(w.nextNode()){const n=w.currentNode,p=n.parentNode;if(!p||p.tagName==='SCRIPT'||p.tagName==='STYLE')continue;if(p.closest&&p.closest('[data-mt]'))continue;if(CJK.test(n.nodeValue)){if(p.closest&&p.closest('svg')){n.nodeValue='✦';continue}items.push(['t',n,'zh-TW'])}}
+    while(w.nextNode()){const n=w.currentNode,p=n.parentNode;if(!p||p.tagName==='SCRIPT'||p.tagName==='STYLE')continue;if(p.closest&&p.closest('[data-mt],.dsel'))continue;if(CJK.test(n.nodeValue)){if(p.closest&&p.closest('svg')){n.nodeValue='✦';continue}items.push(['t',n,'zh-TW'])}}
     root.querySelectorAll('[data-mt]:not([data-mtd])').forEach(e=>items.push(['m',e,'en']));
     root.querySelectorAll('[placeholder],[title]').forEach(e=>['placeholder','title'].forEach(a=>{const v=e.getAttribute(a);if(v&&CJK.test(v))items.push(['a',e,'zh-TW',a])}));
     if(items.length){

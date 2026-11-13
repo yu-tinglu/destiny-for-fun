@@ -836,7 +836,7 @@ const SLV={上上:'#0a7a2a',大吉:'#0a7a2a',上吉:'#0a7a2a',上籤:'#0a7a2a',�
 VIEWS.qian={t:'求籤.exe',render:()=>`
 <div class="center">${wa('誠心求籤','wa4','wave')}
 <p>請在心中默念<b>姓名、生辰、所求何事</b>，選好籤本，再按下按鈕搖動籤筒。</p>
-<div class="row" style="justify-content:center"><label>籤本 <select id="bk"><option value="g">觀音靈籤（一百籤）</option><option value="j">媽祖靈籤（六十甲子籤）</option><option value="d">關帝靈籤（一百籤）</option><option value="y">月老靈籤（姻緣籤）</option><option value="k">藥師靈籤（健康平安）</option></select></label></div>
+<div class="row" style="justify-content:center"><label>籤本 <select id="bk"><option value="g">觀音靈籤（一百籤）</option><option value="j">媽祖靈籤（六十甲子籤）</option><option value="d">關帝靈籤（一百籤）</option><option value="y">月老靈籤（姻緣籤）</option><option value="k">藥師靈籤（健康平安）</option><option value="c">財神靈籤（求財運）</option></select></label></div>
 <div class="tube" id="tube">${TUBE}</div>
 <button class="btn big" id="go">搖籤筒</button>
 <div id="out"></div></div>${backBtn}`,
@@ -846,14 +846,15 @@ mount(r){
     go.disabled=true;out.innerHTML='';tube.classList.add('shake');
     setTimeout(()=>{
       tube.classList.remove('shake');
-      const bk=$('#bk',r).value,pool=STICKS.filter(x=>x[0]===(bk==='k'?'g':bk)),q=pool[ri(pool.length)];
-      const A=['總評','事業','感情','財運','健康','學業','家運'];const yaoshi=$('#bk',r).value==='k';
+      const bk=$('#bk',r).value,pool=STICKS.filter(x=>x[0]===(bk==='k'?'g':bk==='c'?'d':bk)),q=pool[ri(pool.length)];
+      const A=['總評','事業','感情','財運','健康','學業','家運'];const yaoshi=$('#bk',r).value==='k',cai=$('#bk',r).value==='c';
       out.innerHTML=`<div class="paper"><div class="wa wa2 sm" data-shape="arch">第${cn(q[1])}籤</div>
       <div class="grade" style="color:${SLV[q[3]]||'#a00'}">${q[3]}${/籤$/.test(q[3])?'':'籤'}・${q[2]}</div>
       <div class="poem">${q[4].map(l=>`<p>${l}</p>`).join('')}</div>
       ${yaoshi?`<p class="small" style="background:#fff3c4;border:1px dashed #a0522d;padding:6px 8px">藥師佛（東方淨琉璃世界）發十二大願，消災延壽、除病離苦。這一籤請以「健康與身心平安」的角度來讀；這不是醫療建議，身體不適請務必就醫。</p><p><span class="lbl">健康</span>${q[6][4]}</p>`:''}
+      ${cai?`<p class="small" style="background:#fff3c4;border:1px dashed #a0522d;padding:6px 8px">財神（正財神趙公明、武財神關公等）掌管求財、生意與利市。這一籤請以「財運、生意與理財」的角度來讀；籤文取自關帝靈籤，並非投資建議，金錢決定請自行評估風險。</p>${q[6][3]?`<p><span class="lbl">財運</span>${q[6][3]}</p>`:''}`:''}
       <p>${/^古解/.test(q[5])?'':'<b>白話：</b>'}${q[5]}</p>
-      ${A.map((a,k)=>q[6][k]&&!(yaoshi&&k===4)?`<p><span class="lbl">${a}</span>${q[6][k]}</p>`:'').join('')}
+      ${A.map((a,k)=>q[6][k]&&!(yaoshi&&k===4)&&!(cai&&k===3)?`<p><span class="lbl">${a}</span>${q[6][k]}</p>`:'').join('')}
       <p class="small" style="text-align:left">※ 籤詩原文為流傳已久的傳統籤文（公有領域；關帝籤古解與聖意錄自道藏本），各廟版本用字略有不同；白話解讀取自開源專案 FateVerse（MIT / CC BY 4.0），僅供娛樂參考，真正有疑問請以廟宇解籤為準。</p></div>`;
       refresh(out);go.disabled=false;go.textContent='再抽一支';
     },1500);

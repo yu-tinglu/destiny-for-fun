@@ -11,3 +11,6 @@
 - astronomy-engine（MIT, Don Cross）：行星位置（西洋星盤、吠陀月宿）
 - 關帝靈籤、月老靈籤：籤詩原文與關帝籤「古解／聖意」（明《正統道藏》）屬公有領域；籤詩文字整理自 Sam18069272581/shengbei 專案所收錄的通行本（該專案未標示授權，僅取用公有領域原文，釋義為本站自撰）。
 - 翻譯：選擇非中文語言時，頁面文字會透過 Google 翻譯公開介面即時機器翻譯（需連網），結果快取在瀏覽器 localStorage。
+
+## Tarot card images
+Rider–Waite–Smith deck (1909), illustrated by Pamela Colman Smith under the direction of A. E. Waite — public domain. Scans via Wikimedia Commons, obtained from https://github.com/mixvlad/TarotCards (tarot/rider-waite/720px), downscaled and embedded. Card meanings were written for this project following the RWS tradition.

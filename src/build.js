@@ -18,7 +18,8 @@ dictTxt.split('\n').forEach(line=>{
 for(const [w,z] of Object.entries(WORDS)){if([...w].length!==z.length)console.error('WORD LEN MISMATCH',w)}
 // check chars
 const sticksTxt=JSON.stringify([...JSON.parse(fs.readFileSync('data/sticks.json','utf8')),...JSON.parse(fs.readFileSync('data/sticks2.json','utf8'))]);
-const body=src.split('/*DICT*/')[1]+sticksTxt;
+const taroTxt=fs.readFileSync('data/tarot.txt','utf8');
+const body=src.split('/*DICT*/')[1]+sticksTxt+taroTxt;
 const freq={};
 for(const ch of body){if(ch>='㐀'&&ch<='鿿')freq[ch]=(freq[ch]||0)+1}
 const missing=Object.keys(freq).filter(c=>!ZY[c]);
@@ -82,7 +83,7 @@ const KXG=${fs.readFileSync('data/kangxi.json','utf8')};
 const STICKS=${sticksTxt};
 const ASTRO=(function(){var exports={};${fs.readFileSync('vendor/astronomy.min.js','utf8')}
 return exports})();`;
-const out=src.replace('/*LIBS*/',()=>libs).replace('/*STROKES*/','const STROKE='+JSON.stringify(ST)+';').replace('/*DICT*/',()=>'const ZY='+JSON.stringify(ZY)+';const WORDS='+JSON.stringify(WORDS)+';');
+const out=src.replace('/*LIBS*/',()=>libs).replace('/*TAROTDATA*/',()=>'const TX='+JSON.stringify(taroTxt.trim().split('\n').map(l=>l.split('｜')))+';const TIMG='+fs.readFileSync('tarotimg/b64.json','utf8')+';').replace('/*STROKES*/','const STROKE='+JSON.stringify(ST)+';').replace('/*DICT*/',()=>'const ZY='+JSON.stringify(ZY)+';const WORDS='+JSON.stringify(WORDS)+';');
 function scopeCSS(css){
   const kf=[];
   css=css.replace(/@keyframes\s+[\w-]+\s*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g,m=>{kf.push(m);return '/*KF'+(kf.length-1)+'*/'});

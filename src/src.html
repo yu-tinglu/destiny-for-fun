@@ -1014,7 +1014,7 @@ mount(r){
   }));
 })();
 /*TAROTDATA*/
-TX.forEach((r,i)=>{const c=TAROT[i];c[4]=r[1];c[5]=r[2];c[6]=r[3];c[7]=r[4];c[8]=r[5];c[9]=r[6]});
+TX.forEach((r,i)=>{const c=TAROT[i];c[4]=r[1];c[5]=r[2];c[6]=r[3];c[7]=r[4];c[8]=r[5];c[9]=r[6];c[10]=r[7]});
 const TYN=[1,1,0,1,1,1,1,1,1,0,1,0,0,-1,1,-1,-1,1,0,1,1,1,
  1,1,1,1,0,1,0,1,0,-1,1,1,1,1,
  1,1,1,0,-1,1,0,1,1,1,1,1,1,1,
@@ -1027,7 +1027,7 @@ const TSP={
   5:['愛情牌陣（五張）',['你的狀態','對方的狀態','兩人關係現況','需要面對的課題','建議與走向']],
   10:['凱爾特十字（十張）',['現況','挑戰或阻礙','根源','過去','可能的目標','近期未來','你的態度','外在環境','希望與恐懼','最終結果']]
 };
-const TTOPIC=[['g','綜合'],['l','感情'],['w','事業／工作'],['m','財運'],['s','學業／考試'],['yn','是非題（會不會、要不要）']];
+const TTOPIC=[['g','綜合'],['l','感情'],['w','事業／工作'],['m','財運'],['s','學業／考試'],['h','健康（身心狀態與生活提醒）'],['yn','是非題（會不會、要不要）']];
 const TRANKM={0:'新的開始與契機',1:'抉擇與平衡',2:'成長與初步成果',3:'穩定與暫停',4:'衝突與挑戰',5:'和諧與好轉',6:'評估與堅持',7:'行動與進展',8:'接近完成',9:'圓滿或負擔過重'};
 const TELE=['火','水','風','土'];
 VIEWS.tarot={t:'塔羅牌.exe',render:()=>`
@@ -1055,7 +1055,7 @@ mount(r){
     const SUM=['權杖（火）：重點在「行動與事業」','聖杯（水）：重點在「情感與人際」','寶劍（風）：重點在「思考與溝通」','錢幣（土）：重點在「金錢與現實」'];
     const topicLine=h=>{
       if(tp==='g'||tp==='yn')return '';
-      const f=tp==='l'?6:tp==='m'?8:7,lb=tp==='l'?'感情':tp==='m'?'財運':tp==='w'?'事業／工作':'學業／考試';
+      const f=tp==='l'?6:tp==='m'?8:tp==='h'?10:7,lb=tp==='l'?'感情':tp==='m'?'財運':tp==='h'?'健康':tp==='w'?'事業／工作':'學業／考試';
       const t=h.c[f];
       return `<br><span class="lbl">${lb}</span>${h.rev?`這股能量受阻或反過來運作。順位時它代表「${t}」，所以現在要留意相反的狀態或延遲。`:t+'。'}`;
     };
@@ -1087,7 +1087,7 @@ mount(r){
     const advice=`<p><span class="lbl">給你的建議</span>${last.c[9]}。${tp==='yn'?'':'最後一張牌（'+names[n-1]+'）：'+last.c[1]+'・'+(last.rev?'逆位':'正位')+'，'+(last.rev?last.c[5]:last.c[4])+'。'}</p>`;
     const imgOf=h=>'data:image/jpeg;base64,'+TIMG[h.i];
     out.innerHTML=`${q?`<p class="center"><b>你的問題：</b>${q.replace(/[<>&]/g,'')}</p>`:''}<div class="cards">${hand.map(h=>`<div class="tcw"><div class="card"><div class="in"><div class="b nozy-cell">✦</div><div class="f nozy-cell${h.rev?' rev':''}"><img alt="${h.c[2]}" src="${imgOf(h)}"></div></div></div><div class="tcap nozy-cell"><b style="font-size:15px">${h.c[1]}</b><br><span style="font-size:11px;font-family:Arial,sans-serif">${h.c[2]}・${h.rev?'逆位':'正位'}</span></div></div>`).join('')}</div>
-    <div class="pane" id="rd" style="visibility:hidden">${body}${lines.length?`<p><span class="lbl">整體解讀</span>${lines.join('')}</p>`:''}${ynHTML}${advice}<p class="small" style="text-align:left">※ 牌面為 1909 年 Pamela Colman Smith 繪、A. E. Waite 指導的萊德偉特塔羅（公有領域，影像來自 Wikimedia Commons）。牌義依該傳統整理；塔羅沒有科學上預測未來的證據，較適合當作整理想法、檢視自己選擇的工具，僅供娛樂與反思參考。</p></div>`;
+    <div class="pane" id="rd" style="visibility:hidden">${body}${lines.length?`<p><span class="lbl">整體解讀</span>${lines.join('')}</p>`:''}${ynHTML}${advice}${tp==='h'?'<p class="small" style="text-align:left;background:#ffe9e9;border:1px dashed #a00;padding:6px">【健康提醒】塔羅無法診斷任何疾病，上面只是對作息、壓力與情緒的反思。若有身體不適、持續失眠或情緒低落，請務必就醫或尋求專業協助，不要以占卜代替醫療。</p>':''}<p class="small" style="text-align:left">※ 牌面為 1909 年 Pamela Colman Smith 繪、A. E. Waite 指導的萊德偉特塔羅（公有領域，影像來自 Wikimedia Commons）。牌義依該傳統整理；塔羅沒有科學上預測未來的證據，較適合當作整理想法、檢視自己選擇的工具，僅供娛樂與反思參考。</p></div>`;
     refresh(out);
     go.disabled=true;
     $$('.card',out).forEach((el,i)=>setTimeout(()=>el.classList.add('flip'),500+i*450));

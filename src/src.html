@@ -1996,10 +1996,20 @@ const PALM={
  life:['生命線','拇指根部繞著大魚際的弧線，代表活力與生活的穩定度。',[['又長又深','精力充沛、體力好，做事有耐力，遇到困難也能撐過去。'],['短而淺','不代表壽命短，而是較容易感到疲倦，生活上多留意作息與運動。'],['中途有斷開','人生可能有一次明顯的轉換期或搬遷，斷開後若有重疊接續，表示轉換後會再度穩定。'],['末端分叉','晚年想嘗試不同的生活方式，也有可能旅居或多地發展。']]],
  head:['智慧線','從拇指與食指之間橫向延伸，代表思考方式與學習風格。',[['平直','講求邏輯、務實理性，擅長分析與規劃。'],['微微下彎','想像力豐富、有創意，直覺敏銳，適合文藝與創作。'],['短而直','做事乾脆，重效率，喜歡直接說重點。'],['末端分叉','能同時兼顧理性與感性，善於變通，多才多藝。']]],
  heart:['感情線','小指下方橫向延伸的線，代表感情表達與人際互動。',[['末端上翹','熱情外放、重視感情的表達，朋友緣佳。'],['平直','感情觀理性，注重相處的穩定與尊重。'],['向下彎','很重感情、內心細膩，付出多，也容易受傷，要學會照顧自己。'],['像鏈條般細碎','情緒豐富敏感，感情起伏較多，多一點自我肯定會更安心。']]],
- career:['事業線','從手腕往中指方向的縱線，代表工作態度與事業走向。',[['清晰筆直','目標明確、事業穩定向上，適合循序漸進累積成就。'],['斷斷續續','職涯可能多次轉換，擁有多方面的經驗，靠彈性取勝。'],['不明顯／沒有','不代表沒有事業運，而是不愛被框架，適合自由工作或斜槓發展。'],['末端分叉','中年後有機會多方發展，名聲或副業都有可能。']]]
+ career:['事業線','從手腕往中指方向的縱線，代表工作態度與事業走向。',[['清晰筆直','目標明確、事業穩定向上，適合循序漸進累積成就。'],['斷斷續續','職涯可能多次轉換，擁有多方面的經驗，靠彈性取勝。'],['不明顯／沒有','不代表沒有事業運，而是不愛被框架，適合自由工作或斜槓發展。'],['末端分叉','中年後有機會多方發展，名聲或副業都有可能。']]],
+ marriage:['婚姻線（感情線上方的短橫線）','小指下方、手掌外緣到感情線之間的短橫線，傳統上看感情與伴侶關係的型態。',[['一條清楚','感情專一，傾向建立穩定而明確的伴侶關係。'],['兩條以上','感情經驗較豐富，或在不同階段有重要的關係；不等於不專一。'],['末端下垂','在關係中容易付出多、感受細膩，要注意別壓抑自己的需要。'],['不明顯／沒有','不代表沒有感情，較偏向重視自由與自我空間，晚一點進入關係的人也常見。']]],
+ sun:['太陽線（無名指下的縱線）','無名指下方的縱向線條，傳統上看名聲、才藝與被看見的程度。',[['清楚完整','有被看見的機會，容易靠才藝或專業獲得肯定。'],['短而淺','在某些領域有亮點，需要累積與表現才會更突出。'],['多條細線','興趣廣泛、多才多藝，但容易分散，專注一項會更有成果。'],['沒有','不代表沒有成就，通常是穩紮穩打、不愛張揚的類型。']]],
+ health:['健康線（手掌斜向小指下方）','從手掌下方斜向小指的線，傳統上用來看體質與生活作息的提醒。',[['沒有','傳統說法認為「沒有反而好」，代表體質穩定、沒有特別需要警示的地方。'],['清楚而直','做事有條理，但容易壓力累積，記得放鬆與按時休息。'],['斷斷續續','作息與精神狀態容易起伏，建議養成規律的生活。'],['與生命線交叉','提醒壓力大時要留意消化與睡眠，不代表疾病，只是生活提醒。']]],
+ shape:['手掌形狀（五行手型）','依掌心與手指的比例，傳統上分成金、木、水、火、土五種手型，用來描述性格傾向。',[['金型：掌方、手指偏短而硬','務實、重規則、有條理，做事有耐力，適合需要精準與紀律的工作。'],['木型：掌長、手指修長','理想主義、重人情，思考細膩，喜歡學習與表達，有時顧慮太多。'],['水型：掌心柔軟、手指圓潤偏長','感受力強、善於溝通，富想像力，適應環境快，要留意情緒起伏。'],['火型：掌偏長、手指偏短','熱情直率、行動力強，喜歡挑戰，要注意急躁與衝動。'],['土型：掌厚實、手指粗短','穩重可靠、踏實保守，重視家庭，不愛冒險，適合長期經營。']]]
 };
 VIEWS.palm={t:'手相說明.exe',render:()=>`
 <div class="center">${wa('手相說明','wa6','arch')}
+<div class="pane" id="phand"><p class="small"><b>先設定「看哪一隻手」</b>：手相傳統上左右手意義不同，看的重點也不一樣。</p>
+<div class="row"><label>性別 <select id="psex"><option value="m">男</option><option value="f">女</option><option value="x">其他／不想分</option></select></label>
+<label>慣用手 <select id="pdom"><option value="r">右手</option><option value="l">左手</option></select></label></div>
+<div class="row"><label>這次看的手 <select id="phs"><option value="l">左手</option><option value="r">右手</option></select></label>
+<label>判讀規則 <select id="prule"><option value="t">傳統：男左女右</option><option value="m">現代：依慣用手</option></select></label></div>
+<p class="small" id="phtxt"></p></div>
 <div class="row" style="justify-content:center"><button class="btn" id="tabA" type="button"><b>① 自己選特徵</b></button> <button class="btn" id="tabB" type="button">② 上傳照片標線</button></div>
 <p id="palmHint">看看自己的掌心，選出最像你的特徵，下面會為你解說。</p>
 <svg viewBox="0 0 220 260" width="200" class="nozy-cell" role="img" aria-label="手掌四條主線示意圖">
@@ -2026,6 +2036,22 @@ VIEWS.palm={t:'手相說明.exe',render:()=>`
 <div id="out"></div>${backBtn}`,
 mount(r){
   const out=$('#out',r);
+  const handTxt=()=>{
+    const sx=$('#psex',r).value,dm=$('#pdom',r).value,hs=$('#phs',r).value,ru=$('#prule',r).value;
+    const nm=h=>h==='l'?'左手':'右手';let main,why;
+    if(ru==='t'){
+      if(sx==='x')return `你選了「其他」，傳統的「男左女右」沒有對應的規則，建議<b>兩隻手都看</b>：把${nm(dm==='r'?'l':'r')}當作與生俱來的傾向、${nm(dm)}當作後天的發展，互相對照。`;
+      main=sx==='m'?'l':'r';
+      why=`傳統說法「男左女右」：${sx==='m'?'男性':'女性'}以<b>${nm(main)}</b>為主，看先天命格與天賦，另一隻手（${nm(main==='l'?'r':'l')}）看後天的變化與努力的結果。`;
+    }else{
+      main=dm==='r'?'l':'r';
+      why=`現代常見說法：<b>${nm(main)}</b>（非慣用手）較少被磨損，代表與生俱來的傾向；<b>${nm(dm)}</b>（慣用手）代表你後天用出來的樣子。`;
+    }
+    const tip=hs===main?`你這次看的${nm(hs)}正是「先天、基本盤」的那隻手。`:`你這次看的${nm(hs)}偏向「後天、現在的你」；想看先天傾向，建議也看${nm(main)}。`;
+    return why+'<br>'+tip+'<br><span class="small">「男左女右」是傳統文化的慣例，並不是生理上的規定；若你覺得不適用，請以「現代：依慣用手」或兩手對照為準。</span>';
+  };
+  const refreshHand=()=>{$('#phtxt',r).innerHTML=handTxt()};
+  ['psex','pdom','phs','prule'].forEach(i=>$('#'+i,r).onchange=refreshHand);refreshHand();
   const setTab=b=>{$('#modeA',r).style.display=b?'none':'';$('#modeB',r).style.display=b?'':'none';$('#palmHint',r).style.display=b?'none':'';out.innerHTML=''};
   $('#tabA',r).onclick=()=>setTab(false);$('#tabB',r).onclick=()=>setTab(true);
   const COL={life:'#c0392b',head:'#1e5fbf',heart:'#d4408c',career:'#2e8b2e'};
@@ -2076,14 +2102,14 @@ mount(r){
     // 事業線
     if(!C)pick.career=2;else pick.career=C.n>=2?1:(C.chord/(C.mlen||1)>=0.85?0:3);
     out.innerHTML=`<div class="paper"><div class="center">${wa('照片判讀','wa2','wave')}</div>
-    <p class="small">以下是依你描出的線條（長度、走向、是否分段）所做的推測，不是網站「看」出來的，描得越準越有參考價值。</p>
-    ${Object.keys(PALM).map(k=>{const o=PALM[k][2][pick[k]];return`<p><span class="lbl">${PALM[k][0]}</span><b>${o[0]}</b>：${o[1]}</p>`}).join('')}
+    <p class="small">${handTxt()}</p><p class="small">以下是依你描出的線條（長度、走向、是否分段）所做的推測，不是網站「看」出來的，描得越準越有參考價值。</p>
+    ${['life','head','heart','career'].map(k=>{const o=PALM[k][2][pick[k]];return`<p><span class="lbl">${PALM[k][0]}</span><b>${o[0]}</b>：${o[1]}</p>`}).join('')}
     ${notes.map(n=>`<p class="small">${n}</p>`).join('')}
     <p class="small">※ 掌紋會隨年齡與使用習慣改變，左右手也不同；手相解說為傳統民俗說法的簡化整理，僅供娛樂參考。想要更完整的判讀，可以把照片貼給 Claude。</p></div>`;
     refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
   };
   $('#go',r).onclick=()=>{
-    out.innerHTML=`<div class="paper"><div class="center">${wa('你的掌紋','wa2','wave')}</div>${Object.keys(PALM).map(k=>{const i=+$(`select[data-k=${k}]`,r).value,o=PALM[k][2][i];return`<p><span class="lbl">${PALM[k][0]}</span><b>${o[0]}</b>：${o[1]}</p>`}).join('')}
+    out.innerHTML=`<div class="paper"><div class="center">${wa('你的掌紋','wa2','wave')}</div><p class="small">${handTxt()}</p>${Object.keys(PALM).map(k=>{const i=+$(`select[data-k=${k}]`,r).value,o=PALM[k][2][i];return`<p><span class="lbl">${PALM[k][0]}</span><b>${o[0]}</b>：${o[1]}</p>`}).join('')}
     <p class="small">※ 手相解說為傳統民俗說法的簡化整理，掌紋會隨年齡與使用習慣改變，僅供娛樂參考。</p></div>`;
     refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
   };

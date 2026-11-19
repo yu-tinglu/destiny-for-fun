@@ -203,6 +203,7 @@ select,input,.btn,button{font-family:inherit}
 #boot{position:fixed;inset:0;z-index:100;background:#008080;display:flex;align-items:center;justify-content:center}
 #boot[hidden]{display:none}
 #boot .bw{width:min(86vw,340px);background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:4px 4px 0 rgba(0,0,0,.5);text-align:center;padding:0 0 14px}
+#boot .post{position:absolute;left:0;top:0;right:0;bottom:0;background:#000;color:#c0c0c0;font:15px/1.5 'Courier New',monospace;padding:16px;white-space:pre-wrap}
 #boot .bt{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:bold;padding:3px 8px;text-align:left;font-size:15px}
 #boot .bb{font-family:Impact,"Arial Black",sans-serif;font-size:44px;line-height:1.1;margin:18px 0 14px;color:#ff8a1c;-webkit-text-stroke:2px #fff;text-shadow:3px 3px 0 #2b0a5e,5px 5px 0 #2b0a5e;letter-spacing:2px}
 #boot .bp{margin:0 18px 8px;height:20px;border:2px inset #808080;background:#fff;padding:2px}
@@ -250,7 +251,7 @@ select,input,.btn,button{font-family:inherit}
 <div id="topbar" class="nozy-cell"><span id="sitename">神機妙算占卜館</span><span class="sp2"></span><button class="lbtn" id="sndbtn" title="sound">🔊</button><button class="lbtn" id="langbtn" aria-haspopup="true">🌐 <span id="langname">繁體中文</span> ▾</button><div id="langmenu"></div></div>
 <div id="app"></div>
 <div id="ss" hidden><canvas></canvas></div>
-<div id="boot" hidden><div class="bw"><div class="bt">神機妙算占卜館</div><div class="bb">神機妙算<br>占卜館</div><div class="bp"><i></i></div><div class="bs nozy-cell">Starting… ✦ 庭庭與胖胖</div></div></div>
+<div id="boot" hidden><div class="post nozy-cell" id="post"></div><div class="bw" id="bw" style="display:none"><div class="bt">神機妙算占卜館</div><div class="bb">神機妙算<br>占卜館</div><div class="bp"><i></i></div><div class="bs nozy-cell">Starting… ✦ 庭庭與胖胖</div></div></div>
 <div id="desk" class="nozy-cell" hidden><a class="ico" data-go="home" tabindex="0"><span class="e">🔮</span><span class="l" id="deskl">神機妙算占卜館</span></a></div>
 <div id="copy" class="nozy-cell">© 2026 <b id="auth">庭庭與胖胖</b> ・ All rights reserved.</div>
 <div id="langmodal" class="nozy-cell" hidden><div class="lm"><div class="lmt">🌐 選擇語言 / Choose language</div><div id="lmgrid"></div></div></div>
@@ -385,7 +386,7 @@ const store={get(k,d){try{const v=localStorage.getItem('sj_'+k);return v==null?d
 const LANGS=[['zh-TW','繁體中文'],['en','English'],['ja','日本語'],['ko','한국어'],['hi','हिन्दी'],['id','Bahasa Indonesia'],['th','ไทย'],['vi','Tiếng Việt'],['es','Español'],['fr','Français'],['ru','Русский']];
 /* 欄位順序：[粵語, English, 日本語, 한국어, हिन्दी, Indonesia, ไทย, Tiếng Việt, Español]；null＝同繁體中文 */
 const D={
-"存成圖片":[null,"Save as image","画像として保存","이미지로 저장","छवि के रूप में सहेजें","Simpan sebagai gambar","บันทึกเป็นรูปภาพ","Lưu thành ảnh","Guardar como imagen"],"運氣不足，請稍後再試。":[null,"Not enough luck. Please try again later.","運が足りません。後でもう一度お試しください。","운이 부족합니다. 나중에 다시 시도하세요.","भाग्य पर्याप्त नहीं है। कृपया बाद में पुनः प्रयास करें।","Keberuntungan tidak cukup. Coba lagi nanti.","โชคไม่พอ โปรดลองอีกครั้งภายหลัง","Không đủ may mắn. Vui lòng thử lại sau.","Suerte insuficiente. Inténtalo más tarde."],"確定":[null,"OK","OK","확인","ठीक है","OK","ตกลง","OK","Aceptar"],"後來怎麼樣了？寫下回顧備註":[null,"Looking back: how did it turn out? Write a note","その後どうなりましたか？振り返りメモを書く","나중에 어떻게 됐나요? 회고 메모 작성","आगे क्या हुआ? समीक्षा नोट लिखें","Bagaimana akhirnya? Tulis catatan tinjauan","ผลเป็นอย่างไร? เขียนบันทึกทบทวน","Sau đó thế nào? Ghi chú nhìn lại","¿Cómo terminó? Escribe una nota de repaso"],"占卜紀錄":[null,"Reading History","占い履歴","점괘 기록","पढ़ने का इतिहास","Riwayat Ramalan","ประวัติการดูดวง","Lịch sử xem bói","Historial de lecturas"],"複製結果":[null,"Copy result","結果をコピー","결과 복사","परिणाम कॉपी करें","Salin hasil","คัดลอกผลลัพธ์","Sao chép kết quả","Copiar resultado"],"分享":[null,"Share","共有","공유","शेयर करें","Bagikan","แชร์","Chia sẻ","Compartir"],"已複製":[null,"Copied","コピーしました","복사됨","कॉपी हो गया","Tersalin","คัดลอกแล้ว","Đã sao chép","Copiado"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":[null,"Your last 40 results, stored only in this device's browser.","直近40件の結果。この端末のブラウザ内にのみ保存されます。","최근 40건의 결과이며 이 기기의 브라우저에만 저장됩니다.","आपके पिछले 40 परिणाम, केवल इस डिवाइस के ब्राउज़र में सहेजे गए।","40 hasil terakhir, hanya disimpan di browser perangkat ini.","ผลลัพธ์ล่าสุด 40 รายการ เก็บไว้ในเบราว์เซอร์ของอุปกรณ์นี้เท่านั้น","40 kết quả gần nhất, chỉ lưu trong trình duyệt của thiết bị này.","Tus últimos 40 resultados, guardados solo en el navegador de este dispositivo."],"還沒有紀錄。":[null,"No history yet.","まだ履歴はありません。","아직 기록이 없습니다.","अभी कोई इतिहास नहीं है।","Belum ada riwayat.","ยังไม่มีประวัติ","Chưa có lịch sử.","Aún no hay historial."],"清除全部紀錄":[null,"Clear all history","履歴をすべて消去","기록 모두 지우기","सारा इतिहास साफ़ करें","Hapus semua riwayat","ล้างประวัติทั้งหมด","Xóa toàn bộ lịch sử","Borrar todo el historial"],'求籤':[null,'Fortune Sticks','おみくじ','점괘 막대','भाग्य की तीलियाँ','Kocok Ciamsi','เซียมซี','Xin quẻ','Varillas de fortuna'],
+"存成圖片":[null,"Save as image","画像として保存","이미지로 저장","छवि के रूप में सहेजें","Simpan sebagai gambar","บันทึกเป็นรูปภาพ","Lưu thành ảnh","Guardar como imagen"],"運氣不足，請稍後再試。":[null,"Not enough luck. Please try again later.","運が足りません。後でもう一度お試しください。","운이 부족합니다. 나중에 다시 시도하세요.","भाग्य पर्याप्त नहीं है। कृपया बाद में पुनः प्रयास करें।","Keberuntungan tidak cukup. Coba lagi nanti.","โชคไม่พอ โปรดลองอีกครั้งภายหลัง","Không đủ may mắn. Vui lòng thử lại sau.","Suerte insuficiente. Inténtalo más tarde."],"確定":[null,"OK","OK","확인","ठीक है","OK","ตกลง","OK","Aceptar"],"後來怎麼樣了？寫下回顧備註":[null,"Looking back: how did it turn out? Write a note","その後どうなりましたか？振り返りメモを書く","나중에 어떻게 됐나요? 회고 메모 작성","आगे क्या हुआ? समीक्षा नोट लिखें","Bagaimana akhirnya? Tulis catatan tinjauan","ผลเป็นอย่างไร? เขียนบันทึกทบทวน","Sau đó thế nào? Ghi chú nhìn lại","¿Cómo terminó? Escribe una nota de repaso"],"🔄 重新開機":[null,"Restart","再起動","다시 시작","पुनः आरंभ करें","Mulai ulang","รีสตาร์ท","Khởi động lại","Reiniciar"],"占卜紀錄":[null,"Reading History","占い履歴","점괘 기록","पढ़ने का इतिहास","Riwayat Ramalan","ประวัติการดูดวง","Lịch sử xem bói","Historial de lecturas"],"複製結果":[null,"Copy result","結果をコピー","결과 복사","परिणाम कॉपी करें","Salin hasil","คัดลอกผลลัพธ์","Sao chép kết quả","Copiar resultado"],"分享":[null,"Share","共有","공유","शेयर करें","Bagikan","แชร์","Chia sẻ","Compartir"],"已複製":[null,"Copied","コピーしました","복사됨","कॉपी हो गया","Tersalin","คัดลอกแล้ว","Đã sao chép","Copiado"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":[null,"Your last 40 results, stored only in this device's browser.","直近40件の結果。この端末のブラウザ内にのみ保存されます。","최근 40건의 결과이며 이 기기의 브라우저에만 저장됩니다.","आपके पिछले 40 परिणाम, केवल इस डिवाइस के ब्राउज़र में सहेजे गए।","40 hasil terakhir, hanya disimpan di browser perangkat ini.","ผลลัพธ์ล่าสุด 40 รายการ เก็บไว้ในเบราว์เซอร์ของอุปกรณ์นี้เท่านั้น","40 kết quả gần nhất, chỉ lưu trong trình duyệt của thiết bị này.","Tus últimos 40 resultados, guardados solo en el navegador de este dispositivo."],"還沒有紀錄。":[null,"No history yet.","まだ履歴はありません。","아직 기록이 없습니다.","अभी कोई इतिहास नहीं है।","Belum ada riwayat.","ยังไม่มีประวัติ","Chưa có lịch sử.","Aún no hay historial."],"清除全部紀錄":[null,"Clear all history","履歴をすべて消去","기록 모두 지우기","सारा इतिहास साफ़ करें","Hapus semua riwayat","ล้างประวัติทั้งหมด","Xóa toàn bộ lịch sử","Borrar todo el historial"],'求籤':[null,'Fortune Sticks','おみくじ','점괘 막대','भाग्य की तीलियाँ','Kocok Ciamsi','เซียมซี','Xin quẻ','Varillas de fortuna'],
 '擲筊':[null,'Moon Blocks','ポエ占い','문블록 점','मून ब्लॉक','Poe Bulan','ไม้เสี่ยงทาย','Gieo quẻ âm dương','Bloques lunares'],
 '每日一語':[null,'Daily Quote','今日のひとこと','오늘의 한마디','आज का विचार','Kata Hari Ini','คำคมวันนี้','Câu nói hôm nay','Frase del día'],
 '紫微斗數':[null,'Zi Wei Dou Shu','紫微斗数','자미두수','ज़ी वेई ज्योतिष','Zi Wei Dou Shu','จื่อเวย์โต่วซู่','Tử Vi Đẩu Số','Zi Wei Dou Shu'],
@@ -486,7 +487,7 @@ function i18nNodes(root){
 }
 /* 法文、俄文欄位（接在 D 之後：順序 … Español, Français, Русский） */
 const D2={
-"存成圖片":["Enregistrer en image","Сохранить как изображение"],"運氣不足，請稍後再試。":["Pas assez de chance. Réessayez plus tard.","Недостаточно удачи. Повторите попытку позже."],"確定":["OK","ОК"],"後來怎麼樣了？寫下回顧備註":["Et ensuite ? Écrivez une note de bilan","Что было потом? Запишите заметку"],"占卜紀錄":["Historique des tirages","История гаданий"],"複製結果":["Copier le résultat","Копировать результат"],"分享":["Partager","Поделиться"],"已複製":["Copié","Скопировано"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":["Vos 40 derniers résultats, stockés uniquement dans le navigateur de cet appareil.","Последние 40 результатов хранятся только в браузере этого устройства."],"還沒有紀錄。":["Aucun historique pour le moment.","Истории пока нет."],"清除全部紀錄":["Effacer tout l'historique","Очистить всю историю"],'求籤':['Bâtonnets de fortune','Бамбуковые палочки судьбы'],'擲筊':['Blocs de lune','Лунные блоки'],'每日一語':['Citation du jour','Мысль дня'],'紫微斗數':['Zi Wei Dou Shu','Цзы Вэй Доу Шу'],'塔羅牌':['Tarot','Таро'],'星座':['Signes du zodiaque','Знаки зодиака'],'今日運勢':["Chance du jour",'Удача на сегодня'],'水晶球':['Boule de cristal','Хрустальный шар'],'易經卦象':['Yi King','И-цзин'],'姓名筆畫':['Traits du nom','Черты имени'],'八字簡批':['Lecture BaZi','Расклад Ба-цзы'],'稱骨算命':['Poids des os','Взвешивание костей'],'生命靈數':['Numérologie','Нумерология'],'梅花易數':['Oracle fleur de prunier','Оракул цветущей сливы'],'周公解夢':['Dictionnaire des rêves','Сонник'],'盧恩符文':['Runes','Руны'],'生肖流年':["Année du zodiaque chinois",'Год по китайскому зодиаку'],'緣分配對':['Compatibilité','Совместимость'],'每日黃曆':['Almanach chinois','Китайский календарь'],'血型配對':['Groupe sanguin','Группа крови'],'手相說明':['Chiromancie','Хиромантия'],'西洋星盤':['Thème natal','Натальная карта'],'姓名數字學':['Numérologie du nom','Нумерология имени'],'日本御神籤':['Omikuji','Омикудзи'],'九星氣學':['Nine Star Ki','Кюсэй-кигаку'],'瑪雅神聖曆':['Tzolkin maya','Цолькин майя'],'吠陀月宿':['Nakshatra védique','Ведические накшатры'],'凱爾特樹木曆':['Arbres celtiques','Кельтские деревья'],'沙占卜':['Géomancie','Геомантия'],'月相月亮':['Phases de la Lune','Фазы Луны'],
+"存成圖片":["Enregistrer en image","Сохранить как изображение"],"運氣不足，請稍後再試。":["Pas assez de chance. Réessayez plus tard.","Недостаточно удачи. Повторите попытку позже."],"確定":["OK","ОК"],"後來怎麼樣了？寫下回顧備註":["Et ensuite ? Écrivez une note de bilan","Что было потом? Запишите заметку"],"🔄 重新開機":["Redémarrer","Перезагрузка"],"占卜紀錄":["Historique des tirages","История гаданий"],"複製結果":["Copier le résultat","Копировать результат"],"分享":["Partager","Поделиться"],"已複製":["Copié","Скопировано"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":["Vos 40 derniers résultats, stockés uniquement dans le navigateur de cet appareil.","Последние 40 результатов хранятся только в браузере этого устройства."],"還沒有紀錄。":["Aucun historique pour le moment.","Истории пока нет."],"清除全部紀錄":["Effacer tout l'historique","Очистить всю историю"],'求籤':['Bâtonnets de fortune','Бамбуковые палочки судьбы'],'擲筊':['Blocs de lune','Лунные блоки'],'每日一語':['Citation du jour','Мысль дня'],'紫微斗數':['Zi Wei Dou Shu','Цзы Вэй Доу Шу'],'塔羅牌':['Tarot','Таро'],'星座':['Signes du zodiaque','Знаки зодиака'],'今日運勢':["Chance du jour",'Удача на сегодня'],'水晶球':['Boule de cristal','Хрустальный шар'],'易經卦象':['Yi King','И-цзин'],'姓名筆畫':['Traits du nom','Черты имени'],'八字簡批':['Lecture BaZi','Расклад Ба-цзы'],'稱骨算命':['Poids des os','Взвешивание костей'],'生命靈數':['Numérologie','Нумерология'],'梅花易數':['Oracle fleur de prunier','Оракул цветущей сливы'],'周公解夢':['Dictionnaire des rêves','Сонник'],'盧恩符文':['Runes','Руны'],'生肖流年':["Année du zodiaque chinois",'Год по китайскому зодиаку'],'緣分配對':['Compatibilité','Совместимость'],'每日黃曆':['Almanach chinois','Китайский календарь'],'血型配對':['Groupe sanguin','Группа крови'],'手相說明':['Chiromancie','Хиромантия'],'西洋星盤':['Thème natal','Натальная карта'],'姓名數字學':['Numérologie du nom','Нумерология имени'],'日本御神籤':['Omikuji','Омикудзи'],'九星氣學':['Nine Star Ki','Кюсэй-кигаку'],'瑪雅神聖曆':['Tzolkin maya','Цолькин майя'],'吠陀月宿':['Nakshatra védique','Ведические накшатры'],'凱爾特樹木曆':['Arbres celtiques','Кельтские деревья'],'沙占卜':['Géomancie','Геомантия'],'月相月亮':['Phases de la Lune','Фазы Луны'],
 '開始':['Démarrer','Пуск'],'回到桌面':['Retour au bureau','На рабочий стол'],'← 回到桌面':['← Retour au bureau','← На рабочий стол'],'🖥️ 回到桌面':['🖥️ Bureau','🖥️ Рабочий стол'],'神機妙算占卜館':['Salle des oracles','Зал оракулов'],'神機妙算':['Oracle','Оракул'],
 '★☆★ 歡迎光臨！請先誠心默念所求之事，再點選下方圖示 ★☆★ 本站結果純屬娛樂，請勿迷信 ★☆★':['★☆★ Bienvenue ! Pensez d\'abord à votre question, puis touchez une icône ★☆★ Résultats à titre de divertissement ★☆★','★☆★ Добро пожаловать! Сначала подумайте о вопросе, затем нажмите значок ★☆★ Результаты — только для развлечения ★☆★'],
 '點右下角「ㄅㄆㄇ」可以開關注音 ・ 您是第':['Touchez 🌐 en haut à droite pour changer de langue ・ Vous êtes le visiteur','Нажмите 🌐 вверху справа, чтобы сменить язык ・ Вы посетитель №'],'次':['','' ],
@@ -517,6 +518,7 @@ meihua:['梅花易數相傳是宋代邵雍所創，故事說他看見梅花枝�
 dream:['《周公解夢》是華人最著名的夢書，相傳出自周公，其實是歷代民間夢占的集合。傳統認為夢是日有所思、夜有所夢，也可能預示吉凶；現代則多把它當作了解自己心情的線索。','輸入夢裡出現的關鍵詞（如：蛇、水、飛），按「解夢」。','"The Duke of Zhou\'s Dream Dictionary" is the best-known Chinese dream book. Credited to the Duke of Zhou, it is really a collection of folk dream lore through the ages. Tradition holds that dreams reflect daytime thoughts and may hint at fortune; today many read them as clues to one\'s feelings.','Type a keyword from your dream (snake, water, flying…) and press the button.'],
 rune:['盧恩符文是古代日耳曼與北歐人使用的字母，最早見於二世紀。它既是文字，也被賦予神祕意義；現代常用 24 個「老弗薩克」符文做簡單占卜，每個符文代表一種力量或主題。','心中想著問題，按「抽符石」，抽到一個符文。','Runes are the alphabet of ancient Germanic and Norse peoples, first seen in the 2nd century. Besides writing, each rune carries a symbolic meaning; modern divination often uses the 24 Elder Futhark runes, each standing for a force or theme.','Hold your question in mind and press the button to draw one rune.'],
 zx:['十二生肖以十二地支配十二種動物，是華人紀年與性格的共同語言。每年有「太歲」，與你的生肖相沖、相刑、相害或相合時，民間認為運勢會有變化，所以有「安太歲」的習俗。','選擇你的生肖或生日，按「看今年」，看今年的整體提醒。','The twelve zodiac animals pair the twelve earthly branches with twelve animals and form a shared language for years and personalities. Each year has a "Tai Sui" star; when it clashes with, harms or harmonises with your animal, folk belief says luck shifts — hence the custom of "pacifying Tai Sui".','Choose your animal or birthday and press the button to see this year\'s overview.'],
+hehun:['八字合婚是傳統婚配的做法：把兩個人的四柱放在一起比較，看日主五行的生剋、天干五合、地支的六合、三合、六沖與六害，再看五行是否互補。各派說法不同，本工具採常見的規則整理，重點是看「哪裡合得來、哪裡要多磨合」。','輸入兩個人的生日（時辰可選），按「合婚」。分數只是好玩，感情靠經營。','BaZi matching is the traditional way of pairing two people: their Four Pillars are compared for the generating and controlling cycle of the day masters, the five stem combinations, and the six harmonies, three harmonies, six clashes and six harms of the branches, plus whether their five elements complement each other. Schools differ; this tool uses commonly cited rules to show where you fit and where you need more adjusting.','Enter both birthdays (birth hour optional) and press the button. The score is for fun; relationships take effort.'],
 match:['華人看緣分常用生肖相合、八字合婚與星座元素。生肖有六合、三合與六沖的說法；八字合婚看日干日支的關係。西方則看星座元素與生命靈數。本工具把這五個面向綜合成一個分數。','輸入你與對方的生日，按「測緣分」。分數只是好玩，感情靠經營。','Chinese compatibility reading uses zodiac-animal harmony, BaZi matching and, in the West, sign elements and numerology. Animals have "six harmonies", "three harmonies" and "six clashes"; BaZi matching compares Day Stems and Branches. This tool blends five factors into one score.','Enter both birthdays and press the button. The score is for fun — relationships are built, not calculated.'],
 almanac:['黃曆（通勝）是華人沿用兩千多年的曆書，記載節氣、每日宜忌、沖煞與吉時，用來選結婚、搬家、開業的好日子。內容以農曆與干支為基礎，台灣、香港都仍常用。','直接看今天的宜與忌，用「前一天／後一天」切換日期。','The Huangli (Tung Shing) is an almanac Chinese communities have used for over two thousand years, listing solar terms, daily do\'s and don\'ts, clashes and lucky hours for choosing wedding, moving and opening days. It is based on the lunar calendar and the stem-branch cycle and is still widely used in Taiwan and Hong Kong.','See today\'s lucky and unlucky activities and use the previous/next buttons to change the date.'],
 blood:['血型性格說起源於日本，1927 年古川竹二提出血型與氣質有關，1970 年代由能見正比古普及，在日本、台灣與韓國非常流行，但科學上並沒有可靠證據支持。純粹當作聊天話題。','選擇你和對方的血型，按「看看配不配」。','The blood-type personality idea began in Japan: Takeji Furukawa proposed a link in 1927, and Masahiko Nomi popularised it in the 1970s. It is very popular in Japan, Taiwan and Korea, but there is no reliable scientific evidence for it. Treat it purely as conversation fun.','Choose both blood types and press the button.'],
@@ -636,7 +638,7 @@ const ANIMALS=['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗'
 const AEMO=['🐭','🐮','🐯','🐰','🐲','🐍','🐴','🐑','🐵','🐔','🐶','🐷'];
 
 /* ---------- 資料 ---------- */
-const LIST=[['hist','📒','占卜紀錄'],['qian','🏮','求籤'],['jiao','🌗','擲筊'],['yu','📜','每日一語'],['ziwei','🌠','紫微斗數'],['tarot','🃏','塔羅牌'],['star','♈️','星座'],['fortune','🍀','今日運勢'],['ball','🔮','水晶球'],['yi','☯️','易經卦象'],['name','✍️','姓名筆畫'],['bazi','🧧','八字簡批'],['chenggu','🦴','稱骨算命'],['num','🔢','生命靈數'],['meihua','🌸','梅花易數'],['dream','💤','周公解夢'],['rune','🔱','盧恩符文'],['zx','🐲','生肖流年'],['match','💘','緣分配對'],['almanac','📅','每日黃曆'],['blood','🩸','血型配對'],['palm','🖐️','手相說明'],['natal','🪐','西洋星盤'],['pyth','🔤','姓名數字學'],['omikuji','⛩️','日本御神籤'],['kyusei','🧭','九星氣學'],['maya','🗿','瑪雅神聖曆'],['vedic','🪔','吠陀月宿'],['celt','🌳','凱爾特樹木曆'],['geo','🏜️','沙占卜'],['moon','🌙','月相月亮']];
+const LIST=[['hist','📒','占卜紀錄'],['hehun','💍','八字合婚'],['qian','🏮','求籤'],['jiao','🌗','擲筊'],['yu','📜','每日一語'],['ziwei','🌠','紫微斗數'],['tarot','🃏','塔羅牌'],['star','♈️','星座'],['fortune','🍀','今日運勢'],['ball','🔮','水晶球'],['yi','☯️','易經卦象'],['name','✍️','姓名筆畫'],['bazi','🧧','八字簡批'],['chenggu','🦴','稱骨算命'],['num','🔢','生命靈數'],['meihua','🌸','梅花易數'],['dream','💤','周公解夢'],['rune','🔱','盧恩符文'],['zx','🐲','生肖流年'],['match','💘','緣分配對'],['almanac','📅','每日黃曆'],['blood','🩸','血型配對'],['palm','🖐️','手相說明'],['natal','🪐','西洋星盤'],['pyth','🔤','姓名數字學'],['omikuji','⛩️','日本御神籤'],['kyusei','🧭','九星氣學'],['maya','🗿','瑪雅神聖曆'],['vedic','🪔','吠陀月宿'],['celt','🌳','凱爾特樹木曆'],['geo','🏜️','沙占卜'],['moon','🌙','月相月亮']];
 
 
 
@@ -1875,6 +1877,65 @@ mount(r){
   };
 }};
 
+
+/* ===== 八字合婚 ===== */
+const ELN=['木','火','土','金','水'];
+const LH6=[[0,1],[2,11],[3,10],[4,9],[5,8],[6,7]],CH6=[[0,6],[1,7],[2,8],[3,9],[4,10],[5,11]],HAI6=[[0,7],[1,6],[2,5],[3,4],[8,11],[9,10]],SHE3=[[8,0,4],[2,6,10],[11,3,7],[5,9,1]];
+const pairIn=(arr,x,y)=>arr.some(p=>(p[0]===x&&p[1]===y)||(p[0]===y&&p[1]===x));
+const trioIn=(x,y)=>x!==y&&SHE3.some(t=>t.includes(x)&&t.includes(y));
+function elCount(b){const c=[0,0,0,0,0];[b.y,b.m,b.d,b.h].forEach(p=>{if(!p)return;c[STEM_EL[p[0]]]++;c[BR_EL[p[1]]]++});return c}
+VIEWS.hehun={t:'八字合婚.exe',render:()=>`
+<div class="center">${wa('八字合婚','wa5','arch')}</div>
+<div class="pane"><p class="small">第一位</p><div class="row"><label>生日 <input type="date" id="d1" value="${store.get('birth','2000-01-01')}"></label><label>時辰 <select id="h1">${HOUR13.map((t,i)=>`<option value="${i-1}"${i===0?' selected':''}>${t}</option>`).join('')}</select></label></div>
+<p class="small">第二位</p><div class="row"><label>生日 <input type="date" id="d2" value="1998-06-15"></label><label>時辰 <select id="h2">${HOUR13.map((t,i)=>`<option value="${i-1}"${i===0?' selected':''}>${t}</option>`).join('')}</select></label></div>
+<div class="center"><button class="btn big" id="go">合婚</button></div>
+<p class="small center">不知道時辰可以選「不知道時辰」，只用年、月、日三柱比較。</p></div>
+<div id="out"></div>${backBtn}`,
+mount(r){
+  const out=$('#out',r);
+  $('#go',r).onclick=()=>{
+    const d1=$('#d1',r).value,d2=$('#d2',r).value;if(!d1||!d2)return;store.set('birth',d1);
+    const A=bazi(d1,+$('#h1',r).value),B=bazi(d2,+$('#h2',r).value);
+    let sc=0;const rows=[];
+    const add=(n,tag,txt)=>{sc+=n;rows.push(`<p><span class="lbl">${tag}</span>${txt}</p>`)};
+    const a=STEM_EL[A.d[0]],b=STEM_EL[B.d[0]];
+    const dmN=ELN[a]+'（'+STEMS[A.d[0]]+'）',dmM=ELN[b]+'（'+STEMS[B.d[0]]+'）';
+    if(a===b)add(1,'日主五行',`你是${dmN}，對方是${dmM}，同屬一類，容易互相理解，也容易各執己見，需要輪流退讓。`);
+    else if(b===(a+1)%5)add(2,'日主五行',`你${dmN}生對方${dmM}：你多半是付出、照顧的一方，對方會得到滋養，要留意自己別累過頭。`);
+    else if(a===(b+1)%5)add(2,'日主五行',`對方${dmM}生你${dmN}：對方多半是付出、支持你的一方，你要記得回應與感謝。`);
+    else if(b===(a+2)%5)add(-2,'日主五行',`你${dmN}剋對方${dmM}：你容易不自覺地主導或要求對方，溝通時多一點柔軟。`);
+    else add(-2,'日主五行',`對方${dmM}剋你${dmN}：你可能感到壓力或被管，對方的想法需要用聊的而不是用忍的。`);
+    const gp=[[0,5],[1,6],[2,7],[3,8],[4,9]];
+    if(gp.some(p=>(p[0]===A.d[0]&&p[1]===B.d[0])||(p[1]===A.d[0]&&p[0]===B.d[0])))add(3,'日干相合',`兩人的日干是傳統所說的「天干五合」，相處中容易有互相吸引、想靠近的感覺。`);
+    const zA=A.d[1],zB=B.d[1];
+    if(pairIn(LH6,zA,zB))add(3,'日支六合',`兩人的日支「${BR[zA]}」與「${BR[zB]}」相合，在家庭與日常相處上容易有默契與安心感。`);
+    else if(trioIn(zA,zB))add(2,'日支三合',`日支「${BR[zA]}」與「${BR[zB]}」同屬三合局，志向與步調容易相近。`);
+    else if(pairIn(CH6,zA,zB))add(-3,'日支六沖',`日支「${BR[zA]}」與「${BR[zB]}」相沖，相處上容易有正面衝突，性格差異大，但也可能互相刺激成長。`);
+    else if(pairIn(HAI6,zA,zB))add(-2,'日支六害',`日支「${BR[zA]}」與「${BR[zB]}」相害，小摩擦與誤會比較多，多講清楚就能化解。`);
+    else rows.push(`<p><span class="lbl">日支</span>日支「${BR[zA]}」與「${BR[zB]}」沒有特別的合沖關係，屬於平穩、需要靠相處累積默契的組合。</p>`);
+    const yA=A.y[1],yB=B.y[1];
+    if(pairIn(LH6,yA,yB)||trioIn(yA,yB))add(1,'生肖（年支）',`生肖「${BR[yA]}」與「${BR[yB]}」相合，家人與外在環境的看法比較能互相接納。`);
+    else if(pairIn(CH6,yA,yB))add(-1,'生肖（年支）',`生肖「${BR[yA]}」與「${BR[yB]}」相沖，雙方家庭或成長背景的差異需要多體諒。`);
+    else rows.push(`<p><span class="lbl">生肖（年支）</span>生肖「${BR[yA]}」與「${BR[yB]}」沒有特別的合沖。</p>`);
+    const mA=A.m[1],mB=B.m[1];
+    if(pairIn(LH6,mA,mB)||trioIn(mA,mB))add(1,'月支',`月支相合，表示成長環境與價值觀有可以交流的地方。`);
+    else if(pairIn(CH6,mA,mB))add(-1,'月支',`月支相沖，價值觀與生活節奏可能不同，需要磨合。`);
+    const cA=elCount(A),cB=elCount(B);
+    const wk=c=>c.indexOf(Math.min(...c));const wa_=wk(cA),wb=wk(cB);
+    let comp=0;const ct=[];
+    if(cB[wa_]>=2){comp++;ct.push(`你五行偏缺「${ELN[wa_]}」，對方的盤中有 ${cB[wa_]} 個，可以補到你`)}
+    if(cA[wb]>=2){comp++;ct.push(`對方五行偏缺「${ELN[wb]}」，你的盤中有 ${cA[wb]} 個，可以補到對方`)}
+    if(comp)add(comp,'五行互補',ct.join('；')+'。');
+    else rows.push(`<p><span class="lbl">五行互補</span>你的八字五行為 ${ELN.map((e,i)=>e+cA[i]).join(' ')}，對方為 ${ELN.map((e,i)=>e+cB[i]).join(' ')}，互補的效果不特別明顯。</p>`);
+    const pct=Math.max(35,Math.min(98,Math.round(62+sc*4.2)));
+    const head=pct>=85?'天作之合的組合，合得來的地方很多':pct>=72?'整體相合，相處順暢':pct>=58?'有合有不合，需要多溝通磨合':'差異較大，要多包容、多練習溝通';
+    out.innerHTML=`<div class="paper center">${wa(pct+'%','wa1','wave','clamp(60px,20vw,100px)')}<p><b>${head}</b></p>
+    <div style="text-align:left"><p class="small">你的四柱：${[A.y,A.m,A.d,A.h].filter(Boolean).map(p=>STEMS[p[0]]+BR[p[1]]).join(' ')}　對方：${[B.y,B.m,B.d,B.h].filter(Boolean).map(p=>STEMS[p[0]]+BR[p[1]]).join(' ')}</p>${rows.join('')}
+    <p class="small">※ 八字合婚各派說法不同，這裡只用常見的規則比較；分數只是好玩。感情最重要的是彼此尊重與用心經營，不要因為一個數字就放棄或勉強。</p></div></div>`;
+    refresh(out);out.scrollIntoView({behavior:'smooth',block:'start'});
+  };
+}};
+
 /* ===== 緣分配對 ===== */
 const EL4=['火','土','風','水'];
 function profile(ds){const d=parseDate(ds),l=lunarOf(d);return{an:mod(l.y-4,12),si:signOf(d.getMonth()+1,d.getDate()),dm:bazi(ds,-1).d[0]}}
@@ -2761,10 +2822,19 @@ sndBtn();
 ROOT.addEventListener('pointerdown',e=>{if(!SND.on)return;
   if(e.target.closest('#go,#pgo')&&(cur==='qian'||cur==='jiao')){SND.rattle();return}
   if(e.target.closest('.btn,.ico,[data-go],[data-lang],.lbtn,.tbtn'))SND.click()},true);
-(function(){let seen=false;try{seen=sessionStorage.getItem('sj_boot')==='1'}catch(e){}
-  const bt=$('#boot');if(seen)return;bt.hidden=false;
-  const done=()=>{if(bt.hidden)return;bt.hidden=true;try{sessionStorage.setItem('sj_boot','1')}catch(e){}SND.chime()};
-  bt.addEventListener('pointerdown',done);setTimeout(done,1700)})();
+function runBoot(force){
+  let seen=false;try{seen=sessionStorage.getItem('sj_boot')==='1'}catch(e){}
+  const bt=$('#boot');if(seen&&!force)return;
+  const po=$('#post'),bw=$('#bw');po.style.display='';bw.style.display='none';po.textContent='';
+  bt.hidden=false;let ended=false,tms=[];
+  const done=()=>{if(ended)return;ended=true;tms.forEach(clearTimeout);bt.hidden=true;try{sessionStorage.setItem('sj_boot','1')}catch(e){}SND.chime()};
+  const L=['Ting Ting & Juby BIOS v1.0','Copyright (C) 2026 Ting Ting & Juby','','CPU: FATE 486DX  ............ OK','Memory Test: 640K ........... OK','Detecting Fortune Tube ...... OK','Detecting Crystal Ball .... OK','Loading FATE.SYS ............ OK','','Starting Divination Hall ...'];
+  L.forEach((t,i)=>tms.push(setTimeout(()=>{po.textContent+=t+'\n'},i*140)));
+  tms.push(setTimeout(()=>{po.style.display='none';bw.style.display='';$('#bw .bp i').style.animation='none';void $('#bw .bp i').offsetWidth;$('#bw .bp i').style.animation=''},L.length*140+200));
+  tms.push(setTimeout(done,L.length*140+200+1700));
+  bt.onpointerdown=done;
+}
+runBoot(false);
 /* ===== 離線（PWA） ===== */
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}})}
 
@@ -2814,7 +2884,7 @@ function setZy(on){store.set('zy',on?'1':'0');applyZy()}
 function applyZy(){const zt=LANG==='zh-TW';ROOT.classList.toggle('nozy',!zyOn());$('#zytog').style.display=zt?'':'none';$('#zytog').textContent='ㄅㄆㄇ '+(zyOn()?'開':'關')}
 function clock(){const d=new Date();$('#clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
 function buildMenu(){
-  $('#menulist').innerHTML=LIST.map(l=>`<a data-go="${l[0]}" tabindex="0">${l[1]} ${TR(l[2])}</a>`).join('')+'<hr><a data-go="home" tabindex="0">'+TR('🖥️ 回到桌面')+'</a><hr><span style="display:block;padding:4px 10px;font-size:13px;font-family:Arial,sans-serif;color:#444">© 2026 '+authName()+'</span>';
+  $('#menulist').innerHTML=LIST.map(l=>`<a data-go="${l[0]}" tabindex="0">${l[1]} ${TR(l[2])}</a>`).join('')+'<hr><a data-go="home" tabindex="0">'+TR('🖥️ 回到桌面')+'</a><a data-reboot="1" tabindex="0">'+TR('🔄 重新開機')+'</a><hr><span style="display:block;padding:4px 10px;font-size:13px;font-family:Arial,sans-serif;color:#444">© 2026 '+authName()+'</span>';
   $('#start').innerHTML='<b>✦ '+TR('開始')+'</b>';
   $('.side',$('#menu')).textContent=TR('神機妙算');
 }
@@ -2838,6 +2908,7 @@ $('#start').onclick=e=>{e.stopPropagation();$('#menu').classList.toggle('on')};
 document.addEventListener('click',e=>{if(!e.target.closest('#menu'))$('#menu').classList.remove('on')});
 $('#zytog').onclick=()=>setZy(!zyOn());
 ROOT.addEventListener('click',e=>{
+  if(e.target.closest('[data-reboot]')){e.preventDefault();$('#menu').classList.remove('on');runBoot(true);return}
   const l=e.target.closest('a[data-lang]');if(l){e.preventDefault();setLang(l.dataset.lang);return}
   const ac=e.target.closest('[data-act]');if(ac){e.preventDefault();doAct(ac.dataset.act);return}
   const a=e.target.closest('[data-go]');if(a){e.preventDefault();go(a.dataset.go)}});

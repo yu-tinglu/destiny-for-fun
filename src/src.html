@@ -186,6 +186,19 @@ select,input,.btn,button{font-family:inherit}
 #topbar{position:sticky;top:0;z-index:25;height:38px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;display:flex;align-items:center;gap:8px;padding:0 8px;font-weight:bold;font-size:18px;border-bottom:2px solid #000}
 #topbar .sp2{flex:1}
 
+
+.tube{position:relative}
+.dropstick{position:absolute;left:46%;top:-6px;width:12px;height:150px;animation:sjdrop 1.3s cubic-bezier(.3,.1,.6,1) forwards;z-index:3}
+.dropstick i{display:block;width:100%;height:100%;border:1px solid #7a4a00;border-radius:2px;background:linear-gradient(#c4301f 0 14%,#f4d98a 14%)}
+@keyframes sjdrop{0%{transform:translateY(0) rotate(0)}35%{transform:translateY(-70px) rotate(8deg)}100%{transform:translateY(260px) rotate(70deg);opacity:0}}
+#ss{position:fixed;inset:0;z-index:90;background:#000;cursor:pointer}
+#ss[hidden]{display:none}
+#ss canvas{width:100%;height:100%;display:block}
+.errdlg{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);z-index:95;width:min(86vw,320px);background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:4px 4px 0 rgba(0,0,0,.5)}
+.errdlg .t{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;padding:2px 8px;font-weight:bold;font-size:15px}
+.errdlg .m{padding:14px;display:flex;gap:12px;align-items:center;font-size:16px}
+.errdlg .m b{font-size:34px}
+.errdlg .btn{display:block;margin:0 auto 12px}
 #sndbtn{padding:1px 8px}
 #boot{position:fixed;inset:0;z-index:100;background:#008080;display:flex;align-items:center;justify-content:center}
 #boot[hidden]{display:none}
@@ -236,6 +249,7 @@ select,input,.btn,button{font-family:inherit}
 <div id="shenji">
 <div id="topbar" class="nozy-cell"><span id="sitename">神機妙算占卜館</span><span class="sp2"></span><button class="lbtn" id="sndbtn" title="sound">🔊</button><button class="lbtn" id="langbtn" aria-haspopup="true">🌐 <span id="langname">繁體中文</span> ▾</button><div id="langmenu"></div></div>
 <div id="app"></div>
+<div id="ss" hidden><canvas></canvas></div>
 <div id="boot" hidden><div class="bw"><div class="bt">神機妙算占卜館</div><div class="bb">神機妙算<br>占卜館</div><div class="bp"><i></i></div><div class="bs nozy-cell">Starting… ✦ 庭庭與胖胖</div></div></div>
 <div id="desk" class="nozy-cell" hidden><a class="ico" data-go="home" tabindex="0"><span class="e">🔮</span><span class="l" id="deskl">神機妙算占卜館</span></a></div>
 <div id="copy" class="nozy-cell">© 2026 <b id="auth">庭庭與胖胖</b> ・ All rights reserved.</div>
@@ -371,7 +385,7 @@ const store={get(k,d){try{const v=localStorage.getItem('sj_'+k);return v==null?d
 const LANGS=[['zh-TW','繁體中文'],['en','English'],['ja','日本語'],['ko','한국어'],['hi','हिन्दी'],['id','Bahasa Indonesia'],['th','ไทย'],['vi','Tiếng Việt'],['es','Español'],['fr','Français'],['ru','Русский']];
 /* 欄位順序：[粵語, English, 日本語, 한국어, हिन्दी, Indonesia, ไทย, Tiếng Việt, Español]；null＝同繁體中文 */
 const D={
-"占卜紀錄":[null,"Reading History","占い履歴","점괘 기록","पढ़ने का इतिहास","Riwayat Ramalan","ประวัติการดูดวง","Lịch sử xem bói","Historial de lecturas"],"複製結果":[null,"Copy result","結果をコピー","결과 복사","परिणाम कॉपी करें","Salin hasil","คัดลอกผลลัพธ์","Sao chép kết quả","Copiar resultado"],"分享":[null,"Share","共有","공유","शेयर करें","Bagikan","แชร์","Chia sẻ","Compartir"],"已複製":[null,"Copied","コピーしました","복사됨","कॉपी हो गया","Tersalin","คัดลอกแล้ว","Đã sao chép","Copiado"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":[null,"Your last 40 results, stored only in this device's browser.","直近40件の結果。この端末のブラウザ内にのみ保存されます。","최근 40건의 결과이며 이 기기의 브라우저에만 저장됩니다.","आपके पिछले 40 परिणाम, केवल इस डिवाइस के ब्राउज़र में सहेजे गए।","40 hasil terakhir, hanya disimpan di browser perangkat ini.","ผลลัพธ์ล่าสุด 40 รายการ เก็บไว้ในเบราว์เซอร์ของอุปกรณ์นี้เท่านั้น","40 kết quả gần nhất, chỉ lưu trong trình duyệt của thiết bị này.","Tus últimos 40 resultados, guardados solo en el navegador de este dispositivo."],"還沒有紀錄。":[null,"No history yet.","まだ履歴はありません。","아직 기록이 없습니다.","अभी कोई इतिहास नहीं है।","Belum ada riwayat.","ยังไม่มีประวัติ","Chưa có lịch sử.","Aún no hay historial."],"清除全部紀錄":[null,"Clear all history","履歴をすべて消去","기록 모두 지우기","सारा इतिहास साफ़ करें","Hapus semua riwayat","ล้างประวัติทั้งหมด","Xóa toàn bộ lịch sử","Borrar todo el historial"],'求籤':[null,'Fortune Sticks','おみくじ','점괘 막대','भाग्य की तीलियाँ','Kocok Ciamsi','เซียมซี','Xin quẻ','Varillas de fortuna'],
+"存成圖片":[null,"Save as image","画像として保存","이미지로 저장","छवि के रूप में सहेजें","Simpan sebagai gambar","บันทึกเป็นรูปภาพ","Lưu thành ảnh","Guardar como imagen"],"運氣不足，請稍後再試。":[null,"Not enough luck. Please try again later.","運が足りません。後でもう一度お試しください。","운이 부족합니다. 나중에 다시 시도하세요.","भाग्य पर्याप्त नहीं है। कृपया बाद में पुनः प्रयास करें।","Keberuntungan tidak cukup. Coba lagi nanti.","โชคไม่พอ โปรดลองอีกครั้งภายหลัง","Không đủ may mắn. Vui lòng thử lại sau.","Suerte insuficiente. Inténtalo más tarde."],"確定":[null,"OK","OK","확인","ठीक है","OK","ตกลง","OK","Aceptar"],"後來怎麼樣了？寫下回顧備註":[null,"Looking back: how did it turn out? Write a note","その後どうなりましたか？振り返りメモを書く","나중에 어떻게 됐나요? 회고 메모 작성","आगे क्या हुआ? समीक्षा नोट लिखें","Bagaimana akhirnya? Tulis catatan tinjauan","ผลเป็นอย่างไร? เขียนบันทึกทบทวน","Sau đó thế nào? Ghi chú nhìn lại","¿Cómo terminó? Escribe una nota de repaso"],"占卜紀錄":[null,"Reading History","占い履歴","점괘 기록","पढ़ने का इतिहास","Riwayat Ramalan","ประวัติการดูดวง","Lịch sử xem bói","Historial de lecturas"],"複製結果":[null,"Copy result","結果をコピー","결과 복사","परिणाम कॉपी करें","Salin hasil","คัดลอกผลลัพธ์","Sao chép kết quả","Copiar resultado"],"分享":[null,"Share","共有","공유","शेयर करें","Bagikan","แชร์","Chia sẻ","Compartir"],"已複製":[null,"Copied","コピーしました","복사됨","कॉपी हो गया","Tersalin","คัดลอกแล้ว","Đã sao chép","Copiado"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":[null,"Your last 40 results, stored only in this device's browser.","直近40件の結果。この端末のブラウザ内にのみ保存されます。","최근 40건의 결과이며 이 기기의 브라우저에만 저장됩니다.","आपके पिछले 40 परिणाम, केवल इस डिवाइस के ब्राउज़र में सहेजे गए।","40 hasil terakhir, hanya disimpan di browser perangkat ini.","ผลลัพธ์ล่าสุด 40 รายการ เก็บไว้ในเบราว์เซอร์ของอุปกรณ์นี้เท่านั้น","40 kết quả gần nhất, chỉ lưu trong trình duyệt của thiết bị này.","Tus últimos 40 resultados, guardados solo en el navegador de este dispositivo."],"還沒有紀錄。":[null,"No history yet.","まだ履歴はありません。","아직 기록이 없습니다.","अभी कोई इतिहास नहीं है।","Belum ada riwayat.","ยังไม่มีประวัติ","Chưa có lịch sử.","Aún no hay historial."],"清除全部紀錄":[null,"Clear all history","履歴をすべて消去","기록 모두 지우기","सारा इतिहास साफ़ करें","Hapus semua riwayat","ล้างประวัติทั้งหมด","Xóa toàn bộ lịch sử","Borrar todo el historial"],'求籤':[null,'Fortune Sticks','おみくじ','점괘 막대','भाग्य की तीलियाँ','Kocok Ciamsi','เซียมซี','Xin quẻ','Varillas de fortuna'],
 '擲筊':[null,'Moon Blocks','ポエ占い','문블록 점','मून ब्लॉक','Poe Bulan','ไม้เสี่ยงทาย','Gieo quẻ âm dương','Bloques lunares'],
 '每日一語':[null,'Daily Quote','今日のひとこと','오늘의 한마디','आज का विचार','Kata Hari Ini','คำคมวันนี้','Câu nói hôm nay','Frase del día'],
 '紫微斗數':[null,'Zi Wei Dou Shu','紫微斗数','자미두수','ज़ी वेई ज्योतिष','Zi Wei Dou Shu','จื่อเวย์โต่วซู่','Tử Vi Đẩu Số','Zi Wei Dou Shu'],
@@ -472,7 +486,7 @@ function i18nNodes(root){
 }
 /* 法文、俄文欄位（接在 D 之後：順序 … Español, Français, Русский） */
 const D2={
-"占卜紀錄":["Historique des tirages","История гаданий"],"複製結果":["Copier le résultat","Копировать результат"],"分享":["Partager","Поделиться"],"已複製":["Copié","Скопировано"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":["Vos 40 derniers résultats, stockés uniquement dans le navigateur de cet appareil.","Последние 40 результатов хранятся только в браузере этого устройства."],"還沒有紀錄。":["Aucun historique pour le moment.","Истории пока нет."],"清除全部紀錄":["Effacer tout l'historique","Очистить всю историю"],'求籤':['Bâtonnets de fortune','Бамбуковые палочки судьбы'],'擲筊':['Blocs de lune','Лунные блоки'],'每日一語':['Citation du jour','Мысль дня'],'紫微斗數':['Zi Wei Dou Shu','Цзы Вэй Доу Шу'],'塔羅牌':['Tarot','Таро'],'星座':['Signes du zodiaque','Знаки зодиака'],'今日運勢':["Chance du jour",'Удача на сегодня'],'水晶球':['Boule de cristal','Хрустальный шар'],'易經卦象':['Yi King','И-цзин'],'姓名筆畫':['Traits du nom','Черты имени'],'八字簡批':['Lecture BaZi','Расклад Ба-цзы'],'稱骨算命':['Poids des os','Взвешивание костей'],'生命靈數':['Numérologie','Нумерология'],'梅花易數':['Oracle fleur de prunier','Оракул цветущей сливы'],'周公解夢':['Dictionnaire des rêves','Сонник'],'盧恩符文':['Runes','Руны'],'生肖流年':["Année du zodiaque chinois",'Год по китайскому зодиаку'],'緣分配對':['Compatibilité','Совместимость'],'每日黃曆':['Almanach chinois','Китайский календарь'],'血型配對':['Groupe sanguin','Группа крови'],'手相說明':['Chiromancie','Хиромантия'],'西洋星盤':['Thème natal','Натальная карта'],'姓名數字學':['Numérologie du nom','Нумерология имени'],'日本御神籤':['Omikuji','Омикудзи'],'九星氣學':['Nine Star Ki','Кюсэй-кигаку'],'瑪雅神聖曆':['Tzolkin maya','Цолькин майя'],'吠陀月宿':['Nakshatra védique','Ведические накшатры'],'凱爾特樹木曆':['Arbres celtiques','Кельтские деревья'],'沙占卜':['Géomancie','Геомантия'],'月相月亮':['Phases de la Lune','Фазы Луны'],
+"存成圖片":["Enregistrer en image","Сохранить как изображение"],"運氣不足，請稍後再試。":["Pas assez de chance. Réessayez plus tard.","Недостаточно удачи. Повторите попытку позже."],"確定":["OK","ОК"],"後來怎麼樣了？寫下回顧備註":["Et ensuite ? Écrivez une note de bilan","Что было потом? Запишите заметку"],"占卜紀錄":["Historique des tirages","История гаданий"],"複製結果":["Copier le résultat","Копировать результат"],"分享":["Partager","Поделиться"],"已複製":["Copié","Скопировано"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":["Vos 40 derniers résultats, stockés uniquement dans le navigateur de cet appareil.","Последние 40 результатов хранятся только в браузере этого устройства."],"還沒有紀錄。":["Aucun historique pour le moment.","Истории пока нет."],"清除全部紀錄":["Effacer tout l'historique","Очистить всю историю"],'求籤':['Bâtonnets de fortune','Бамбуковые палочки судьбы'],'擲筊':['Blocs de lune','Лунные блоки'],'每日一語':['Citation du jour','Мысль дня'],'紫微斗數':['Zi Wei Dou Shu','Цзы Вэй Доу Шу'],'塔羅牌':['Tarot','Таро'],'星座':['Signes du zodiaque','Знаки зодиака'],'今日運勢':["Chance du jour",'Удача на сегодня'],'水晶球':['Boule de cristal','Хрустальный шар'],'易經卦象':['Yi King','И-цзин'],'姓名筆畫':['Traits du nom','Черты имени'],'八字簡批':['Lecture BaZi','Расклад Ба-цзы'],'稱骨算命':['Poids des os','Взвешивание костей'],'生命靈數':['Numérologie','Нумерология'],'梅花易數':['Oracle fleur de prunier','Оракул цветущей сливы'],'周公解夢':['Dictionnaire des rêves','Сонник'],'盧恩符文':['Runes','Руны'],'生肖流年':["Année du zodiaque chinois",'Год по китайскому зодиаку'],'緣分配對':['Compatibilité','Совместимость'],'每日黃曆':['Almanach chinois','Китайский календарь'],'血型配對':['Groupe sanguin','Группа крови'],'手相說明':['Chiromancie','Хиромантия'],'西洋星盤':['Thème natal','Натальная карта'],'姓名數字學':['Numérologie du nom','Нумерология имени'],'日本御神籤':['Omikuji','Омикудзи'],'九星氣學':['Nine Star Ki','Кюсэй-кигаку'],'瑪雅神聖曆':['Tzolkin maya','Цолькин майя'],'吠陀月宿':['Nakshatra védique','Ведические накшатры'],'凱爾特樹木曆':['Arbres celtiques','Кельтские деревья'],'沙占卜':['Géomancie','Геомантия'],'月相月亮':['Phases de la Lune','Фазы Луны'],
 '開始':['Démarrer','Пуск'],'回到桌面':['Retour au bureau','На рабочий стол'],'← 回到桌面':['← Retour au bureau','← На рабочий стол'],'🖥️ 回到桌面':['🖥️ Bureau','🖥️ Рабочий стол'],'神機妙算占卜館':['Salle des oracles','Зал оракулов'],'神機妙算':['Oracle','Оракул'],
 '★☆★ 歡迎光臨！請先誠心默念所求之事，再點選下方圖示 ★☆★ 本站結果純屬娛樂，請勿迷信 ★☆★':['★☆★ Bienvenue ! Pensez d\'abord à votre question, puis touchez une icône ★☆★ Résultats à titre de divertissement ★☆★','★☆★ Добро пожаловать! Сначала подумайте о вопросе, затем нажмите значок ★☆★ Результаты — только для развлечения ★☆★'],
 '點右下角「ㄅㄆㄇ」可以開關注音 ・ 您是第':['Touchez 🌐 en haut à droite pour changer de langue ・ Vous êtes le visiteur','Нажмите 🌐 вверху справа, чтобы сменить язык ・ Вы посетитель №'],'次':['','' ],
@@ -873,6 +887,7 @@ mount(r){
     go.disabled=true;out.innerHTML='';tube.classList.add('shake');
     setTimeout(()=>{
       tube.classList.remove('shake');
+      {const st=document.createElement('div');st.className='dropstick';st.innerHTML='<i></i>';tube.appendChild(st);setTimeout(()=>st.remove(),1500);SND.tone(1200,0,.08,'triangle',.05);SND.tone(700,.12,.12,'triangle',.05)}
       const bk=$('#bk',r).value,pool=STICKS.filter(x=>x[0]===(bk==='k'?'g':bk==='c'?'d':bk)),q=pool[ri(pool.length)];
       const A=['總評','事業','感情','財運','健康','學業','家運'];const yaoshi=$('#bk',r).value==='k',cai=$('#bk',r).value==='c';
       out.innerHTML=`<div class="paper"><div class="wa wa2 sm" data-shape="arch">第${cn(q[1])}籤</div>
@@ -1105,11 +1120,11 @@ mount(r){
     const advice=`<p><span class="lbl">給你的建議</span>${last.c[9]}。${tp==='yn'?'':'最後一張牌（'+names[n-1]+'）：'+last.c[1]+'・'+(last.rev?'逆位':'正位')+'，'+(last.rev?last.c[5]:last.c[4])+'。'}</p>`;
     const imgOf=h=>'data:image/jpeg;base64,'+TIMG[h.i];
     out.innerHTML=`${q?`<p class="center"><b>你的問題：</b>${q.replace(/[<>&]/g,'')}</p>`:''}<div class="cards">${hand.map(h=>`<div class="tcw"><div class="card"><div class="in"><div class="b nozy-cell">✦</div><div class="f nozy-cell${h.rev?' rev':''}"><img alt="${h.c[2]}" src="${imgOf(h)}"></div></div></div><div class="tcap nozy-cell"><b style="font-size:15px">${h.c[1]}</b><br><span style="font-size:11px;font-family:Arial,sans-serif">${h.c[2]}・${h.rev?'逆位':'正位'}</span></div></div>`).join('')}</div>
-    <div class="pane" id="rd" style="visibility:hidden">${body}${lines.length?`<p><span class="lbl">整體解讀</span>${lines.join('')}</p>`:''}${ynHTML}${advice}${tp==='h'?'<p class="small" style="text-align:left;background:#ffe9e9;border:1px dashed #a00;padding:6px">【健康提醒】塔羅無法診斷任何疾病，上面只是對作息、壓力與情緒的反思。若有身體不適、持續失眠或情緒低落，請務必就醫或尋求專業協助，不要以占卜代替醫療。</p>':''}<p class="small" style="text-align:left">※ 牌面為 1909 年 Pamela Colman Smith 繪、A. E. Waite 指導的萊德偉特塔羅（公有領域，影像來自 Wikimedia Commons）。牌義依該傳統整理；塔羅沒有科學上預測未來的證據，較適合當作整理想法、檢視自己選擇的工具，僅供娛樂與反思參考。</p></div>`;
+    <div class="pane" id="rd" style="opacity:0;transition:opacity .6s">${body}${lines.length?`<p><span class="lbl">整體解讀</span>${lines.join('')}</p>`:''}${ynHTML}${advice}${tp==='h'?'<p class="small" style="text-align:left;background:#ffe9e9;border:1px dashed #a00;padding:6px">【健康提醒】塔羅無法診斷任何疾病，上面只是對作息、壓力與情緒的反思。若有身體不適、持續失眠或情緒低落，請務必就醫或尋求專業協助，不要以占卜代替醫療。</p>':''}<p class="small" style="text-align:left">※ 牌面為 1909 年 Pamela Colman Smith 繪、A. E. Waite 指導的萊德偉特塔羅（公有領域，影像來自 Wikimedia Commons）。牌義依該傳統整理；塔羅沒有科學上預測未來的證據，較適合當作整理想法、檢視自己選擇的工具，僅供娛樂與反思參考。</p></div>`;
     refresh(out);
     go.disabled=true;
     $$('.card',out).forEach((el,i)=>setTimeout(()=>el.classList.add('flip'),500+i*450));
-    setTimeout(()=>{$('#rd',out).style.visibility='visible';go.disabled=false;go.textContent='重新抽牌'},500+n*450+700);
+    setTimeout(()=>{$('#rd',out).style.opacity='1';go.disabled=false;go.textContent='重新抽牌'},500+n*450+700);
   };
 }};
 
@@ -2661,24 +2676,70 @@ function memo(w){MEMO.forEach(id=>{const e=w.querySelector('#'+id);if(!e||e.tagN
   e.addEventListener('change',()=>store.set('f_'+id,e.value))})}
 const zyClean=t=>t.replace(/[ㄅ-ㄩˊˇˋ˙]/g,'').replace(/\n{3,}/g,'\n\n').trim();
 function histGet(){try{return JSON.parse(store.get('hist','[]'))}catch(e){return[]}}
+
+function domText(n){
+  let out='';
+  (function walk(e){
+    for(const c of e.childNodes){
+      if(c.nodeType===3){out+=c.nodeValue;continue}
+      if(c.nodeType!==1)continue;
+      const t=c.tagName;
+      if(t==='RT'||t==='RP'||t==='SCRIPT'||t==='STYLE'||t==='SELECT'||t==='BUTTON'||t==='CANVAS'||t==='IMG'||c.classList.contains('b')||c.classList.contains('shr'))continue;
+      if(t==='BR'){out+='\n';continue}
+      walk(c);
+      if(/^(P|DIV|H\d|LI|SUMMARY|TR|DETAILS)$/.test(t))out+='\n';
+    }
+  })(n);
+  return out.replace(/[ \t]+\n/g,'\n');
+}
 function hookOut(w,id){
   const o=w.querySelector('#out');if(!o||id==='hist')return;
   new MutationObserver(()=>{clearTimeout(o._t);o._t=setTimeout(()=>{
     if(!o.textContent.trim()||o.querySelector('.shr'))return;
-    const text=zyClean(o.innerText||o.textContent),name=(LIST.find(l=>l[0]===id)||[0,0,id])[2];
+    const getT=()=>zyClean(domText(o));const text=getT(),name=(LIST.find(l=>l[0]===id)||[0,0,id])[2];
     const h=histGet(),sig=id+text.slice(0,80);
     if(!h.length||h[0].s!==sig){h.unshift({s:sig,id,n:name,t:Date.now(),x:text.slice(0,1500)});try{store.set('hist',JSON.stringify(h.slice(0,40)))}catch(_){}}
     const bar=document.createElement('div');bar.className='shr center nozy-cell';
     const full=name+'\n'+text+'\n— '+authName()+' 神機妙算占卜館';
-    bar.innerHTML=`<button class="btn" type="button" data-c="1">${TR('複製結果')}</button> <button class="btn" type="button" data-s="1">${TR('分享')}</button>`;
+    bar.innerHTML=`<button class="btn" type="button" data-c="1">${TR('複製結果')}</button> <button class="btn" type="button" data-s="1">${TR('分享')}</button> <button class="btn" type="button" data-i="1">${TR('存成圖片')}</button>`;
+    bar.querySelector('[data-i]').onclick=()=>shareImg(name,text,o);
     bar.querySelector('[data-c]').onclick=e=>{try{navigator.clipboard.writeText(full)}catch(_){}e.target.textContent=TR('已複製')};
     const sb=bar.querySelector('[data-s]');
     if(navigator.share)sb.onclick=()=>navigator.share({title:name,text:full}).catch(()=>{});else sb.style.display='none';
     o.appendChild(bar);
   },700)}).observe(o,{childList:true});
 }
-VIEWS.hist={t:'占卜紀錄.exe',render:()=>{const h=histGet();return `<div class="center">${wa('占卜紀錄','wa3','wave')}<p class="small">${TR('最近 40 筆結果，只存在這台裝置的瀏覽器裡。')}</p></div><div class="pane">${h.length?h.map((x,i)=>`<details><summary class="nozy-cell">${new Date(x.t).toLocaleString()}　${TR(x.n)}</summary><p style="white-space:pre-wrap">${x.x.replace(/[<>&]/g,'')}</p></details>`).join(''):`<p class="center">${TR('還沒有紀錄。')}</p>`}${h.length?`<div class="center"><button class="btn" id="hclr" type="button">${TR('清除全部紀錄')}</button></div>`:''}</div>${backBtn}`},
-mount(r){const b=$('#hclr',r);if(b)b.onclick=()=>{store.set('hist','[]');route()}}};
+
+function shareImg(name,text,o){
+  const W=750,P=36,F='"BiauKai","DFKai-SB","標楷體","Noto Serif CJK TC",serif';
+  const c=document.createElement('canvas'),x=c.getContext('2d');
+  const body=text.split('\n').map(l=>l.trim()).filter(Boolean).join('\n').slice(0,700);
+  x.font='28px '+F;
+  const lines=[],maxw=W-2*P-24;
+  body.split('\n').forEach(par=>{let cur='';for(const ch of par){if(x.measureText(cur+ch).width>maxw){lines.push(cur);cur=ch}else cur+=ch}lines.push(cur)});
+  const imgs=[...o.querySelectorAll('.card .f img')].map(i=>({im:i,rev:i.parentNode.classList.contains('rev')}));
+  const ch=imgs.length?250:0,LH=42,H=140+ch+lines.length*LH+110;
+  c.width=W;c.height=H;
+  x.fillStyle='#008080';x.fillRect(0,0,W,H);
+  x.fillStyle='#c0c0c0';x.fillRect(16,16,W-32,H-32);
+  const g=x.createLinearGradient(0,0,W,0);g.addColorStop(0,'#000080');g.addColorStop(1,'#1084d0');
+  x.fillStyle=g;x.fillRect(22,22,W-44,56);
+  x.fillStyle='#fff';x.font='bold 30px '+F;x.textBaseline='middle';x.fillText(name+'.exe',36,50);
+  x.fillStyle='#fffdf0';x.fillRect(22,84,W-44,H-84-22);
+  x.textBaseline='alphabetic';
+  let y=108;
+  x.fillStyle='#b3261e';x.font='bold 44px Impact,"Arial Black",sans-serif';
+  x.lineWidth=5;x.strokeStyle='#2b0a5e';x.strokeText(name,P+4,y+40);x.fillText(name,P+4,y+40);y+=70;
+  if(imgs.length){let px=P+4;const w=104,h=173;imgs.slice(0,7).forEach(it=>{try{x.save();x.translate(px+w/2,y+h/2);if(it.rev)x.rotate(Math.PI);x.drawImage(it.im,-w/2,-h/2,w,h);x.restore();x.strokeStyle='#8b5a2b';x.lineWidth=2;x.strokeRect(px,y,w,h)}catch(e){x.restore()}px+=w+10});y+=h+40}
+  x.fillStyle='#222';x.font='28px '+F;
+  lines.forEach(l=>{x.fillText(l,P+8,y);y+=LH});
+  x.fillStyle='#666';x.font='22px Arial,sans-serif';x.fillText('© '+authName()+'  ・  神機妙算占卜館',P+8,H-44);
+  c.toBlob(b=>{if(!b)return;const f=new File([b],'fortune.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:name}).catch(()=>{});
+    else{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fortune.png';document.body.appendChild(a);a.click();a.remove()}},'image/png');
+}
+VIEWS.hist={t:'占卜紀錄.exe',render:()=>{const h=histGet();return `<div class="center">${wa('占卜紀錄','wa3','wave')}<p class="small">${TR('最近 40 筆結果，只存在這台裝置的瀏覽器裡。')}</p></div><div class="pane">${h.length?h.map((x,i)=>`<details><summary class="nozy-cell">${new Date(x.t).toLocaleString()}　${TR(x.n)}</summary><p style="white-space:pre-wrap">${x.x.replace(/[<>&]/g,'')}</p><textarea data-n="${i}" placeholder="${TR('後來怎麼樣了？寫下回顧備註')}" style="width:96%;height:60px">${(x.note||'').replace(/[<>&]/g,'')}</textarea></details>`).join(''):`<p class="center">${TR('還沒有紀錄。')}</p>`}${h.length?`<div class="center"><button class="btn" id="hclr" type="button">${TR('清除全部紀錄')}</button></div>`:''}</div>${backBtn}`},
+mount(r){const b=$('#hclr',r);if(b)b.onclick=()=>{store.set('hist','[]');route()};$$('textarea[data-n]',r).forEach(t=>t.oninput=()=>{const h=histGet();if(h[+t.dataset.n]){h[+t.dataset.n].note=t.value;store.set('hist',JSON.stringify(h))}})}};
 
 
 /* ===== 音效與開機畫面 ===== */
@@ -2701,6 +2762,27 @@ ROOT.addEventListener('pointerdown',e=>{if(!SND.on)return;
   bt.addEventListener('pointerdown',done);setTimeout(done,1700)})();
 /* ===== 離線（PWA） ===== */
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}})}
+
+
+/* ===== 螢幕保護程式（閒置 60 秒）與彩蛋 ===== */
+(function(){
+  const ss=$('#ss'),cv=ss.querySelector('canvas');let raf=0,idle=0;
+  const stars=[],words=['神','機','妙','算','占','卜','✦','吉'];
+  function start(){if(!ss.hidden)return;ss.hidden=false;cv.width=innerWidth;cv.height=innerHeight;stars.length=0;
+    for(let i=0;i<70;i++)stars.push({x:Math.random()*cv.width,y:Math.random()*cv.height,s:.6+Math.random()*2.2,w:words[i%words.length],h:Math.random()*360});
+    const x=cv.getContext('2d');(function f(){x.fillStyle='rgba(0,0,0,.28)';x.fillRect(0,0,cv.width,cv.height);
+      stars.forEach(a=>{a.y+=a.s;a.h=(a.h+1.5)%360;if(a.y>cv.height+30){a.y=-30;a.x=Math.random()*cv.width}
+        x.fillStyle='hsl('+a.h+',90%,65%)';x.font=(14+a.s*10)+'px "標楷體",serif';x.fillText(a.w,a.x,a.y)});raf=requestAnimationFrame(f)})()}
+  function stop(){if(ss.hidden)return;ss.hidden=true;cancelAnimationFrame(raf)}
+  const reset=()=>{stop();clearTimeout(idle);idle=setTimeout(start,60000)};
+  ['pointerdown','keydown','touchstart','scroll'].forEach(ev=>document.addEventListener(ev,reset,{passive:true}));
+  ss.addEventListener('pointerdown',stop);reset();
+  // 彩蛋：連點頂端標題 7 下，跳出舊版 Windows 錯誤視窗
+  let n=0,tm=0;$('#sitename').addEventListener('click',()=>{n++;clearTimeout(tm);tm=setTimeout(()=>n=0,2000);
+    if(n>=7){n=0;const d=document.createElement('div');d.className='errdlg nozy-cell';
+      d.innerHTML='<div class="t">神機妙算占卜館</div><div class="m"><b>⚠</b><span>'+TR('運氣不足，請稍後再試。')+'<br><small>（Error 0x00FATE）</small></span></div><button class="btn" type="button">'+TR('確定')+'</button>';
+      d.querySelector('button').onclick=()=>d.remove();ROOT.appendChild(d);SND.chime()}});
+})();
 
 function go(id){cur=id;closedAll=false;route()}
 function route(){

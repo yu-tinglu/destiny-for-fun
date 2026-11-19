@@ -10,6 +10,7 @@
 <link rel="icon" type="image/png" href="icon/retro180.png">
 <meta name="apple-mobile-web-app-title" content="神機妙算">
 <meta name="theme-color" content="#2a1260">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=cwTeX+Q+Kai&display=swap">
 <style>
 :root{--face:#c0c0c0;--hi:#fff;--lo:#404040;--sh:#808080}
@@ -184,6 +185,17 @@ select,input,.btn,button{font-family:inherit}
 /* topbar / lang / desk */
 #topbar{position:sticky;top:0;z-index:25;height:38px;background:linear-gradient(90deg,#000080,#1084d0);color:#fff;display:flex;align-items:center;gap:8px;padding:0 8px;font-weight:bold;font-size:18px;border-bottom:2px solid #000}
 #topbar .sp2{flex:1}
+
+#sndbtn{padding:1px 8px}
+#boot{position:fixed;inset:0;z-index:100;background:#008080;display:flex;align-items:center;justify-content:center}
+#boot[hidden]{display:none}
+#boot .bw{width:min(86vw,340px);background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:4px 4px 0 rgba(0,0,0,.5);text-align:center;padding:0 0 14px}
+#boot .bt{background:linear-gradient(90deg,#000080,#1084d0);color:#fff;font-weight:bold;padding:3px 8px;text-align:left;font-size:15px}
+#boot .bb{font-family:Impact,"Arial Black",sans-serif;font-size:44px;line-height:1.1;margin:18px 0 14px;color:#ff8a1c;-webkit-text-stroke:2px #fff;text-shadow:3px 3px 0 #2b0a5e,5px 5px 0 #2b0a5e;letter-spacing:2px}
+#boot .bp{margin:0 18px 8px;height:20px;border:2px inset #808080;background:#fff;padding:2px}
+#boot .bp i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#000080 0 12px,#fff 12px 15px);animation:sjbar 1.5s steps(14) forwards}
+@keyframes sjbar{to{width:100%}}
+#boot .bs{font-size:13px;color:#333}
 .lbtn{font:inherit;font-size:16px;background:var(--face);color:#000;border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);padding:1px 10px;cursor:pointer}
 #langmenu{position:absolute;right:6px;top:36px;background:var(--face);border:2px solid;border-color:var(--hi) var(--lo) var(--lo) var(--hi);box-shadow:3px 3px 0 rgba(0,0,0,.4);display:none;max-height:70vh;overflow:auto;min-width:190px}
 #langmenu.on{display:block}
@@ -222,8 +234,9 @@ select,input,.btn,button{font-family:inherit}
 </head>
 <body>
 <div id="shenji">
-<div id="topbar" class="nozy-cell"><span id="sitename">神機妙算占卜館</span><span class="sp2"></span><button class="lbtn" id="langbtn" aria-haspopup="true">🌐 <span id="langname">繁體中文</span> ▾</button><div id="langmenu"></div></div>
+<div id="topbar" class="nozy-cell"><span id="sitename">神機妙算占卜館</span><span class="sp2"></span><button class="lbtn" id="sndbtn" title="sound">🔊</button><button class="lbtn" id="langbtn" aria-haspopup="true">🌐 <span id="langname">繁體中文</span> ▾</button><div id="langmenu"></div></div>
 <div id="app"></div>
+<div id="boot" hidden><div class="bw"><div class="bt">神機妙算占卜館</div><div class="bb">神機妙算<br>占卜館</div><div class="bp"><i></i></div><div class="bs nozy-cell">Starting… ✦ 庭庭與胖胖</div></div></div>
 <div id="desk" class="nozy-cell" hidden><a class="ico" data-go="home" tabindex="0"><span class="e">🔮</span><span class="l" id="deskl">神機妙算占卜館</span></a></div>
 <div id="copy" class="nozy-cell">© 2026 <b id="auth">庭庭與胖胖</b> ・ All rights reserved.</div>
 <div id="langmodal" class="nozy-cell" hidden><div class="lm"><div class="lmt">🌐 選擇語言 / Choose language</div><div id="lmgrid"></div></div></div>
@@ -358,7 +371,7 @@ const store={get(k,d){try{const v=localStorage.getItem('sj_'+k);return v==null?d
 const LANGS=[['zh-TW','繁體中文'],['en','English'],['ja','日本語'],['ko','한국어'],['hi','हिन्दी'],['id','Bahasa Indonesia'],['th','ไทย'],['vi','Tiếng Việt'],['es','Español'],['fr','Français'],['ru','Русский']];
 /* 欄位順序：[粵語, English, 日本語, 한국어, हिन्दी, Indonesia, ไทย, Tiếng Việt, Español]；null＝同繁體中文 */
 const D={
-'求籤':[null,'Fortune Sticks','おみくじ','점괘 막대','भाग्य की तीलियाँ','Kocok Ciamsi','เซียมซี','Xin quẻ','Varillas de fortuna'],
+"占卜紀錄":[null,"Reading History","占い履歴","점괘 기록","पढ़ने का इतिहास","Riwayat Ramalan","ประวัติการดูดวง","Lịch sử xem bói","Historial de lecturas"],"複製結果":[null,"Copy result","結果をコピー","결과 복사","परिणाम कॉपी करें","Salin hasil","คัดลอกผลลัพธ์","Sao chép kết quả","Copiar resultado"],"分享":[null,"Share","共有","공유","शेयर करें","Bagikan","แชร์","Chia sẻ","Compartir"],"已複製":[null,"Copied","コピーしました","복사됨","कॉपी हो गया","Tersalin","คัดลอกแล้ว","Đã sao chép","Copiado"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":[null,"Your last 40 results, stored only in this device's browser.","直近40件の結果。この端末のブラウザ内にのみ保存されます。","최근 40건의 결과이며 이 기기의 브라우저에만 저장됩니다.","आपके पिछले 40 परिणाम, केवल इस डिवाइस के ब्राउज़र में सहेजे गए।","40 hasil terakhir, hanya disimpan di browser perangkat ini.","ผลลัพธ์ล่าสุด 40 รายการ เก็บไว้ในเบราว์เซอร์ของอุปกรณ์นี้เท่านั้น","40 kết quả gần nhất, chỉ lưu trong trình duyệt của thiết bị này.","Tus últimos 40 resultados, guardados solo en el navegador de este dispositivo."],"還沒有紀錄。":[null,"No history yet.","まだ履歴はありません。","아직 기록이 없습니다.","अभी कोई इतिहास नहीं है।","Belum ada riwayat.","ยังไม่มีประวัติ","Chưa có lịch sử.","Aún no hay historial."],"清除全部紀錄":[null,"Clear all history","履歴をすべて消去","기록 모두 지우기","सारा इतिहास साफ़ करें","Hapus semua riwayat","ล้างประวัติทั้งหมด","Xóa toàn bộ lịch sử","Borrar todo el historial"],'求籤':[null,'Fortune Sticks','おみくじ','점괘 막대','भाग्य की तीलियाँ','Kocok Ciamsi','เซียมซี','Xin quẻ','Varillas de fortuna'],
 '擲筊':[null,'Moon Blocks','ポエ占い','문블록 점','मून ब्लॉक','Poe Bulan','ไม้เสี่ยงทาย','Gieo quẻ âm dương','Bloques lunares'],
 '每日一語':[null,'Daily Quote','今日のひとこと','오늘의 한마디','आज का विचार','Kata Hari Ini','คำคมวันนี้','Câu nói hôm nay','Frase del día'],
 '紫微斗數':[null,'Zi Wei Dou Shu','紫微斗数','자미두수','ज़ी वेई ज्योतिष','Zi Wei Dou Shu','จื่อเวย์โต่วซู่','Tử Vi Đẩu Số','Zi Wei Dou Shu'],
@@ -459,7 +472,7 @@ function i18nNodes(root){
 }
 /* 法文、俄文欄位（接在 D 之後：順序 … Español, Français, Русский） */
 const D2={
-'求籤':['Bâtonnets de fortune','Бамбуковые палочки судьбы'],'擲筊':['Blocs de lune','Лунные блоки'],'每日一語':['Citation du jour','Мысль дня'],'紫微斗數':['Zi Wei Dou Shu','Цзы Вэй Доу Шу'],'塔羅牌':['Tarot','Таро'],'星座':['Signes du zodiaque','Знаки зодиака'],'今日運勢':["Chance du jour",'Удача на сегодня'],'水晶球':['Boule de cristal','Хрустальный шар'],'易經卦象':['Yi King','И-цзин'],'姓名筆畫':['Traits du nom','Черты имени'],'八字簡批':['Lecture BaZi','Расклад Ба-цзы'],'稱骨算命':['Poids des os','Взвешивание костей'],'生命靈數':['Numérologie','Нумерология'],'梅花易數':['Oracle fleur de prunier','Оракул цветущей сливы'],'周公解夢':['Dictionnaire des rêves','Сонник'],'盧恩符文':['Runes','Руны'],'生肖流年':["Année du zodiaque chinois",'Год по китайскому зодиаку'],'緣分配對':['Compatibilité','Совместимость'],'每日黃曆':['Almanach chinois','Китайский календарь'],'血型配對':['Groupe sanguin','Группа крови'],'手相說明':['Chiromancie','Хиромантия'],'西洋星盤':['Thème natal','Натальная карта'],'姓名數字學':['Numérologie du nom','Нумерология имени'],'日本御神籤':['Omikuji','Омикудзи'],'九星氣學':['Nine Star Ki','Кюсэй-кигаку'],'瑪雅神聖曆':['Tzolkin maya','Цолькин майя'],'吠陀月宿':['Nakshatra védique','Ведические накшатры'],'凱爾特樹木曆':['Arbres celtiques','Кельтские деревья'],'沙占卜':['Géomancie','Геомантия'],'月相月亮':['Phases de la Lune','Фазы Луны'],
+"占卜紀錄":["Historique des tirages","История гаданий"],"複製結果":["Copier le résultat","Копировать результат"],"分享":["Partager","Поделиться"],"已複製":["Copié","Скопировано"],"最近 40 筆結果，只存在這台裝置的瀏覽器裡。":["Vos 40 derniers résultats, stockés uniquement dans le navigateur de cet appareil.","Последние 40 результатов хранятся только в браузере этого устройства."],"還沒有紀錄。":["Aucun historique pour le moment.","Истории пока нет."],"清除全部紀錄":["Effacer tout l'historique","Очистить всю историю"],'求籤':['Bâtonnets de fortune','Бамбуковые палочки судьбы'],'擲筊':['Blocs de lune','Лунные блоки'],'每日一語':['Citation du jour','Мысль дня'],'紫微斗數':['Zi Wei Dou Shu','Цзы Вэй Доу Шу'],'塔羅牌':['Tarot','Таро'],'星座':['Signes du zodiaque','Знаки зодиака'],'今日運勢':["Chance du jour",'Удача на сегодня'],'水晶球':['Boule de cristal','Хрустальный шар'],'易經卦象':['Yi King','И-цзин'],'姓名筆畫':['Traits du nom','Черты имени'],'八字簡批':['Lecture BaZi','Расклад Ба-цзы'],'稱骨算命':['Poids des os','Взвешивание костей'],'生命靈數':['Numérologie','Нумерология'],'梅花易數':['Oracle fleur de prunier','Оракул цветущей сливы'],'周公解夢':['Dictionnaire des rêves','Сонник'],'盧恩符文':['Runes','Руны'],'生肖流年':["Année du zodiaque chinois",'Год по китайскому зодиаку'],'緣分配對':['Compatibilité','Совместимость'],'每日黃曆':['Almanach chinois','Китайский календарь'],'血型配對':['Groupe sanguin','Группа крови'],'手相說明':['Chiromancie','Хиромантия'],'西洋星盤':['Thème natal','Натальная карта'],'姓名數字學':['Numérologie du nom','Нумерология имени'],'日本御神籤':['Omikuji','Омикудзи'],'九星氣學':['Nine Star Ki','Кюсэй-кигаку'],'瑪雅神聖曆':['Tzolkin maya','Цолькин майя'],'吠陀月宿':['Nakshatra védique','Ведические накшатры'],'凱爾特樹木曆':['Arbres celtiques','Кельтские деревья'],'沙占卜':['Géomancie','Геомантия'],'月相月亮':['Phases de la Lune','Фазы Луны'],
 '開始':['Démarrer','Пуск'],'回到桌面':['Retour au bureau','На рабочий стол'],'← 回到桌面':['← Retour au bureau','← На рабочий стол'],'🖥️ 回到桌面':['🖥️ Bureau','🖥️ Рабочий стол'],'神機妙算占卜館':['Salle des oracles','Зал оракулов'],'神機妙算':['Oracle','Оракул'],
 '★☆★ 歡迎光臨！請先誠心默念所求之事，再點選下方圖示 ★☆★ 本站結果純屬娛樂，請勿迷信 ★☆★':['★☆★ Bienvenue ! Pensez d\'abord à votre question, puis touchez une icône ★☆★ Résultats à titre de divertissement ★☆★','★☆★ Добро пожаловать! Сначала подумайте о вопросе, затем нажмите значок ★☆★ Результаты — только для развлечения ★☆★'],
 '點右下角「ㄅㄆㄇ」可以開關注音 ・ 您是第':['Touchez 🌐 en haut à droite pour changer de langue ・ Vous êtes le visiteur','Нажмите 🌐 вверху справа, чтобы сменить язык ・ Вы посетитель №'],'次':['','' ],
@@ -607,7 +620,7 @@ const ANIMALS=['鼠','牛','虎','兔','龍','蛇','馬','羊','猴','雞','狗'
 const AEMO=['🐭','🐮','🐯','🐰','🐲','🐍','🐴','🐑','🐵','🐔','🐶','🐷'];
 
 /* ---------- 資料 ---------- */
-const LIST=[['qian','🏮','求籤'],['jiao','🌗','擲筊'],['yu','📜','每日一語'],['ziwei','🌠','紫微斗數'],['tarot','🃏','塔羅牌'],['star','♈️','星座'],['fortune','🍀','今日運勢'],['ball','🔮','水晶球'],['yi','☯️','易經卦象'],['name','✍️','姓名筆畫'],['bazi','🧧','八字簡批'],['chenggu','🦴','稱骨算命'],['num','🔢','生命靈數'],['meihua','🌸','梅花易數'],['dream','💤','周公解夢'],['rune','🔱','盧恩符文'],['zx','🐲','生肖流年'],['match','💘','緣分配對'],['almanac','📅','每日黃曆'],['blood','🩸','血型配對'],['palm','🖐️','手相說明'],['natal','🪐','西洋星盤'],['pyth','🔤','姓名數字學'],['omikuji','⛩️','日本御神籤'],['kyusei','🧭','九星氣學'],['maya','🗿','瑪雅神聖曆'],['vedic','🪔','吠陀月宿'],['celt','🌳','凱爾特樹木曆'],['geo','🏜️','沙占卜'],['moon','🌙','月相月亮']];
+const LIST=[['hist','📒','占卜紀錄'],['qian','🏮','求籤'],['jiao','🌗','擲筊'],['yu','📜','每日一語'],['ziwei','🌠','紫微斗數'],['tarot','🃏','塔羅牌'],['star','♈️','星座'],['fortune','🍀','今日運勢'],['ball','🔮','水晶球'],['yi','☯️','易經卦象'],['name','✍️','姓名筆畫'],['bazi','🧧','八字簡批'],['chenggu','🦴','稱骨算命'],['num','🔢','生命靈數'],['meihua','🌸','梅花易數'],['dream','💤','周公解夢'],['rune','🔱','盧恩符文'],['zx','🐲','生肖流年'],['match','💘','緣分配對'],['almanac','📅','每日黃曆'],['blood','🩸','血型配對'],['palm','🖐️','手相說明'],['natal','🪐','西洋星盤'],['pyth','🔤','姓名數字學'],['omikuji','⛩️','日本御神籤'],['kyusei','🧭','九星氣學'],['maya','🗿','瑪雅神聖曆'],['vedic','🪔','吠陀月宿'],['celt','🌳','凱爾特樹木曆'],['geo','🏜️','沙占卜'],['moon','🌙','月相月亮']];
 
 
 
@@ -2635,6 +2648,55 @@ function applyWin(){
   $('#desk').hidden=!(closedAll||winState==='min');
   $('#deskl').textContent=TR('神機妙算占卜館');
 }
+
+/* ===== 記憶欄位、結果分享與占卜紀錄 ===== */
+const MEMO=['tm','hr','sx','ct','clon','clat','ctz','sl','sm','sd'];
+function memo(w){MEMO.forEach(id=>{const e=w.querySelector('#'+id);if(!e||e.tagName==='DIV')return;
+  const v=store.get('f_'+id,null);if(v!==null){try{e.value=v}catch(_){}}
+  e.addEventListener('change',()=>store.set('f_'+id,e.value))})}
+const zyClean=t=>t.replace(/[ㄅ-ㄩˊˇˋ˙]/g,'').replace(/\n{3,}/g,'\n\n').trim();
+function histGet(){try{return JSON.parse(store.get('hist','[]'))}catch(e){return[]}}
+function hookOut(w,id){
+  const o=w.querySelector('#out');if(!o||id==='hist')return;
+  new MutationObserver(()=>{clearTimeout(o._t);o._t=setTimeout(()=>{
+    if(!o.textContent.trim()||o.querySelector('.shr'))return;
+    const text=zyClean(o.innerText||o.textContent),name=(LIST.find(l=>l[0]===id)||[0,0,id])[2];
+    const h=histGet(),sig=id+text.slice(0,80);
+    if(!h.length||h[0].s!==sig){h.unshift({s:sig,id,n:name,t:Date.now(),x:text.slice(0,1500)});try{store.set('hist',JSON.stringify(h.slice(0,40)))}catch(_){}}
+    const bar=document.createElement('div');bar.className='shr center nozy-cell';
+    const full=name+'\n'+text+'\n— '+authName()+' 神機妙算占卜館';
+    bar.innerHTML=`<button class="btn" type="button" data-c="1">${TR('複製結果')}</button> <button class="btn" type="button" data-s="1">${TR('分享')}</button>`;
+    bar.querySelector('[data-c]').onclick=e=>{try{navigator.clipboard.writeText(full)}catch(_){}e.target.textContent=TR('已複製')};
+    const sb=bar.querySelector('[data-s]');
+    if(navigator.share)sb.onclick=()=>navigator.share({title:name,text:full}).catch(()=>{});else sb.style.display='none';
+    o.appendChild(bar);
+  },700)}).observe(o,{childList:true});
+}
+VIEWS.hist={t:'占卜紀錄.exe',render:()=>{const h=histGet();return `<div class="center">${wa('占卜紀錄','wa3','wave')}<p class="small">${TR('最近 40 筆結果，只存在這台裝置的瀏覽器裡。')}</p></div><div class="pane">${h.length?h.map((x,i)=>`<details><summary class="nozy-cell">${new Date(x.t).toLocaleString()}　${TR(x.n)}</summary><p style="white-space:pre-wrap">${x.x.replace(/[<>&]/g,'')}</p></details>`).join(''):`<p class="center">${TR('還沒有紀錄。')}</p>`}${h.length?`<div class="center"><button class="btn" id="hclr" type="button">${TR('清除全部紀錄')}</button></div>`:''}</div>${backBtn}`},
+mount(r){const b=$('#hclr',r);if(b)b.onclick=()=>{store.set('hist','[]');route()}}};
+
+
+/* ===== 音效與開機畫面 ===== */
+const SND={on:store.get('snd','1')==='1',c:null,
+  ctx(){if(!this.c){try{this.c=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(this.c&&this.c.state==='suspended')try{this.c.resume()}catch(e){}return this.c},
+  tone(f,t0,d,type,v){const c=this.ctx();if(!c||!this.on)return;try{const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+t0;o.type=type||'square';o.frequency.value=f;g.gain.setValueAtTime(v||.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.02)}catch(e){}},
+  noise(t0){const c=this.ctx();if(!c||!this.on)return;try{const n=Math.floor(c.sampleRate*.05),b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);const s=c.createBufferSource(),g=c.createGain();s.buffer=b;g.gain.value=.25;s.connect(g);g.connect(c.destination);s.start(c.currentTime+t0)}catch(e){}},
+  click(){this.tone(880,0,.05)},
+  chime(){[523,659,784,1047].forEach((f,i)=>this.tone(f,i*.12,.4,'triangle',.07))},
+  rattle(){for(let i=0;i<12;i++)this.noise(i*.07)}};
+function sndBtn(){const b=$('#sndbtn');b.textContent=SND.on?'🔊':'🔇'}
+$('#sndbtn').onclick=e=>{e.stopPropagation();SND.on=!SND.on;store.set('snd',SND.on?'1':'0');sndBtn();if(SND.on)SND.click()};
+sndBtn();
+ROOT.addEventListener('pointerdown',e=>{if(!SND.on)return;
+  if(e.target.closest('#go,#pgo')&&(cur==='qian'||cur==='jiao')){SND.rattle();return}
+  if(e.target.closest('.btn,.ico,[data-go],[data-lang],.lbtn,.tbtn'))SND.click()},true);
+(function(){let seen=false;try{seen=sessionStorage.getItem('sj_boot')==='1'}catch(e){}
+  const bt=$('#boot');if(seen)return;bt.hidden=false;
+  const done=()=>{if(bt.hidden)return;bt.hidden=true;try{sessionStorage.setItem('sj_boot','1')}catch(e){}SND.chime()};
+  bt.addEventListener('pointerdown',done);setTimeout(done,1700)})();
+/* ===== 離線（PWA） ===== */
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){window.addEventListener('load',()=>{try{navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}})}
+
 function go(id){cur=id;closedAll=false;route()}
 function route(){
   const id=cur;
@@ -2643,6 +2705,7 @@ function route(){
   w.innerHTML=`<div class="tb"><span class="ttl nozy-cell">${TR(v.t.replace(".exe",""))}.exe</span><a class="tbtn" data-act="min" tabindex="0" title="_">_</a><a class="tbtn" data-act="max" tabindex="0" title="□">□</a><a class="tbtn" data-act="close" tabindex="0" title="✕">✕</a></div><div class="body">${introHTML(id)}${v.render()}</div>`;
   app.replaceChildren(w);
   v.mount&&v.mount(w);
+  memo(w);hookOut(w,id);
   refresh(w);
   winState='normal';applyWin();
   $('#menu').classList.remove('on');

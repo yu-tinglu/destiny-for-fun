@@ -1044,6 +1044,8 @@ mount(r){
   }));
 })();
 /*TAROTDATA*/
+/*TAROTEN*/
+TXE.forEach((r,i)=>{TAROT[i].en=r});
 TX.forEach((r,i)=>{const c=TAROT[i];c[4]=r[1];c[5]=r[2];c[6]=r[3];c[7]=r[4];c[8]=r[5];c[9]=r[6];c[10]=r[7]});
 const TYN=[1,1,0,1,1,1,1,1,1,0,1,0,0,-1,1,-1,-1,1,0,1,1,1,
  1,1,1,1,0,1,0,1,0,-1,1,1,1,1,
@@ -1062,6 +1064,8 @@ const TSP={
 };
 const TTOPIC=[['g','綜合'],['l','感情'],['w','事業／工作'],['m','財運'],['s','學業／考試'],['h','健康（身心狀態與生活提醒）'],['yn','是非題（會不會、要不要）']];
 const TRANKM={0:'新的開始與契機',1:'抉擇與平衡',2:'成長與初步成果',3:'穩定與暫停',4:'衝突與挑戰',5:'和諧與好轉',6:'評估與堅持',7:'行動與進展',8:'接近完成',9:'圓滿或負擔過重'};
+const TRANKME={0:'new beginnings and openings',1:'choices and balance',2:'growth and first results',3:'stability and pause',4:'conflict and challenge',5:'harmony and improvement',6:'assessment and persistence',7:'action and progress',8:'near completion',9:'completion or overload'};
+const ENP={'今日指引':'Daily guidance','過去':'Past','現在':'Present','未來':'Future','現況':'Current situation','選項 A 的走向':'Where option A leads','選項 B 的走向':'Where option B leads','給你的建議':'Advice for you','你的狀態':'Your state','對方的狀態':'Their state','兩人關係現況':'State of the relationship','需要面對的課題':'Lesson to face','建議與走向':'Advice and direction','挑戰或阻礙':'Challenge or obstacle','根源':'Root','可能的目標':'Possible goal','近期未來':'Near future','你的態度':'Your attitude','外在環境':'External environment','希望與恐懼':'Hopes and fears','最終結果':'Final outcome','目前處境':'Present situation','你的優勢':'Your strengths','阻礙或盲點':'Obstacles or blind spots','可採取的行動':'Action you can take','可能的結果':'Likely outcome','身體與現實':'Body and reality','心理與情緒':'Mind and emotions','精神與方向':'Spirit and direction','週一':'Monday','週二':'Tuesday','週三':'Wednesday','週四':'Thursday','週五':'Friday','週六':'Saturday','週日':'Sunday'};
 const TELE=['火','水','風','土'];
 VIEWS.tarot={t:'塔羅牌.exe',render:()=>`
 <div class="center">${wa('塔羅占卜','wa6','arch')}
@@ -1077,50 +1081,51 @@ mount(r){
   const suitOf=i=>i<22?-1:Math.floor((i-22)/14),rankOf=i=>i<22?-1:(i-22)%14;
   go.onclick=()=>{
     const key=$('input[name=m]:checked',r).value,tp=$('#tt',r).value,q=$('#tq',r).value.trim(),useRev=$('#trev',r).checked;
-    let names=TSP[key][1],n=names.length;
-    if(tp==='yn'&&n>3){names=TSP[3][1];n=3}
+    const E=LANG==='en',L=(z,e)=>E?e:z,cf=(c,i)=>(E&&c.en)?c.en[i-3]:c[i],cn=c=>E?c[2]:c[1];
+    let names=TSP[key][1].map(x=>E?(ENP[x]||x):x),n=names.length;
+    if(tp==='yn'&&n>3){names=TSP[3][1].map(x=>E?(ENP[x]||x):x);n=3}
     const deck=TAROT.map((c,i)=>i);
     for(let i=deck.length-1;i>0;i--){const j=rnd(i+1);[deck[i],deck[j]]=[deck[j],deck[i]]}
     const hand=deck.slice(0,n).map(i=>({c:TAROT[i],i,rev:useRev&&rnd(100)<35}));
     const major=hand.filter(h=>h.i<22).length,rv=hand.filter(h=>h.rev).length;
     const sc=[0,0,0,0];hand.forEach(h=>{if(h.i>=22)sc[suitOf(h.i)]++});
     const top=sc.indexOf(Math.max(...sc));
-    const SUM=['權杖（火）：重點在「行動與事業」','聖杯（水）：重點在「情感與人際」','寶劍（風）：重點在「思考與溝通」','錢幣（土）：重點在「金錢與現實」'];
+    const SUM=E?['Wands (fire): the emphasis is on action and career','Cups (water): the emphasis is on feelings and relationships','Swords (air): the emphasis is on thinking and communication','Pentacles (earth): the emphasis is on money and practical life']:['權杖（火）：重點在「行動與事業」','聖杯（水）：重點在「情感與人際」','寶劍（風）：重點在「思考與溝通」','錢幣（土）：重點在「金錢與現實」'];
     const topicLine=h=>{
       if(tp==='g'||tp==='yn')return '';
-      const f=tp==='l'?6:tp==='m'?8:tp==='h'?10:7,lb=tp==='l'?'感情':tp==='m'?'財運':tp==='h'?'健康':tp==='w'?'事業／工作':'學業／考試';
-      const t=h.c[f];
-      return `<br><span class="lbl">${lb}</span>${h.rev?`這股能量受阻或反過來運作。順位時它代表「${t}」，所以現在要留意相反的狀態或延遲。`:t+'。'}`;
+      const f=tp==='l'?6:tp==='m'?8:tp==='h'?10:7,lb=L(tp==='l'?'感情':tp==='m'?'財運':tp==='h'?'健康':tp==='w'?'事業／工作':'學業／考試',tp==='l'?'Love':tp==='m'?'Money':tp==='h'?'Health':tp==='w'?'Career':'Study');
+      const t=cf(h.c,f);
+      return `<br><span class="lbl">${lb}</span>${h.rev?L(`這股能量受阻或反過來運作。順位時它代表「${t}」，所以現在要留意相反的狀態或延遲。`,`This energy is blocked or working in reverse. Upright it means "${t}", so watch for the opposite or for delays.`):t+(E?'.':'。')}`;
     };
-    const court=h=>h.i>=22&&rankOf(h.i)>=10?'<br><span class="small">宮廷牌通常代表一個「人」（可能是對方、旁人，或你自己的某種態度）。</span>':'';
-    const body=hand.map((h,i)=>`<p><span class="pos">【${names[i]}】${h.c[1]}・${h.rev?'逆位':'正位'}</span><br>${h.rev?h.c[5]:h.c[4]}。${topicLine(h)}<br><span class="lbl">建議</span>${h.c[9]}。${court(h)}</p>`).join('');
+    const court=h=>h.i>=22&&rankOf(h.i)>=10?'<br><span class="small">'+L('宮廷牌通常代表一個「人」（可能是對方、旁人，或你自己的某種態度）。','Court cards usually stand for a person (the other party, someone around you, or an attitude of your own).')+'</span>':'';
+    const body=hand.map((h,i)=>`<p><span class="pos">【${names[i]}】${cn(h.c)}・${h.rev?L('逆位','Reversed'):L('正位','Upright')}</span><br>${h.rev?cf(h.c,5):cf(h.c,4)}${E?'.':'。'}${topicLine(h)}<br><span class="lbl">${L('建議','Advice')}</span>${cf(h.c,9)}${E?'.':'。'}${court(h)}</p>`).join('');
     // 牌與牌之間
     let friend=0,foe=0;const EL=[0,1,2,3];// 權杖火0 聖杯水1 寶劍風2 錢幣土3
     for(let k=0;k+1<hand.length;k++){const a=suitOf(hand[k].i),b=suitOf(hand[k+1].i);if(a<0||b<0||a===b)continue;
       const pair=[a,b].sort().join('');if(pair==='02'||pair==='13')friend++;else if(pair==='01'||pair==='23')foe++}
     // 重複數字
     const rc={};hand.forEach(h=>{const rk=rankOf(h.i);if(rk>=0&&rk<10)(rc[rk]=rc[rk]||[]).push(h)});
-    const rep=Object.keys(rc).filter(k=>rc[k].length>=2).map(k=>`出現 ${rc[k].length} 張「${+k+1===1?'王牌':+k+1}」，數字能量為「${TRANKM[k]}」`);
+    const rep=Object.keys(rc).filter(k=>rc[k].length>=2).map(k=>L(`出現 ${rc[k].length} 張「${+k+1===1?'王牌':+k+1}」，數字能量為「${TRANKM[k]}」`,`${rc[k].length} cards of rank ${+k+1===1?'Ace':+k+1}, with the number energy of "${TRANKME[k]}"`));
     const courts=hand.filter(h=>h.i>=22&&rankOf(h.i)>=10).length;
     const lines=[];
-    if(n>=3)lines.push(major>=Math.ceil(n/2)?`大阿爾克那有 ${major} 張，這是比較重大、帶有人生課題性質的事。`:`大阿爾克那只有 ${major} 張，多半是日常層面、能靠自己行動調整的事。`);
-    if(Math.max(...sc)>=2)lines.push(SUM[top]+'。');
-    if(rep.length)lines.push(rep.join('；')+'。');
-    if(courts>=2)lines.push(`有 ${courts} 張宮廷牌，這件事牽涉到好幾個人的立場。`);
-    if(n>=3)lines.push(rv===0?'沒有逆位牌，能量順暢，沒有明顯被卡住的地方。':rv>=Math.ceil(n/2)?`逆位牌有 ${rv} 張，過半的能量被延遲、壓抑或轉向內在，這時先整理內心與準備，比急著行動更重要。`:`有 ${rv} 張逆位，代表其中幾個環節需要多花心思。`);
-    if(friend+foe>0)lines.push(friend>foe?'相鄰的牌元素多半彼此相生（火風、水土），各部分能互相配合。':foe>friend?'相鄰的牌元素多半相剋（火水、風土），各環節之間有拉扯，要先處理內部矛盾。':'相鄰的牌元素相生與相剋各半，有助力也有摩擦。');
+    if(n>=3)lines.push(major>=Math.ceil(n/2)?L(`大阿爾克那有 ${major} 張，這是比較重大、帶有人生課題性質的事。`,`${major} Major Arcana cards: this is a weightier matter with the nature of a life lesson. `):L(`大阿爾克那只有 ${major} 張，多半是日常層面、能靠自己行動調整的事。`,`Only ${major} Major Arcana: mostly an everyday matter you can adjust through your own actions. `));
+    if(Math.max(...sc)>=2)lines.push(SUM[top]+(E?'. ':'。'));
+    if(rep.length)lines.push(rep.join(E?'; ':'；')+(E?'. ':'。'));
+    if(courts>=2)lines.push(L(`有 ${courts} 張宮廷牌，這件事牽涉到好幾個人的立場。`,`${courts} court cards: several people's positions are involved. `));
+    if(n>=3)lines.push(rv===0?L('沒有逆位牌，能量順暢，沒有明顯被卡住的地方。','No reversed cards: the energy flows and nothing is clearly stuck. '):rv>=Math.ceil(n/2)?L(`逆位牌有 ${rv} 張，過半的能量被延遲、壓抑或轉向內在，這時先整理內心與準備，比急著行動更重要。`,`${rv} reversed cards: over half the energy is delayed, suppressed or turned inward, so sorting out your inner state and preparing matters more than rushing to act. `):L(`有 ${rv} 張逆位，代表其中幾個環節需要多花心思。`,`${rv} reversed: a few links need more attention. `));
+    if(friend+foe>0)lines.push(friend>foe?L('相鄰的牌元素多半彼此相生（火風、水土），各部分能互相配合。','Neighbouring cards mostly support each other (fire-air, water-earth), so the parts can work together. '):foe>friend?L('相鄰的牌元素多半相剋（火水、風土），各環節之間有拉扯，要先處理內部矛盾。','Neighbouring cards mostly clash (fire-water, air-earth), so there is tension between the parts and inner conflicts come first. '):L('相鄰的牌元素相生與相剋各半，有助力也有摩擦。','Neighbouring cards are half supportive, half clashing: both help and friction. '));
     // 是非
     let ynHTML='';
     if(tp==='yn'){
       const s=hand.reduce((a,h)=>a+(h.rev?-1:1)*TYN[h.i],0),z=s/n;
-      const v=z>=.66?'偏向「是」，而且傾向明確':z>0?'稍微偏向「是」，但還需要條件配合':z<=-.66?'偏向「否」，建議重新考慮':z<0?'稍微偏向「否」，需要補強風險':'不明確，答案取決於你接下來的行動與選擇';
-      ynHTML=`<p><span class="lbl">是非傾向</span><b>${v}</b>。（依每張牌的一般傾向計分，逆位反向；塔羅不是投票機，請當作「這個方向順不順」的參考。）</p>`;
+      const v=E?(z>=.66?'Leaning clearly toward YES':z>0?'Slightly toward yes, but conditions must line up':z<=-.66?'Leaning toward NO; reconsider':z<0?'Slightly toward no; strengthen the weak points':'Unclear: the answer depends on what you do next'):(z>=.66?'偏向「是」，而且傾向明確':z>0?'稍微偏向「是」，但還需要條件配合':z<=-.66?'偏向「否」，建議重新考慮':z<0?'稍微偏向「否」，需要補強風險':'不明確，答案取決於你接下來的行動與選擇');
+      ynHTML=`<p><span class="lbl">${L('是非傾向','Yes/No tendency')}</span><b>${v}</b>${L('。（依每張牌的一般傾向計分，逆位反向；塔羅不是投票機，請當作「這個方向順不順」的參考。）',' (scored by each card\'s general tendency, reversed flips it; tarot is not a voting machine, so treat it as a sense of whether this direction flows.)')}</p>`;
     }
     const last=hand[hand.length-1];
-    const advice=`<p><span class="lbl">給你的建議</span>${last.c[9]}。${tp==='yn'?'':'最後一張牌（'+names[n-1]+'）：'+last.c[1]+'・'+(last.rev?'逆位':'正位')+'，'+(last.rev?last.c[5]:last.c[4])+'。'}</p>`;
+    const advice=`<p><span class="lbl">${L('給你的建議','Advice for you')}</span>${cf(last.c,9)}${E?'. ':'。'}${tp==='yn'?'':L('最後一張牌（'+names[n-1]+'）：'+last.c[1]+'・'+(last.rev?'逆位':'正位')+'，'+(last.rev?last.c[5]:last.c[4])+'。','Last card ('+names[n-1]+'): '+last.c[2]+' · '+(last.rev?'Reversed':'Upright')+', '+(last.rev?cf(last.c,5):cf(last.c,4))+'.')}</p>`;
     const imgOf=h=>'data:image/jpeg;base64,'+TIMG[h.i];
-    out.innerHTML=`${q?`<p class="center"><b>你的問題：</b>${q.replace(/[<>&]/g,'')}</p>`:''}<div class="cards">${hand.map(h=>`<div class="tcw"><div class="card"><div class="in"><div class="b nozy-cell">✦</div><div class="f nozy-cell${h.rev?' rev':''}"><img alt="${h.c[2]}" src="${imgOf(h)}"></div></div></div><div class="tcap nozy-cell"><b style="font-size:15px">${h.c[1]}</b><br><span style="font-size:11px;font-family:Arial,sans-serif">${h.c[2]}・${h.rev?'逆位':'正位'}</span></div></div>`).join('')}</div>
-    <div class="pane" id="rd" style="opacity:0;transition:opacity .6s">${body}${lines.length?`<p><span class="lbl">整體解讀</span>${lines.join('')}</p>`:''}${ynHTML}${advice}${tp==='h'?'<p class="small" style="text-align:left;background:#ffe9e9;border:1px dashed #a00;padding:6px">【健康提醒】塔羅無法診斷任何疾病，上面只是對作息、壓力與情緒的反思。若有身體不適、持續失眠或情緒低落，請務必就醫或尋求專業協助，不要以占卜代替醫療。</p>':''}<p class="small" style="text-align:left">※ 牌面為 1909 年 Pamela Colman Smith 繪、A. E. Waite 指導的萊德偉特塔羅（公有領域，影像來自 Wikimedia Commons）。牌義依該傳統整理；塔羅沒有科學上預測未來的證據，較適合當作整理想法、檢視自己選擇的工具，僅供娛樂與反思參考。</p></div>`;
+    out.innerHTML=`${q?`<p class="center"><b>${L('你的問題：','Your question: ')}</b>${q.replace(/[<>&]/g,'')}</p>`:''}<div class="cards">${hand.map(h=>`<div class="tcw"><div class="card"><div class="in"><div class="b nozy-cell">✦</div><div class="f nozy-cell${h.rev?' rev':''}"><img alt="${h.c[2]}" src="${imgOf(h)}"></div></div></div><div class="tcap nozy-cell"><b style="font-size:15px">${cn(h.c)}</b><br><span style="font-size:11px;font-family:Arial,sans-serif">${E?'':h.c[2]+'・'}${h.rev?L('逆位','Reversed'):L('正位','Upright')}</span></div></div>`).join('')}</div>
+    <div class="pane" id="rd" style="opacity:0;transition:opacity .6s">${body}${lines.length?`<p><span class="lbl">${L('整體解讀','Overall reading')}</span>${lines.join('')}</p>`:''}${ynHTML}${advice}${tp==='h'?'<p class="small" style="text-align:left;background:#ffe9e9;border:1px dashed #a00;padding:6px">'+L('【健康提醒】塔羅無法診斷任何疾病，上面只是對作息、壓力與情緒的反思。若有身體不適、持續失眠或情緒低落，請務必就醫或尋求專業協助，不要以占卜代替醫療。','[Health notice] Tarot cannot diagnose any illness; the above is only reflection on routine, stress and mood. If you feel unwell, cannot sleep or feel persistently low, please see a doctor or seek professional help, and never use divination in place of medical care.')+'</p>':''}<p class="small" style="text-align:left">${L('※ 牌面為 1909 年 Pamela Colman Smith 繪、A. E. Waite 指導的萊德偉特塔羅（公有領域，影像來自 Wikimedia Commons）。牌義依該傳統整理；塔羅沒有科學上預測未來的證據，較適合當作整理想法、檢視自己選擇的工具，僅供娛樂與反思參考。','※ Card art: the 1909 Rider–Waite–Smith deck, drawn by Pamela Colman Smith under A. E. Waite (public domain, images via Wikimedia Commons). Meanings follow that tradition. Tarot has no scientific evidence of predicting the future; it is better used as a tool for organising thoughts and reviewing your choices, for entertainment and reflection only.')}</p></div>`;
     refresh(out);
     go.disabled=true;
     $$('.card',out).forEach((el,i)=>setTimeout(()=>el.classList.add('flip'),500+i*450));

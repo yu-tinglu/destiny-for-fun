@@ -83,7 +83,7 @@ const KXG=${fs.readFileSync('data/kangxi.json','utf8')};
 const STICKS=${sticksTxt};
 const ASTRO=(function(){var exports={};${fs.readFileSync('vendor/astronomy.min.js','utf8')}
 return exports})();`;
-const out=src.replace('/*LIBS*/',()=>libs).replace('/*ENX*/',()=>'const ENX='+fs.readFileSync('data/enx.json','utf8')+';').replace('/*TAROTDATA*/',()=>'const TX='+JSON.stringify((H=>taroTxt.trim().split('\n').map((l,i)=>l.split('｜').concat(H[i])))(fs.readFileSync('data/tarot_health.txt','utf8').trim().split('\n')))+';const TIMG='+fs.readFileSync('tarotimg/b64.json','utf8')+';').replace('/*STROKES*/','const STROKE='+JSON.stringify(ST)+';').replace('/*DICT*/',()=>'const ZY='+JSON.stringify(ZY)+';const WORDS='+JSON.stringify(WORDS)+';');
+const out=src.replace('/*LIBS*/',()=>libs).replace('/*TAROTEN*/',()=>'const TXE='+JSON.stringify(fs.readFileSync('data/tarot_en1.txt','utf8').trim().split('\n').map(l=>l.split('|')))+';').replace('/*ENX*/',()=>'const ENX='+fs.readFileSync('data/enx.json','utf8')+';').replace('/*TAROTDATA*/',()=>'const TX='+JSON.stringify((H=>taroTxt.trim().split('\n').map((l,i)=>l.split('｜').concat(H[i])))(fs.readFileSync('data/tarot_health.txt','utf8').trim().split('\n')))+';const TIMG='+fs.readFileSync('tarotimg/b64.json','utf8')+';').replace('/*STROKES*/','const STROKE='+JSON.stringify(ST)+';').replace('/*DICT*/',()=>'const ZY='+JSON.stringify(ZY)+';const WORDS='+JSON.stringify(WORDS)+';');
 function scopeCSS(css){
   const kf=[];
   css=css.replace(/@keyframes\s+[\w-]+\s*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}/g,m=>{kf.push(m);return '/*KF'+(kf.length-1)+'*/'});
